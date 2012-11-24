@@ -3,6 +3,7 @@
 
 .text-view .text {
   display: inline;
+  word-wrap: break-word;
 }
 .text-view .input {
   display: inline;

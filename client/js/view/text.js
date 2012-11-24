@@ -47,7 +47,7 @@ define([
       if (!content) {
         return;
       }
-      this.$('.text').html(content.replace(/ /g, '&nbsp;'));
+      this.$('.text').html(content.replace(/ /g, '&ensp;'));
     }
 
   });
