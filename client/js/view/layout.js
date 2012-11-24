@@ -2,8 +2,10 @@ define([
   'underscore',
   'backbone',
   'text!template/layout.html',
-  'i18n!nls/common'
-], function(_, Backbone, template, i18n){
+  'i18n!nls/common',
+  'view/text',
+  'model/input'
+], function(_, Backbone, template, i18n, TextView, InputModel){
 
   return Backbone.View.extend({
 
@@ -24,8 +26,11 @@ define([
 
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
-      this.$('.player1').html('player 1');
-      this.$('.player2').html('player 2');
+      // creates 2 input model and displays them in text views
+      var player1 = new InputModel();
+      this.$('.player1').empty().append(new TextView(player1).$el, true);
+      var player2 = new InputModel();
+      this.$('.player2').empty().append(new TextView(player2).$el, false);
     }
 
   });
