@@ -2,13 +2,13 @@ define({
 
   constants: {
     bonus: [{
-      level: 20,
+      level: 60,
       name: 'double'
     },{
-      level: 30,
+      level: 120,
       name: 'shuffle'
     },{
-      level: 40,
+      level: 180,
       name: 'latinium'
     }],
     god: {

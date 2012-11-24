@@ -23,7 +23,6 @@ define([
     checkInput: function(value) {
       var cleanValue = value          
         .replace('&ensp;', ' ')
-        .replace(/<br\/>/g, ' ')
         .replace(/\s{2}/g, ' ')
       ;
 
@@ -31,21 +30,18 @@ define([
         var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
         if(cleanValue !== model.replace(/(\r|\n|\r\n)/g, ' ')) {
-          var word = this.get('content').match(/^\w+|\b\w?$/g) || [];
-          value = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');            
+          var word = this.get('content').substring(this.get('content').lastIndexOf(' ') + 1);
+
+          value = this.get('content').replace(new RegExp(word + '$', 'g'), '');
 
           this.set('suite', 0);
+          this.position = cleanValue.length - word.length;
         } else {
           this.set('suite', (this.get('suite') || 0) + 1);
-        }
-
-        if(model.match(/(\r|\n|\r\n)/g) && !value.match(/<br\/>/g)) {
-          value = value + '<br/>';
-          this.position -= 1;
+          this.position = cleanValue.length;
         }
       }
 
-      this.position = cleanValue.length;
       return value;
     },
 
@@ -68,12 +64,7 @@ define([
     typeChar: function() {
       var char = this.get('draft').substring(this.position, (this.position + 1));
 
-      if(char == '\n') {
-        char = '<br/>';
-      }
-
       error = this.isError(char);
-      console.log(error);
 
       if(error) {
         do {
