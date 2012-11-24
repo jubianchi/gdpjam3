@@ -69,8 +69,12 @@ define([
         soundManager.stopAll()
         soundManager.play('keystroke');
       }
-      var scroller = $('.inner-text');
-      scroller.scrollTop(scroller.height());
+      // set scrolls
+      var height = this.$('.inner-text').height();
+      var scrollHeight = this.$('.inner-text')[0].scrollHeight;
+      if (scrollHeight > height) {
+        this.$('.scrollable').scrollTop(scrollHeight);
+      }
     },
 
     _onDraftChanged: function() {

@@ -59,34 +59,54 @@
 .play-view .tabula {
   background: url('/img/tabula.png');
   background-size: 100% 100%;
-  height: 465px;
+  height: 605px;
+  /*height: 300px;*/ 
   position: absolute;
-  padding: 130px 50px 50px;
-  top: 82px;
-  width: 345px;
+  top: 92px;
+  width: 445px;
+  overflow: hidden;
 }
-.play-view .inner-text {
-  display: block;
-  height: 100%;
-  overflow: auto;
-  position: relative;
-}
-.play-view .inner-text .text {
+
+.play-view .inner-text .text,
+.play-view .inner-text .input,
+.play-view .draft {
+  font-size: 22px;
+  line-height: 1.3em;
   color: white;
   font-family: 'Diogenes';
+}
+
+.play-view .scrollable {
+  display: block;
+  position: absolute;
+  overflow: hidden;
+  top: 130px;
+  left: 50px;
+  right: 50px;
+  bottom: 50px;
+}
+.play-view .inner-text .text {
   overflow-y: auto;
   display: inline;
   word-wrap: break-word;
 }
 .play-view .inner-text .input {
-  color: white;
-  font-family: 'Diogenes';
   display: inline;
   border: none;
   width: 1em;
   background: red;
   opacity: 0.5;
+  height: 1em;
 }
+
+.play-view .inner-text {
+  height: auto;
+  overflow: auto;
+}
+.play-view .draft {
+  color: grey;
+}
+
 .play-view .bonus {
   position: absolute;
   height: 93px;
