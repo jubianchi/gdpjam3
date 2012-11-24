@@ -1,0 +1,4 @@
+define({
+  'root': {},
+  "fr": true
+});
