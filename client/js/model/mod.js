@@ -8,8 +8,16 @@ define([
   // Call to invoke bonus on an input draft
   Mod.prototype.trigger = function(input) {
     var draft = input.get('draft');
-    input.set('draft', this.process(draft, input.position));
-    console.log(input.get('draft'))
+
+    if(draft) {
+      console.log('draft');
+      input.set('draft', this.process(draft, input.position));
+      console.log(input.get('draft'))
+    } else {
+      draft = input.get('text');
+      input.set('text', this.process(draft, input.position));
+      console.log(input.get('text'))
+    }
   };
 
   // must return modified draft text.
