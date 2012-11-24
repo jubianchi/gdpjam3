@@ -24,7 +24,7 @@ app.use(express.methodOverride());
 app.use(express.cookieParser());
 
 // Serving static files
-var statics = ['css', 'js', 'img', 'nls', 'template'];
+var statics = ['css', 'js', 'img', 'nls', 'template', 'sound'];
 for (var i = 0, len = statics.length; i < len; i++) {
   app.use("/" + statics[i], express['static'](path.join(rootFolder, statics[i])));
 }
@@ -93,6 +93,9 @@ io.on('connection', function(socket) {
 
   // when the user disconnects, leaves the room
   socket.on('disconnect', function(){
+    if (!socket.room) {
+      return;
+    }
     var msg = socket.username+' leave the room '+socket.room;
     console.log(msg);
     io.sockets.in(socket.room).emit('players', msg);

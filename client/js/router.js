@@ -6,10 +6,10 @@ requirejs.config({
     'hogan': 'lib/hogan-2.0.0-min',
     'i18n': 'lib/i18n-2.0.1-min',
     'jquery': 'lib/jquery-1.8.2-min',
-    'jquery-autosize': 'lib/jquery-autosize-1.13-min',
     'nls': '../nls',
     'template': '../template',
     'socket.io': 'lib/socket.io-0.9.11-min',
+    'soundmanager': 'lib/soundmanager2-min',
     'text': 'lib/text-2.0.0-min',
     'underscore': 'lib/underscore-1.4.2-min',
     'underscore.string': 'lib/underscore.string-2.2.0rc-min'
@@ -22,9 +22,9 @@ requirejs.config({
     'bootstrap': {deps: ['jquery']},
     'hogan': {exports: 'Hogan'},
     'jquery': {exports: '$'},
-    'jquery-autosize': {deps: ['jquery']},
     'render': {exports: 'render'},
     'socket.io': {exports:'io'},
+    'soundmanager': {exports:'soundManager'},
     'underscore': {exports: '_'}
   }
 });
@@ -37,13 +37,13 @@ define([
   'jquery',
   'backbone',
   'socket.io',
+  'soundmanager',
   'view/home',
   'view/play',
   'i18n!nls/common',
   'utils',
-  'bootstrap',
-  'jquery-autosize'
-], function(_, $, Backbone, io, HomeView, PlayView) {
+  'bootstrap'
+], function(_, $, Backbone, io, soundManager, HomeView, PlayView) {
 
   // manage disclaimer for unsupported versions
   var version = parseInt($.browser.version, 10);
@@ -94,6 +94,25 @@ define([
       Backbone.history.start({
         pushState: true
       });
+
+      // init sound only when dom is loaded
+      $(window).on('load', _.bind(function() {
+        soundManager.setup({
+          url: '/sound/',
+          debugMode: false,
+          debugFlash: false,
+        }).onready(_.bind(function() {
+          console.info('sound ready !');
+          gdpjam3.sounds = {};
+          // load each sounds
+          soundManager.createSound({
+            id: 'keystroke',
+            url: '/sound/keystroke.mp3',
+            autoPlay: false,
+            volume: 100
+          }).load();
+        }, this));
+      }, this));
     },
 
     _onHome: function() {

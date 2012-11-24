@@ -28,7 +28,6 @@ define([
 
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
-      console.dir(this.options)
       // creates 2 input model and displays them in text views
       var player1 = new InputModel({player: gdpjam3.player, content:''});
       this.$('.player1').empty().append(new TextView(player1, true).$el);

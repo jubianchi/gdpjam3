@@ -1,9 +1,10 @@
 define([
   'underscore',
   'backbone',
+  'soundmanager',
   'text!template/text.html',
   'i18n!nls/common'
-], function(_, Backbone, template, i18n){
+], function(_, Backbone, soundManager, template, i18n){
 
   var TextView = Backbone.View.extend({
 
@@ -46,6 +47,11 @@ define([
       var content = this.model.get('content');
       if (!content) {
         return;
+      }
+      // play sound only for us
+      if (this.editable) {
+        soundManager.stopAll()
+        soundManager.play('keystroke');
       }
       this.$('.text').html(content.replace(/ /g, '&ensp;'));
       var scroller = $('.inner-text');
