@@ -1,4 +1,18 @@
-define({  
+define({
+
+  constants: {
+    bonus: [{
+      level: 20,
+      name: 'double'
+    },{
+      level: 30,
+      name: 'shuffle'
+    },{
+      level: 40,
+      name: 'latinium'
+    }]
+  },  
+
   titles: {
     application: 'Tabulas',
     game: 'Tabulas'
@@ -12,7 +26,8 @@ define({
     single: 'Solo'
   },
 
-  msgs: {  
+  msgs: {
+    waitingOpponent: '<div class="waiting">Waiting for an opponnent...<br/>Please be patient !</div>'
   },
 
   tips: {

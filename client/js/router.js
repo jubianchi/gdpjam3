@@ -43,7 +43,7 @@ define([
   'i18n!nls/common',
   'utils',
   'bootstrap'
-], function(_, $, Backbone, io, soundManager, HomeView, PlayView) {
+], function(_, $, Backbone, io, soundManager, HomeView, PlayView, i18n) {
 
   // manage disclaimer for unsupported versions
   var version = parseInt($.browser.version, 10);
@@ -122,6 +122,9 @@ define([
 
     _onPlay: function(mode) {
       if (mode === 'duel') {
+        // display waiting message*
+        console.dir(i18n.msgs)
+        $('#main').empty().append(i18n.msgs.waitingOpponent);
         // display rooms
         $.ajax({
           url:'/api/rooms',

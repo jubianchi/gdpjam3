@@ -26,13 +26,24 @@
   font-family: 'SinkingShip';
 }
 
+body {
+  background: black;
+}
+
 #main {
-  /* TODO test */
-  background-image: url('/img/background.jpg');
+  /* TODO test
+  background-image: url('/img/background.jpg'); */
   margin: 0 auto;
   width: 1280px;
   height: 720px;
   overflow: hidden; 
+}
+
+.waiting {
+  margin: 10% auto;
+  font-size: 30px;
+  color: white;
+  line-height: 1.3em;
 }
 
 .play-view {
@@ -45,10 +56,12 @@
   top: 0;
   right: 0;
   left: 0;
+  z-index: 10;
 }
 .play-view .header h1 {
   display: inline;
   font-size: 70px;
+  color: black;
 }
 .play-view .cell {
   float: left;
@@ -109,14 +122,20 @@
 
 .play-view .bonus {
   position: absolute;
+  background: url('/img/bonus.png');
   height: 93px;
   top: 56px;
   width: 93px;
 }
 .play-view .gauge {
   position: absolute;
-  height: 26px;
-  width: 26px;
+  background: url('/img/gauge.png');
+  background-size: 100% 100%;
+  height: 30px;
+  width: 30px;
+}
+.play-view .gauge.full {
+  background: url('/img/gauge-full.png');
 }
 .play-view .avatar {
   position: absolute;
@@ -138,6 +157,9 @@
   width: 175px;
 }
 
+.play-view .player1 {
+  background: #949494;
+}
 .play-view .player1 .text-view .tabula {
   left: 140px;
 }
@@ -162,7 +184,21 @@
 .play-view .player1 .score {
   left: 267px;
 }
+.play-view .player1 .bonus.latinium {
+  background: url('/img/bonus/latinium-1.png');
+}
+.play-view .player1 .bonus.double {
+  background: url('/img/bonus/double-1.png');
+}
+.play-view .player1 .bonus.shuffle {
+  background: url('/img/bonus/shuffle-1.png');
+}
 
+
+
+.play-view .player2 {
+  background: #595959;
+}
 .play-view .player2 .text-view .tabula {
   right: 120px;
 }
@@ -186,4 +222,13 @@
 }
 .play-view .player2 .score {
   right: 267px;
+}
+.play-view .player2 .bonus.latinium {
+  background: url('/img/bonus/latinium-2.png');
+}
+.play-view .player2 .bonus.double {
+  background: url('/img/bonus/double-2.png');
+}
+.play-view .player2 .bonus.shuffle {
+  background: url('/img/bonus/shuffle-2.png');
 }
