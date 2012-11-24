@@ -27,20 +27,39 @@ define([
         this.draft = value;
       }
 
-      if(name == 'content' && value) {
-        if(this.draft) {
-          var cleanValue = value.replace('&ensp;', ' '),
-              model = this.draft.substring(0, cleanValue ? cleanValue.length : 0);
+      if(name == 'content') {
+        var cleanValue = value          
+          .replace('&ensp;', ' ')
+          .replace(/<br\/>/g, ' ')
+          .replace(/\s{2}/g, ' ')
+        ;        
 
-          if(value !== model) {
-            var word = this.get('content').match(/\b\w+$/g) || [];
-            value = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');
+        if(this.draft) {
+          var model = this.draft.substring(0, cleanValue ? cleanValue.length : 0);
+
+          if(cleanValue !== model.replace(/(\r|\n|\r\n)/g, ' ')) {
+            var word = this.get('content').match(/^\w+|\b\w?$/g) || [];
+
+            if(this.draft) {
+              console.log(word);
+            }
+
+            value = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');            
           }
+
+          if(model.match(/(\r|\n|\r\n)/g) && !value.match(/<br\/>/g)) {
+            value = value + '<br/>';
+            this.position -= 1;
+          } 
         }
 
-        this.position = value.length;
+        this.position = cleanValue.length;
       }
 
+      if(this.draft) {
+        console.log(word);
+      } 
+   
       Backbone.Model.prototype.set.apply(this, [name, value]);
 
       if(name === 'text' && value) {
@@ -66,7 +85,6 @@ define([
       if(error) {
         var word = this.get('content').match(/\b\w+\b$/g) || [],
             content;
-
 
         if(word.length) {
           content = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');
