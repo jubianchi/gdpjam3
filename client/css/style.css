@@ -1,2 +1,13 @@
 @import 'bootstrap-2.2.1-min.css';
 @import 'bootstrap-responsive-2.2.1-min.css';
+
+.text-view .text {
+  display: inline;
+}
+.text-view .input {
+  display: inline;
+  border: none;
+  width: 1em;
+  background: red;
+  opacity: 0.5;
+}
