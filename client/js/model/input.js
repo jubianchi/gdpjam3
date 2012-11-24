@@ -8,7 +8,7 @@ define([
   var Input = Backbone.Model.extend({
 
     position: 0,
-
+    draft: null,
     textLength: 0,
 
     // player is sent to server
@@ -19,16 +19,37 @@ define([
     },
 
     set: function(name, value) {
-      Backbone.Model.prototype.set.apply(this, arguments);
-      if(name === 'text' && value) {
+      if(_.contains(['text', 'draft'], name) && value) {
         this.textLength = value.length;
+      }
+
+      if(name === 'draft' && value) {
+        this.draft = value;
+      }
+
+      if(name == 'content' && value) {
+        if(this.draft) {
+          var cleanValue = value.replace('&ensp;', ' '),
+              model = this.draft.substring(0, cleanValue ? cleanValue.length : 0);
+
+          if(value !== model) {
+            var word = this.get('content').match(/\b\w+$/g) || [];
+            value = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');
+          }
+        }
+
+        this.position = value.length;
+      }
+
+      Backbone.Model.prototype.set.apply(this, [name, value]);
+
+      if(name === 'text' && value) {
         this.typeChar();
       }
     },
  
     typeChar: function() {
       var char = this.get('text').substring(this.position, (this.position + 1));
-      this.position++;
 
       if(char == '\n') {
         char = '<br/>';
@@ -43,14 +64,12 @@ define([
       this.set('content', this.get('content') + char);          
 
       if(error) {
-        var word = this.get('content').match(/\b\w+$/g) || [],
+        var word = this.get('content').match(/\b\w+\b$/g) || [],
             content;
 
 
         if(word.length) {
-          content = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '')
-
-          this.position -= word[0].length;
+          content = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');
           this.set('content', content);
         }        
       }
