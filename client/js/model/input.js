@@ -10,6 +10,7 @@ define([
     position: 0,
 
     textLength: 0,
+    timer: null,
 
     // player is sent to server
     // local means no messages sent to server
@@ -24,6 +25,8 @@ define([
         .replace(/<br\/>/g, ' ')
         .replace(/\s{2}/g, ' ')
       ;        
+
+      //console.log(value, this.get('draft'));
 
       if(this.get('draft')) {
         var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
@@ -47,19 +50,20 @@ define([
       if(_.contains(['text', 'draft'], name) && value) {
         this.textLength = value.length;
       }
+
       if(name == 'content') {
         value = this.checkInput(value);
       }
       
       Backbone.Model.prototype.set.apply(this, [name, value]);
 
-      if(name === 'text' && value) {
+      if(name === 'draft' && this.get('player') == 'god' && this.timer === null) {
         this.typeChar();
       }
     },
  
     typeChar: function() {
-      var char = this.get('text').substring(this.position, (this.position + 1));
+      var char = this.get('draft').substring(this.position, (this.position + 1));
 
       if(char == '\n') {
         char = '<br/>';
@@ -73,6 +77,8 @@ define([
 
       this.set('content', this.get('content') + char);          
 
+      //console.log(error, char);
+
       // god errors
       if(error) {
         var word = this.get('content').match(/\b\w+\b$/g) || [],
@@ -85,7 +91,7 @@ define([
       }
 
       if(this.position < (this.textLength - 1)) {
-        setTimeout(this.typeChar, this.getInterval());
+        this.timer = setTimeout(this.typeChar, this.getInterval());
       }
     },
 
@@ -93,7 +99,8 @@ define([
       var min = 0,
           max = 1000,
           error = this.random(min, max);
-      return (error > 950 && char.match(/\w/g));
+
+      return (error > 950 && char.match(new RegExp("\w", "g")));
     },
 
     getInterval: function() {
