@@ -53,26 +53,58 @@ define([
         char = '<br/>';
       }
 
-      this.model.set('content', this.model.get('content') + char.replace(/ /g, '&nbsp;'));
+      if((error = this.isError(char))) {
+        do {
+          char = String.fromCharCode(char.charCodeAt(0) + this.random(-5, 5));
+        } while(!char.match(/\w/g))              
+      }
+
+      this.model.set('content', this.model.get('content') + char);          
+
+
+      if(error) {
+        var word = this.model.get('content').match(/\b\w+$/g) || [],
+            content;
+
+
+        if(word.length) {
+          content = this.model.get('content').replace(eval('/' + word[0] + '$/g'), '')
+
+          this.position -= word[0].length;
+          this.model.set('content', content);
+        }        
+      }
 
       if(this.position < (this.textLength - 1)) {
         setTimeout(this.typeChar, this.getInterval());
       }
     },
 
+    isError: function(char) {
+      var min = 0,
+          max = 1000,
+          error = this.random(min, max);
+
+      return (error > 950 && char.match(/\w/g));
+    },
+
     getInterval: function() {
       var multiplier = this.computeSpeed(),
           min = 100 * multiplier,
-          max = 350 * multiplier;
+          max = 250 * multiplier;
 
-      return Math.random() * (max - min) + min;
-    },
+      return this.random(min, max);
+    },    
 
     computeSpeed: function() {
       var percent = this.position / this.textLength,
           multiplier = 1 - percent;
 
       return multiplier;
+    },
+
+    random: function(min, max) {
+      return Math.random() * (max - min) + min;
     },
 
     _onPlayerInput: function(event) { 

@@ -17,7 +17,7 @@ define([
 
     _onContentChanged: function() {
       // Emit to server
-      gdpjam3.socket.emit('message', this.get('player'), this.get('content'));
+      //gdpjam3.socket.emit('message', this.get('player'), this.get('content'));
     }
 
 
