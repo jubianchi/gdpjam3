@@ -48,7 +48,8 @@ define([
         return;
       }
       this.$('.text').html(content.replace(/ /g, '&ensp;'));
-      this.$('.text').scrollTop(this.$('.text').height());
+      var scroller = $('.inner-text');
+      scroller.scrollTop(scroller.height());
     }
 
   });

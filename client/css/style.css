@@ -56,24 +56,28 @@
   width: 50%;
   height: 100%;
 }
-.play-view .text-view .tabula {
+.play-view .tabula {
   background: url('/img/tabula.png');
   background-size: 100% 100%;
-  height: 439px;
-  overflow-y: auto;
-  padding: 85px 20px 20px;
+  height: 465px;
   position: absolute;
-  top: 126px;
-  width: 347px;
+  padding: 130px 50px 50px;
+  top: 82px;
+  width: 345px;
 }
-.play-view .text-view .text {
+.play-view .inner-text {
+  display: block;
+  height: 100%;
+  overflow: auto;
+}
+.play-view .text {
   color: white;
   font-family: 'Diogenes';
   overflow-y: auto;
   display: inline;
   word-wrap: break-word;
 }
-.play-view .text-view .input {
+.play-view .inner-text .input {
   color: white;
   font-family: 'Diogenes';
   display: inline;
@@ -114,7 +118,7 @@
 }
 
 .play-view .player1 .text-view .tabula {
-  left: 161px;
+  left: 140px;
 }
 .play-view .player1 .bonus {
   left: 14px;
@@ -140,7 +144,7 @@
 
 
 .play-view .player2 .text-view .tabula {
-  right: 161px;
+  right: 120px;
 }
 .play-view .player2 .bonus {
   right: 14px;
