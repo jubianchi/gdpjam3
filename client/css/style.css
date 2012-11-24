@@ -1,14 +1,165 @@
 @import 'bootstrap-2.2.1-min.css';
 @import 'bootstrap-responsive-2.2.1-min.css';
 
-.text-view .text {
+@font-face {
+  font-family: 'SinkingShip';
+  src: url('sinkis93-webfont.eot');
+  src: url('sinkis93-webfont.eot?#iefix') format('embedded-opentype'),
+       url('sinkis93-webfont.woff') format('woff'),
+       url('sinkis93-webfont.ttf') format('truetype'),
+       url('sinkis93-webfont.svg#sinking_shipregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Diogenes';
+  src: url('diogenes-webfont.eot');
+  src: url('diogenes-webfont.eot?#iefix') format('embedded-opentype'),
+       url('diogenes-webfont.woff') format('woff'),
+       url('diogenes-webfont.ttf') format('truetype'),
+       url('diogenes-webfont.svg#diogenesregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'SinkingShip';
+}
+
+#main {
+  /* TODO test */
+  background-image: url('/img/background.jpg');
+  margin: 0 auto;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden; 
+}
+
+.play-view {
+  height: 100%;
+}
+.play-view .header {
+  text-align: center;
+  padding-top: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+.play-view .header h1 {
+  display: inline;
+  font-size: 70px;
+}
+.play-view .cell {
+  float: left;
+  position: relative;
+  width: 50%;
+  height: 100%;
+}
+.play-view .text-view .tabula {
+  background: url('/img/tabula.png');
+  background-size: 100% 100%;
+  height: 439px;
+  overflow-y: auto;
+  padding: 85px 20px 20px;
+  position: absolute;
+  top: 126px;
+  width: 347px;
+}
+.play-view .text-view .text {
+  color: white;
+  font-family: 'Diogenes';
+  overflow-y: auto;
   display: inline;
   word-wrap: break-word;
 }
-.text-view .input {
+.play-view .text-view .input {
+  color: white;
+  font-family: 'Diogenes';
   display: inline;
   border: none;
   width: 1em;
   background: red;
   opacity: 0.5;
+}
+.play-view .bonus {
+  position: absolute;
+  height: 93px;
+  top: 56px;
+  width: 93px;
+}
+.play-view .gauge {
+  position: absolute;
+  height: 26px;
+  width: 26px;
+}
+.play-view .avatar {
+  position: absolute;
+  bottom: 0;
+  height: 135px;
+  width: 160px;
+}
+.play-view .bonus-applied {
+  position: absolute;
+  left: 645px;
+  top: 286px;
+  height: 135px;
+  width: 135px;
+}
+.play-view .score {
+  position: absolute;
+  top: 157px;
+  height: 45px;
+  width: 175px;
+}
+
+.play-view .player1 .text-view .tabula {
+  left: 161px;
+}
+.play-view .player1 .bonus {
+  left: 14px;
+}
+.play-view .player1 .bonus-1 {
+  top: 153px;
+  left: 117px;
+}
+.play-view .player1 .bonus-2 {
+  left: 116px;
+  top: 103px;
+}
+.play-view .player1 .bonus-3 {
+  left: 153px;
+  top: 78px;
+}
+.play-view .player1 .avatar {
+  right: 9px;
+}
+.play-view .player1 .score {
+  left: 267px;
+}
+
+
+.play-view .player2 .text-view .tabula {
+  right: 161px;
+}
+.play-view .player2 .bonus {
+  right: 14px;
+}
+.play-view .player2 .bonus-1 {
+  top: 153px;
+  right: 117px;
+}
+.play-view .player2 .bonus-2 {
+  right: 116px;
+  top: 103px;
+}
+.play-view .player2 .bonus-3 {
+  right: 153px;
+  top: 78px;
+}
+.play-view .player2 .avatar {
+  left: 9px;
+}
+.play-view .player2 .score {
+  right: 267px;
 }

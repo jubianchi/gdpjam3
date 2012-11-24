@@ -12,6 +12,8 @@ define([
     // Mustache template
     template: template,
 
+    className: 'play-view', 
+
     // i18n labels, buttons, tips...
     i18n: i18n,
 

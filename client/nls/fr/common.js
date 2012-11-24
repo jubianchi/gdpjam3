@@ -1,6 +1,7 @@
 define({  
   titles: {
-    application: 'Game'
+    application: 'Tabulas',
+    game: 'Tabulas'
   },
 
   labels: {
