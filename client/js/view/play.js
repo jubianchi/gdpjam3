@@ -49,7 +49,6 @@ define([
           }
         });
         // and send current player input
-        player1.set('draft', text)
         player1.on('change:content', function() {
           var content = player1.get('content');
           if (!content) {
@@ -59,10 +58,10 @@ define([
           gdpjam3.socket.emit('message', content);
         });
       } else {
-        player1.set('draft', text);
         player2.set('text', text);
-        player2.set('draft', text);
       }
+      player1.set('draft', text);
+      player2.set('draft', text);
     }
 
   });
