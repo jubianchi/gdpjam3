@@ -115,7 +115,7 @@ define([
 
     _onContentChanged: function() {
       // replace space by non breakable spaces.
-      this.$('.text').html(this.model.get('content').replace(/ /g, '&nbsp;'));
+      this.$('.text').html(this.model.get('content'));
     }
 
   });
