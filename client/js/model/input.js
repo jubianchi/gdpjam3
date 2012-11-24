@@ -32,16 +32,15 @@ define([
         if(cleanValue !== model.replace(/(\r|\n|\r\n)/g, ' ')) {
           var word = this.get('content').match(/^\w+|\b\w?$/g) || [];
           value = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');            
+
+          this.set('suite', 0);
+        } else {
+          this.set('suite', (this.get('suite') || 0) + 1);
         }
 
         if(model.match(/(\r|\n|\r\n)/g) && !value.match(/<br\/>/g)) {
           value = value + '<br/>';
           this.position -= 1;
-
-          // There was a typing error : reset the suite !!
-          this.set('suite', 0);
-        } else {
-          this.set('suite', (this.get('suite') || 0) + 1);
         }
       }
 
@@ -72,31 +71,16 @@ define([
         char = '<br/>';
       }
 
-      if((error = this.isError(char))) {
+      error = this.isError(char);
+      console.log(error);
+
+      if(error) {
         do {
           char = String.fromCharCode(char.charCodeAt(0) + this.random(-5, 5));
         } while(!char.match(/\w/g))              
       }
 
-      this.set('content', this.get('content') + char);          
-
-      //console.log(error, char);
-
-      // god errors
-      if(error) {
-        var word = this.get('content').match(/\b\w+\b$/g) || [],
-            content;
-
-        if(word.length) {
-          content = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');
-          this.set('content', content);
-        }        
-
-        // There was a typing error : reset the suite !!
-        this.set('suite', 0);
-      } else {
-        this.set('suite', (this.get('suite') || 0) + 1);
-      }
+      this.set('content', this.checkInput(this.get('content') + char));
 
       if(this.position < (this.textLength - 1)) {
         this.timer = setTimeout(this.typeChar, this.getInterval());
@@ -108,7 +92,10 @@ define([
           max = 1000,
           error = this.random(min, max);
 
-      return (error > 950 && char.match(new RegExp("\w", "g")));
+      return (
+        error > 800 &&
+        char.match(/\w/) == null
+      );
     },
 
     getInterval: function() {
