@@ -7,19 +7,11 @@ define([
   // 'player' identifies the connected player
   var Input = Backbone.Model.extend({
 
-    player: null,
-
     // player is sent to server
-    constructor: function(player) {
-      Backbone.Model.prototype.constructor.apply(this, arguments);
-      this.on('change:content', _.bind(this._onContentChanged, this));
+    // local means no messages sent to server
+    constructor: function(options) {
+      Backbone.Model.prototype.constructor.call(this, options);
     },
-
-    _onContentChanged: function() {
-      // Emit to server
-      gdpjam3.socket.emit('message', this.get('player'), this.get('content'));
-    }
-
 
   });
 

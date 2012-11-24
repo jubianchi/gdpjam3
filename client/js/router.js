@@ -37,20 +37,18 @@ define([
   'jquery',
   'backbone',
   'socket.io',
-  'view/layout',
+  'view/home',
+  'view/play',
   'i18n!nls/common',
   'utils',
   'bootstrap',
   'jquery-autosize'
-], function(_, $, Backbone, io, LayoutView) {
+], function(_, $, Backbone, io, HomeView, PlayView) {
 
   // manage disclaimer for unsupported versions
   var version = parseInt($.browser.version, 10);
   if (!(($.browser.msie && version >= 9) || ($.browser.chrome) || ($.browser.mozilla && version >= 13))) {
     return $('.disclaimer').show();
-  }
-  if ($.browser.msie) {
-    window.Placeholders.init({live:true});
   }
   $('.disclaimer').remove();
 
@@ -58,7 +56,8 @@ define([
 
     // Define some URL routes (order is significant: evaluated from last to first)
     routes: {
-      'play': '_onPlay',
+      'home': '_onHome',
+      'play?mode=:mode': '_onPlay',
       '*route': '_onNotFound'
     },
 
@@ -75,33 +74,68 @@ define([
       // global router instance
       gdpjam3.router = this;
 
-      // Render layout
-      this.layout = new LayoutView();
-      this.layout.$el.appendTo('#main');
-
       // Wire socket.io
       gdpjam3.socket = io.connect();
       gdpjam3.socket.on('error', function(err){
         console.error('error', err);
+        gdpjam3.wired = false;
       });
       gdpjam3.socket.on('disconnect', function(err){
         console.error('disconnect', err);
+        gdpjam3.wired = false;
       });
       gdpjam3.socket.on ('connect', function(){
-        console.info('wired !!');
-        gdpjam3.socket.emit('message', 'player1', 'youhou');
+        gdpjam3.wired = true;
       });
 
+      gdpjam3.player = 'player'+new Date().getTime();
+            
       // run current route
       Backbone.history.start({
         pushState: true
       });
     },
 
-    _onPlay: function() {
-      // display editorial with welcome panel
-      /*this.layout.display('menu', this.listView);
-      this.layout.display('content', new EditorialView(welcomeTpl));*/
+    _onHome: function() {
+      // display mode selection
+      $('#main').empty().append(new HomeView().$el);
+    },
+
+    _onPlay: function(mode) {
+      if (mode === 'duel') {
+        // display rooms
+        $.ajax({
+          url:'/api/rooms',
+          type: 'GET',
+          cache: false,
+          dataType: 'json',
+          success: _.bind(function(rooms, status, xhr) {
+            // first player: no room
+            if (!Array.isArray(rooms) || rooms.length === 0) {
+              gdpjam3.room = 'room-'+new Date().getTime();
+            } else {
+              // take the first free room
+              gdpjam3.room = rooms[0];
+            }
+            gdpjam3.socket.emit('register', gdpjam3.player, gdpjam3.room);
+            gdpjam3.socket.on('players', function(players) {
+              // wait for 2 payers
+              if (players.length == 2) {
+                // Render play view
+                $('#main').empty().append(new PlayView({mode: 'duel', players: players}).$el);
+              }
+            });
+          }, this),
+
+          error: function(xhr, status, err) {
+            console.error('failed to display rooms', err || status);
+          }
+        });
+      } else {
+        gdpjam3.room = null;
+        // Render play view
+        $('#main').empty().append(new PlayView({mode: 'single', players: [gdpjam3.player, 'god']}).$el);
+      }
     },
 
     /**
@@ -111,7 +145,7 @@ define([
      */
     _onNotFound: function(route) {
       console.error('Unknown route '+route);
-      this.navigate('play', {trigger: true});
+      this.navigate('home', {trigger: true});
     }
 
   });

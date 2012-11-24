@@ -35,7 +35,7 @@ define([
       this._onContentChanged();
     },
 
-    _onPlayerInput: function(event) { 
+    _onPlayerInput: function(event) {   
       var key = this.$('.input').val();
       this.$('.input').val('');
       this.model.set('content', this.model.get('content')+key);
@@ -43,7 +43,11 @@ define([
 
     _onContentChanged: function() {
       // replace space by non breakable spaces.
-      this.$('.text').html(this.model.get('content').replace(/ /g, '&nbsp;'));
+      var content = this.model.get('content');
+      if (!content) {
+        return;
+      }
+      this.$('.text').html(content.replace(/ /g, '&nbsp;'));
     }
 
   });

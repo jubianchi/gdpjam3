@@ -7,6 +7,8 @@ define({
   },
   
   buttons: {
+    duel: 'Duel',
+    single: 'Solo'
   },
 
   msgs: {  
