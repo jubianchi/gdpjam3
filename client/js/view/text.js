@@ -57,6 +57,7 @@ define([
       if (event.which === 17) {
         if (this.currentMod) {
           this.currentMod.trigger(this.opponent);
+          this.model.set('suite', 0);
           this.currentMod = null;
         }
       } else {
@@ -95,7 +96,10 @@ define([
 
     _onSuiteChanged: function() {
       var value = this.model.get('suite');
-      if (suite === 0) {
+
+      console.log(value);
+
+      if (value === 0) {
         // reset bonuses
         this.currentMod = null;
         this.$('.gauge').removeClass('full');
@@ -104,7 +108,7 @@ define([
         // goes from higher level and decrease
         for (var i = i18n.constants.bonus.length; i > 0; i--) {
           var spec = i18n.constants.bonus[i-1];
-          if (suite > spec.level) {
+          if (value > spec.level) {
             var spec 
             this.$('.gauge.bonus-'+i).addClass('full');
             this.$('.bonus').attr('class', 'bonus '+spec.name);

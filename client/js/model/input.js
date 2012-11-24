@@ -1,6 +1,7 @@
 define([
-  'backbone'
-], function(Backbone){
+  'backbone',
+  'i18n!nls/fr/common'
+], function(Backbone, i18n){
 
   // Model for input
   // 'content' is the attribute that contains the input text. Change it to update views
@@ -22,32 +23,30 @@ define([
     checkInput: function(value) {
       var cleanValue = value          
         .replace('&ensp;', ' ')
-        .replace(/<br\/>/g, ' ')
         .replace(/\s{2}/g, ' ')
-      ;        
-
-      //console.log(value, this.get('draft'));
+      ;
 
       if(this.get('draft')) {
         var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
         if(cleanValue !== model.replace(/(\r|\n|\r\n)/g, ' ')) {
-          var word = this.get('content').match(/^\w+|\b\w?$/g) || [];
-          value = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');            
-        }
+          var word = this.get('content').substring(this.get('content').lastIndexOf(' ') + 1);
 
-        if(model.match(/(\r|\n|\r\n)/g) && !value.match(/<br\/>/g)) {
-          value = value + '<br/>';
-          this.position -= 1;
-        } 
+          value = this.get('content').replace(new RegExp(word + '$', 'g'), '');
+
+          this.set('suite', 0);
+          this.position = cleanValue.length - word.length;
+        } else {
+          this.set('suite', (this.get('suite') || 0) + 1);
+          this.position = cleanValue.length;
+        }
       }
 
-      this.position = cleanValue.length;
       return value;
     },
 
     set: function(name, value) {
-      if(_.contains(['text', 'draft'], name) && value) {
+      if(name === 'draft' && value) {
         this.textLength = value.length;
       }
 
@@ -65,30 +64,15 @@ define([
     typeChar: function() {
       var char = this.get('draft').substring(this.position, (this.position + 1));
 
-      if(char == '\n') {
-        char = '<br/>';
-      }
+      error = this.isError(char);
 
-      if((error = this.isError(char))) {
+      if(error) {
         do {
           char = String.fromCharCode(char.charCodeAt(0) + this.random(-5, 5));
         } while(!char.match(/\w/g))              
       }
 
-      this.set('content', this.get('content') + char);          
-
-      //console.log(error, char);
-
-      // god errors
-      if(error) {
-        var word = this.get('content').match(/\b\w+\b$/g) || [],
-            content;
-
-        if(word.length) {
-          content = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');
-          this.set('content', content);
-        }        
-      }
+      this.set('content', this.checkInput(this.get('content') + char));
 
       if(this.position < (this.textLength - 1)) {
         this.timer = setTimeout(this.typeChar, this.getInterval());
@@ -97,23 +81,26 @@ define([
 
     isError: function(char) {
       var min = 0,
-          max = 1000,
+          max = i18n.constants.god.error.max,
           error = this.random(min, max);
 
-      return (error > 950 && char.match(new RegExp("\w", "g")));
+      return (
+        error > i18n.constants.god.error.threshold &&
+        char.match(/\w/) == null
+      );
     },
 
     getInterval: function() {
       var multiplier = this.computeSpeed(),
-          min = 100 * multiplier,
-          max = 250 * multiplier;
+          min = i18n.constants.god.typing.min * multiplier,
+          max = i18n.constants.god.typing.max * multiplier;
 
       return this.random(min, max);
     },    
 
     computeSpeed: function() {
       var percent = this.position / this.textLength,
-          multiplier = 1 - percent;
+          multiplier = i18n.constants.god.typing.speedmulti - percent;
 
       return multiplier;
     },
