@@ -8,7 +8,7 @@ define([
   var Input = Backbone.Model.extend({
 
     position: 0,
-    draft: null,
+
     textLength: 0,
 
     // player is sent to server
@@ -18,47 +18,38 @@ define([
       Backbone.Model.prototype.constructor.call(this, options);
     },
 
+    checkInput: function(value) {
+      var cleanValue = value          
+        .replace('&ensp;', ' ')
+        .replace(/<br\/>/g, ' ')
+        .replace(/\s{2}/g, ' ')
+      ;        
+
+      if(this.get('draft')) {
+        var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
+
+        if(cleanValue !== model.replace(/(\r|\n|\r\n)/g, ' ')) {
+          var word = this.get('content').match(/^\w+|\b\w?$/g) || [];
+          value = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');            
+        }
+
+        if(model.match(/(\r|\n|\r\n)/g) && !value.match(/<br\/>/g)) {
+          value = value + '<br/>';
+          this.position -= 1;
+        } 
+      }
+
+      this.position = cleanValue.length;
+      return value;
+    },
+
     set: function(name, value) {
       if(_.contains(['text', 'draft'], name) && value) {
         this.textLength = value.length;
       }
-
-      if(name === 'draft' && value) {
-        this.draft = value;
-      }
-
       if(name == 'content') {
-        var cleanValue = value          
-          .replace('&ensp;', ' ')
-          .replace(/<br\/>/g, ' ')
-          .replace(/\s{2}/g, ' ')
-        ;        
-
-        if(this.draft) {
-          var model = this.draft.substring(0, cleanValue ? cleanValue.length : 0);
-
-          if(cleanValue !== model.replace(/(\r|\n|\r\n)/g, ' ')) {
-            var word = this.get('content').match(/^\w+|\b\w?$/g) || [];
-
-            if(this.draft) {
-              console.log(word);
-            }
-
-            value = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');            
-          }
-
-          if(model.match(/(\r|\n|\r\n)/g) && !value.match(/<br\/>/g)) {
-            value = value + '<br/>';
-            this.position -= 1;
-          } 
-        }
-
-        this.position = cleanValue.length;
+        value = this.checkInput(value);
       }
-
-      if(this.draft) {
-        console.log(word);
-      } 
    
       Backbone.Model.prototype.set.apply(this, [name, value]);
 
@@ -82,6 +73,7 @@ define([
 
       this.set('content', this.get('content') + char);          
 
+      // god errors
       if(error) {
         var word = this.get('content').match(/\b\w+\b$/g) || [],
             content;
@@ -101,7 +93,6 @@ define([
       var min = 0,
           max = 1000,
           error = this.random(min, max);
-
       return (error > 950 && char.match(/\w/g));
     },
 

@@ -2,9 +2,10 @@ define([
   'underscore',
   'backbone',
   'soundmanager',
+  'model/doublemod',
   'text!template/text.html',
   'i18n!nls/common'
-], function(_, Backbone, soundManager, template, i18n){
+], function(_, Backbone, soundManager, Double, template, i18n){
 
   var TextView = Backbone.View.extend({
 
@@ -17,6 +18,8 @@ define([
     model: null,
 
     editable: false,
+
+    currentMod: null,
 
     events: {
       'keyup .input': '_onPlayerInput'
@@ -39,9 +42,19 @@ define([
     },
 
     _onPlayerInput: function(event) {   
-      var key = this.$('.input').val();
-      this.$('.input').val('');
-      this.model.set('content', this.model.get('content')+key);
+      // 17 is ctrl: trigger bonus
+      if (event.which === 17) {
+        // TODO
+        this.currentMod = new Double();
+        if (this.currentMod) {
+          this.currentMod.trigger(this.model);
+          this.currentMod = null;
+        }
+      } else {
+        var key = this.$('.input').val();
+        this.$('.input').val('');
+        this.model.set('content', this.model.get('content')+key);
+      }
     },
 
     _onContentChanged: function() {
@@ -61,7 +74,7 @@ define([
     },
 
     _onDraftChanged: function() {
-      var content = this.model.draft;
+      var content = this.model.get('draft');
       if (!content) {
         return;
       }
