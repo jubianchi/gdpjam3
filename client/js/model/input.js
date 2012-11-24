@@ -24,9 +24,7 @@ define([
         .replace('&ensp;', ' ')
         .replace(/<br\/>/g, ' ')
         .replace(/\s{2}/g, ' ')
-      ;        
-
-      //console.log(value, this.get('draft'));
+      ;
 
       if(this.get('draft')) {
         var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
@@ -39,7 +37,12 @@ define([
         if(model.match(/(\r|\n|\r\n)/g) && !value.match(/<br\/>/g)) {
           value = value + '<br/>';
           this.position -= 1;
-        } 
+
+          // There was a typing error : reset the suite !!
+          this.set('suite', 0);
+        } else {
+          this.set('suite', (this.get('suite') || 0) + 1);
+        }
       }
 
       this.position = cleanValue.length;
@@ -88,6 +91,11 @@ define([
           content = this.get('content').replace(new RegExp(word[0] + '$', 'g'), '');
           this.set('content', content);
         }        
+
+        // There was a typing error : reset the suite !!
+        this.set('suite', 0);
+      } else {
+        this.set('suite', (this.get('suite') || 0) + 1);
       }
 
       if(this.position < (this.textLength - 1)) {
