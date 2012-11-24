@@ -88,7 +88,12 @@ body {
   color: white;
   font-family: 'Diogenes';
 }
-
+.play-view .inner-text .text,
+.play-view .draft {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
 .play-view .scrollable {
   display: block;
   position: absolute;
@@ -104,12 +109,21 @@ body {
   word-wrap: break-word;
 }
 .play-view .inner-text .input {
-  display: inline;
+  display: inline-block;
   border: none;
   width: 1em;
-  background: red;
-  opacity: 0.5;
+  background-color: transparent;
+  background-size: 100% 100%;
+  position: relative;
   height: 1em;
+  top: -3px;
+  left: -5px;
+  line-height: 1em;
+  padding-bottom: 6px;
+} 
+.play-view .inner-text .input:focus {
+  outline: none;
+  color: transparent;
 }
 
 .play-view .inner-text {
@@ -160,6 +174,9 @@ body {
 .play-view .player1 {
   background: #949494;
 }
+.play-view .player1 .inner-text .input {
+  background-image: url('/img/cursor-1.png');
+}
 .play-view .player1 .text-view .tabula {
   left: 140px;
 }
@@ -198,6 +215,9 @@ body {
 
 .play-view .player2 {
   background: #595959;
+}
+.play-view .player2 .inner-text .input {
+  background-image: url('/img/cursor-2.png');
 }
 .play-view .player2 .text-view .tabula {
   right: 120px;

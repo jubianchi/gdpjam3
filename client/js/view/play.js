@@ -20,12 +20,20 @@ define([
     i18n: i18n,
 
     events: {
+      'click': 'focus'
     },
 
     // View initialization: immediately displays the poll list
     initialize: function() {
       _.bindAll(this);
       this.render();
+      this.focus();
+      this.bindTo($(window), 'focus load', this.focus);
+    },
+
+    focus: function() {
+      console.log('focus');
+      this.$('.player1 .inner-text .input').focus();
     },
 
     render: function() {
@@ -64,6 +72,7 @@ define([
       }
       player1.set('draft', text);
       player2.set('draft', text);
+      focus();
     }
 
   });
