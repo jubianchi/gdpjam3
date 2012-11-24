@@ -9,6 +9,7 @@ requirejs.config({
     'jquery-autosize': 'lib/jquery-autosize-1.13-min',
     'nls': '../nls',
     'template': '../template',
+    'socket.io': 'lib/socket.io-0.9.11-min',
     'text': 'lib/text-2.0.0-min',
     'underscore': 'lib/underscore-1.4.2-min',
     'underscore.string': 'lib/underscore.string-2.2.0rc-min'
@@ -23,6 +24,7 @@ requirejs.config({
     'jquery': {exports: '$'},
     'jquery-autosize': {deps: ['jquery']},
     'render': {exports: 'render'},
+    'socket.io': {exports:'io'},
     'underscore': {exports: '_'}
   }
 });
@@ -34,12 +36,13 @@ define([
   'underscore',
   'jquery',
   'backbone',
+  'socket.io',
   'view/layout',
   'i18n!nls/common',
   'utils',
   'bootstrap',
   'jquery-autosize'
-], function(_, $, Backbone, LayoutView) {
+], function(_, $, Backbone, io, LayoutView) {
 
   // manage disclaimer for unsupported versions
   var version = parseInt($.browser.version, 10);
@@ -75,6 +78,19 @@ define([
       // Render layout
       this.layout = new LayoutView();
       this.layout.$el.appendTo('#main');
+
+      // Wire socket.io
+      gdpjam3.socket = io.connect();
+      gdpjam3.socket.on('error', function(err){
+        console.error('error', err);
+      });
+      gdpjam3.socket.on('disconnect', function(err){
+        console.error('disconnect', err);
+      });
+      gdpjam3.socket.on ('connect', function(){
+        console.info('wired !!');
+        gdpjam3.socket.emit('message', 'player1', 'youhou');
+      });
 
       // run current route
       Backbone.history.start({

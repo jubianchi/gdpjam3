@@ -27,9 +27,9 @@ define([
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
       // creates 2 input model and displays them in text views
-      var player1 = new InputModel();
+      var player1 = new InputModel({player: 'player1', content:''});
       this.$('.player1').empty().append(new TextView(player1, true).$el);
-      var player2 = new InputModel();
+      var player2 = new InputModel({player: 'player2', content:''});
       this.$('.player2').empty().append(new TextView(player2, false).$el);
     }
 

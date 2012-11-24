@@ -7,7 +7,8 @@ var express = require("express"),
   fs = require('fs-extra'),
   env = process.env.NODE_ENV || 'dev',
   rootFolder = 'client',
-  conf = {};
+  conf = {},
+  socketio = require('socket.io');
 
 // Read configuration
 env = env.trim();
@@ -47,6 +48,15 @@ app.get('*', function(req, res, next) {
 });
 
 var server = http.createServer(app);
+var io = socketio.listen(server);
+io.set('log level', 0);
+
+io. on('connection', function(socket) {
+  socket.on('message', function(player, content) {
+    console.log('>', player, content);
+  });
+});
+
 server.listen(conf.port, conf.host, function () {
   console.log('Starting server in ' + env + ' mode on ' + server.address().address + ':' + server.address().port);
 });
