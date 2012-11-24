@@ -29,12 +29,12 @@ define([
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
       // creates 2 input model and displays them in text views
-      var player1 = new InputModel({player: gdpjam3.player, content:''});
-      this.$('.player1').empty().append(new TextView(player1, true).$el);
-
+      var player1 = new InputModel({player: gdpjam3.player, content:''});      
       var other = _.without(this.options.players, gdpjam3.player)[0];
       var player2 = new InputModel({player: other, content:''});
-      this.$('.player2').empty().append(new TextView(player2, false).$el);
+
+      this.$('.player1').empty().append(new TextView(player1, player2, true).$el);
+      this.$('.player2').empty().append(new TextView(player2, player1, false).$el);
 
       console.info('current player', gdpjam3.player, 'other is', other);
 

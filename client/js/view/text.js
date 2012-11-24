@@ -20,14 +20,16 @@ define([
     editable: false,
 
     currentMod: null,
+    player: null,
 
     events: {
       'keyup .input': '_onPlayerInput'
     },
 
-    initialize: function(model, editable) {
+    initialize: function(model, player, editable) {
       _.bindAll(this);
       this.model = model;
+      this.player = player;
       this.editable = editable;
       this.bindTo(this.model, 'change:content', this._onContentChanged);
       this.bindTo(this.model, 'change:draft', this._onDraftChanged);
@@ -47,7 +49,7 @@ define([
         // TODO
         this.currentMod = new Double();
         if (this.currentMod) {
-          this.currentMod.trigger(this.model);
+          this.currentMod.trigger(this.player);
           this.currentMod = null;
         }
       } else {
