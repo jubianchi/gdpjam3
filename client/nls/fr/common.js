@@ -10,7 +10,18 @@ define({
     },{
       level: 40,
       name: 'latinium'
-    }]
+    }],
+    god: {
+      error: {
+        max: 1000,
+        threshold: 800
+      },
+      typing: {
+        min: 100,
+        max: 250,
+        speedmulti: 3
+      }
+    }
   },  
 
   titles: {

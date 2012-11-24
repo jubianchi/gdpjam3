@@ -64,12 +64,11 @@ define([
           if (!content) {
             return;
           }
-          console.log('send to '+player1.get('player'))
+          console.log('send to ' + player1.get('player'));
           gdpjam3.socket.emit('message', content);
         });
-      } else {
-        player2.set('text', text);
       }
+
       player1.set('draft', text);
       player2.set('draft', text);
       focus();

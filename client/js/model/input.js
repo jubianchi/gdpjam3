@@ -1,6 +1,7 @@
 define([
-  'backbone'
-], function(Backbone){
+  'backbone',
+  'i18n!nls/fr/common'
+], function(Backbone, i18n){
 
   // Model for input
   // 'content' is the attribute that contains the input text. Change it to update views
@@ -49,7 +50,7 @@ define([
     },
 
     set: function(name, value) {
-      if(_.contains(['text', 'draft'], name) && value) {
+      if(name === 'draft' && value) {
         this.textLength = value.length;
       }
 
@@ -89,26 +90,26 @@ define([
 
     isError: function(char) {
       var min = 0,
-          max = 1000,
+          max = i18n.constants.god.error.max,
           error = this.random(min, max);
 
       return (
-        error > 800 &&
+        error > i18n.constants.god.error.threshold &&
         char.match(/\w/) == null
       );
     },
 
     getInterval: function() {
       var multiplier = this.computeSpeed(),
-          min = 100 * multiplier,
-          max = 250 * multiplier;
+          min = i18n.constants.god.typing.min * multiplier,
+          max = i18n.constants.god.typing.max * multiplier;
 
       return this.random(min, max);
     },    
 
     computeSpeed: function() {
       var percent = this.position / this.textLength,
-          multiplier = 1 - percent;
+          multiplier = i18n.constants.god.typing.speedmulti - percent;
 
       return multiplier;
     },
