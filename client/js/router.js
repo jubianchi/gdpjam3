@@ -3,6 +3,7 @@ requirejs.config({
   paths: {
     'backbone': 'lib/backbone-0.9.2-min',
     'bootstrap': 'lib/bootstrap-2.2.1-min',
+    'buzz': 'lib/buzz-1.0.5',
     'hogan': 'lib/hogan-2.0.0-min',
     'i18n': 'lib/i18n-2.0.1-min',
     'jquery': 'lib/jquery-1.8.2-min',
@@ -20,6 +21,7 @@ requirejs.config({
       exports: 'Backbone'
     },
     'bootstrap': {deps: ['jquery']},
+    'buzz': {exports: 'buzz'},
     'hogan': {exports: 'Hogan'},
     'jquery': {exports: '$'},
     'render': {exports: 'render'},
@@ -37,13 +39,13 @@ define([
   'jquery',
   'backbone',
   'socket.io',
-  'soundmanager',
+  'buzz',
   'view/home',
   'view/play',
   'i18n!nls/common',
   'utils',
   'bootstrap'
-], function(_, $, Backbone, io, soundManager, HomeView, PlayView, i18n) {
+], function(_, $, Backbone, io, buzz, HomeView, PlayView, i18n) {
 
   // manage disclaimer for unsupported versions
   var version = parseInt($.browser.version, 10);
@@ -96,23 +98,29 @@ define([
       });
 
       // init sound only when dom is loaded
-      $(window).on('load', _.bind(function() {
-        soundManager.setup({
-          url: '/sound/',
-          debugMode: false,
-          debugFlash: false,
-        }).onready(_.bind(function() {
-          console.info('sound ready !');
-          gdpjam3.sounds = {};
-          // load each sounds
-          soundManager.createSound({
-            id: 'keystroke',
-            url: '/sound/keystroke.mp3',
-            autoPlay: false,
-            volume: 100
-          }).load();
-        }, this));
-      }, this));
+      gdpjam3.sounds = {}
+      var sounds = [
+        'keystroke.wav', 
+        'keystroke2.wav', 
+        'double.wav', 
+        'latinum.wav',
+        'shuffle.wav',
+        'soundtrack.wav'
+      ];
+      for (var i = 0; i < sounds.length; i++) {
+        (function(name) {
+          console.log('load sound', name, '...')
+          var sound = new buzz.sound("/sound/"+name, {
+            autoplay: false,
+            loop: false
+          });
+          sound.load();
+          sound.bind("loadeddata", function(e) {
+            console.info('sound loaded:', name)
+            gdpjam3.sounds[name.replace(/\.\w+$/, '')] = sound;
+          });
+        })(sounds[i]);
+      }
     },
 
     _onHome: function() {

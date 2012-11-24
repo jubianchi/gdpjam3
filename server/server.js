@@ -47,7 +47,7 @@ app.get('*', function(req, res, next) {
       return next();
     }
   }
-  if (req.url.match(/^\/api\//)) {
+  if (req.url.match(/^\/api\//) ) {
     return next();
   }
 

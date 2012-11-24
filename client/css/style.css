@@ -70,10 +70,9 @@ body {
   height: 100%;
 }
 .play-view .tabula {
-  background: url('/img/tabula.png');
+  background: url('/img/tabula-1.png');
   background-size: 100% 100%;
   height: 605px;
-  /*height: 300px;*/ 
   position: absolute;
   top: 92px;
   width: 445px;
@@ -145,8 +144,8 @@ body {
   position: absolute;
   background: url('/img/gauge.png');
   background-size: 100% 100%;
-  height: 30px;
-  width: 30px;
+  height: 50px;
+  width: 50px;
 }
 .play-view .gauge.full {
   background: url('/img/gauge-full.png');
@@ -215,6 +214,9 @@ body {
 
 .play-view .player2 {
   background: #595959;
+}
+.play-view .player2 .tabula {
+  background-image: url('/img/tabula-2.png');
 }
 .play-view .player2 .inner-text .input {
   background-image: url('/img/cursor-2.png');

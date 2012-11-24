@@ -7,8 +7,6 @@ define([
   'model/input'
 ], function(_, Backbone, template, i18n, TextView, InputModel){
 
-  console.dir(i18n)
-  
   var PlayView = Backbone.View.extend({
 
     // Mustache template

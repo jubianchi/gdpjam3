@@ -1,11 +1,10 @@
 define([
   'underscore',
   'backbone',
-  'soundmanager',
   'model/doublemod',
   'text!template/text.html',
   'i18n!nls/common'
-], function(_, Backbone, soundManager, Double, template, i18n){
+], function(_, Backbone, Double, template, i18n){
 
   var bonusClasses = {
     'double': Double,
@@ -75,9 +74,8 @@ define([
       // replace space by non breakable spaces.
       this.$('.text').html(content.replace(/ /g, '&ensp;'));
       // play sound only for us
-      if (this.editable) {
-        soundManager.stopAll()
-        soundManager.play('keystroke');
+      if (this.editable && gdpjam3.sounds && gdpjam3.sounds.keystroke) {
+        gdpjam3.sounds.keystroke.setVolume(100).play();
       }
       // set scrolls
       var height = this.$('.inner-text').height();
