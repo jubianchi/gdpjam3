@@ -48,9 +48,9 @@ define([
         this.textLength = value.length;
       }
       if(name == 'content') {
-        //value = this.checkInput(value);
+        value = this.checkInput(value);
       }
-   
+      
       Backbone.Model.prototype.set.apply(this, [name, value]);
 
       if(name === 'text' && value) {

@@ -59,7 +59,7 @@ define([
 
     _onContentChanged: function() {
       var content = this.model.get('content');
-      if (!content) {
+      if (content == null) {
         return;
       }
       // replace space by non breakable spaces.
@@ -79,7 +79,7 @@ define([
 
     _onDraftChanged: function() {
       var content = this.model.get('draft');
-      if (!content) {
+      if (content == null) {
         return;
       }
       this.$('.draft').html(content.replace(/ /g, '&ensp;'));
