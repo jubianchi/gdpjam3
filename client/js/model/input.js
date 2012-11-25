@@ -40,6 +40,11 @@ define([
     },
 
     checkInput: function(value) {
+      if (this.won) {
+        // no check if won
+        this.position++;
+        return value;
+      }
       if(!value || !this.started) return '';
 
       this.tmpContent = (this.tmpContent  || this.get('content'));
@@ -86,7 +91,7 @@ define([
         this.textLength = value.length;
       }
 
-      if(name == 'content') {
+      if(name == 'content' && this.get('player') !== 'god') {
         value = this.checkInput(value);
       }
       
@@ -117,13 +122,18 @@ define([
         }
         console.info('Player', this.get('player'), 'win !');
         this.won = true;
-        this.textLength = txt.length;
+        this.set('content', this.get('content')+'<br/>');
+        this.textLength = this.get('end').length;
         this.position = 0;
+        clearTimeout(this.timer);
         this.timer = setTimeout(this.typeChar, this.getInterval());
       }
     },
 
     isError: function(char) {
+      // TODO if (this.won) {
+        return false;
+      //}
       var min = 0,
           max = i18n.constants.god.error.max,
           error = this.random(min, max);

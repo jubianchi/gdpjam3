@@ -98,7 +98,8 @@ define([
       if (content == null) {
         return;
       }
-      this.$('.draft').html(content.replace(/ /g, '&ensp;')+'<br/>'+this.model.get('end'));
+      var end = this.model.get('end');
+      this.$('.draft').html(content.replace(/ /g, '&ensp;')+'<br/>'+(end ? end.replace(/ /g, '&ensp;') : ''));
     },
 
     _onSuiteChanged: function() {
