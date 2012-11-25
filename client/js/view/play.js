@@ -25,6 +25,7 @@ define([
     // View initialization: immediately displays the poll list
     initialize: function() {
       this.models = [];
+      this.views = [];
       _.bindAll(this);
       this.render();
       this.focus();
@@ -65,8 +66,10 @@ define([
       var other = _.without(this.options.players, gdpjam3.player)[0];
       this.models[1] = new InputModel({player: other, content:''});
 
-      this.$('.player1').empty().append(new TextView(this.models[0], this.models[1], true).$el);
-      this.$('.player2').empty().append(new TextView(this.models[1], this.models[0], false).$el);
+      this.views[0] = new TextView(this.models[0], this.models[1], true);
+      this.views[1] = new TextView(this.models[1], this.models[0], false);
+      this.$('.player1').empty().append(this.views[0].$el);
+      this.$('.player2').empty().append(this.views[1].$el);
 
       console.info('current player', gdpjam3.player, 'other is', other);
 
@@ -80,6 +83,10 @@ define([
             this.models[1].set('content', content);
           }
         }, this));
+        gdpjam3.socket.on('trigger', _.bind(function(player) {
+          console.log('bonus triggered from '+player)
+          this.views[0]._onPlayerInput({which: 17});
+        }, this));
         // and send current player input
         this.models[0].on('change:content', _.bind(function() {
           var content = this.models[0].get('content');
@@ -88,6 +95,10 @@ define([
           }
           console.log('send to ' + this.models[0].get('player'));
           gdpjam3.socket.emit('message', content);
+        }, this));
+        this.models[0].on('triggerMod', _.bind(function() {
+          console.log('send triggered bonus to ' + this.models[0].get('player'))
+          gdpjam3.socket.emit('trigger');
         }, this));
       }
 

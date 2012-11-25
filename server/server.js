@@ -86,9 +86,12 @@ io.on('connection', function(socket) {
     io.sockets.in(socket.room).emit('players', rooms[room]);
   });
 
-  // when the client emits 'message', then broadcast to room
+  // when the client emits 'message or triggered', then broadcast to room
   socket.on('message', function (data) {
     io.sockets.in(socket.room).emit('message', socket.player, data);
+  });
+  socket.on('trigger', function () {
+    io.sockets.in(socket.room).emit('trigger', socket.player);
   });
 
   // when the user disconnects, leaves the room

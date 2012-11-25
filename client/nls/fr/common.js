@@ -9,7 +9,7 @@ define({
       spaceopt: false
     },
     bonus: [{
-      level: 60,
+      level: 3,
       name: 'double'
     },{
       level: 120,

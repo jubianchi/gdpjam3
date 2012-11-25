@@ -57,6 +57,7 @@ define([
       // 17 is ctrl: trigger bonus
       if (event.which === 17) {
         if (this.currentMod) {
+          this.model.trigger('triggerMod');
           this.currentMod.trigger(this.opponent, this);
           this.model.set('suite', 0);
         }
