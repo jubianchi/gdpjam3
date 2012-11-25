@@ -172,11 +172,15 @@ define([
     },
 
     win: function() {
-
+      $('.modal, .countdown').show();
+      this.$el.addClass('win');
+      this.$('.countdown').addClass('win').html("Le monde est sauf !");
     },
 
     loose: function() {
-
+      $('.modal, .countdown').show();
+      this.$el.addClass('lost');
+      this.$('.countdown').addClass('lost').html("C'est l'apocalypse !");
     },
     
     _onToggleMusic: function(event) {

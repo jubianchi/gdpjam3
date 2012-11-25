@@ -26,7 +26,7 @@ define({
       typing: {
         min: 100,
         max: 250,
-        speedmulti: -0.7
+        speedmulti: 2.7
       }
     }
   },  
@@ -47,14 +47,13 @@ define({
     waitingOpponent: '<div class="waiting">Waiting for an opponnent...<br/>Please be patient !</div>',
     loading: '<div class="waiting">Loading...</div>',
     texts: [
-      "Now that there is the Tec-9, a crappy spray gun from South Miami.",
-      "Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime." 
+      "Demain les pôles se rassembleront, chaque continent  sera victime du fléau de l'Agneau. Je ferai lever une armée de 200 millions de bébés moutons carnivores qui mangeront hommes, femmes et enfants et qui domineront le monde. Une lutte acharnée pour le contrôle de la Terre aura alors lieu entre humains et moutons, guidés par leur prophète, le Seigneur des Agneaux." 
     ],
     ends1: [
-      "ceci est la phrase de fin"
+      "C'est parti pour le méchoui !"
     ],
     ends2: [
-      "ceci est l'autre phrase de fin"
+      "Vous allez tous mourrir"
     ],
     pitch: "<p>Lors d'une expédition dans des vestiges mayas, le jeune archéologue Adam découvrit une étrange tablette de pierre vierge. Sans intérêt apparent, il en fit une table basse.</p>"+
       "<p>Mais le 21 Décembre 2012, elle se mit à briller et une voix céleste se fit entendre :<b><i>\"Humain, si vous souhaitez sauver l'humanité, il vous faudra écrire l'histoire... plus vite que moi !\"</i></b></p>",

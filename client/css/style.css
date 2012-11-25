@@ -165,6 +165,10 @@ body {
   font-size: 140px;
   top: 45%;
 }
+.play-view .countdown.win,
+.play-view .countdown.lost {
+  font-size: 70px;
+}
 
 .play-view .toggleMusic {
   position: absolute;
@@ -335,6 +339,13 @@ body {
 .play-view .player1 .avatar {
   background-image: url('/img/avatar-1.png');
 }
+.play-view.win .player1 .avatar {
+  background-image: url('/img/win-avatar-1.png');
+}
+
+.play-view.lost .player1 .avatar {
+  background-image: url('/img/lost-avatar-1.png');
+}
 .play-view .player1 .text-view .tabula {
   left: 140px;
 }
@@ -362,10 +373,10 @@ body {
 .play-view .player1 .bonus.latinium {
   background: url('/img/bonus/latinium-1.png');
 }
-.play-view .player1 .bonus.double {
+.play-view .player1 .bonus.double:not(.background) {
   background: url('/img/bonus/double-1.png');
 }
-.play-view .player1 .bonus.shuffle {
+.play-view .player1 .bonus.shuffle:not(.background) {
   background: url('/img/bonus/shuffle-1.png');
 }
 
@@ -377,6 +388,12 @@ body {
 }
 .play-view .player2 .avatar {
   background-image: url('/img/avatar-2.png');
+}
+.play-view.win .player2 .avatar:not(.background) {
+  background-image: url('/img/lost-avatar-2.png');
+}
+.play-view.lost .player2 .avatar:not(.background) {
+  background-image: url('/img/win-avatar-2.png');
 }
 .play-view .player2 .background {
   background-image: url('/img/avatar-2-bg.png');
