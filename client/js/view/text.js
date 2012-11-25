@@ -107,6 +107,13 @@ define([
         this.currentMod = null;
         this.$('.gauge').removeClass('full');
         this.$('.bonus').attr('class', 'bonus');
+        // display error feedback
+        var caret = this.$('.input');
+        caret.addClass('error');
+        _.delay(function() {
+          caret.removeClass('error');
+        }, 300);
+        this.$('.input').addClass('error');
       } else {
         // goes from higher level and decrease
         for (var i = i18n.constants.bonus.length; i > 0; i--) {

@@ -118,7 +118,7 @@ body {
   display: inline-block;
   border: none;
   width: 1em;
-  background-color: transparent;
+  background: url('/img/cursor-1.png');
   background-size: 100% 100%;
   position: relative;
   height: 1em;
@@ -127,6 +127,9 @@ body {
   line-height: 1em;
   padding-bottom: 6px;
 } 
+.play-view .inner-text .input.error {
+  background-image: url('/img/cursor-2.png');
+}
 .play-view .inner-text .input:focus {
   outline: none;
   color: transparent;
@@ -180,9 +183,6 @@ body {
 .play-view .player1 {
   background: #949494;
 }
-.play-view .player1 .inner-text .input {
-  background-image: url('/img/cursor-1.png');
-}
 .play-view .player1 .text-view .tabula {
   left: 140px;
 }
@@ -224,9 +224,6 @@ body {
 }
 .play-view .player2 .tabula {
   background-image: url('/img/tabula-2.png');
-}
-.play-view .player2 .inner-text .input {
-  background-image: url('/img/cursor-2.png');
 }
 .play-view .player2 .text-view .tabula {
   right: 120px;
