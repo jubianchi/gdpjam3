@@ -126,7 +126,7 @@ define([
       event.preventDefault();
       event.stopImmediatePropagation();
       if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
-        gdpjam3.sounds.soundtrack.togglePlay();
+        //gdpjam3.sounds.soundtrack.togglePlay();
       }
     }
 

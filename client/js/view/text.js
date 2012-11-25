@@ -4,7 +4,7 @@ define([
   'model/doublemod',
   'model/shufflemod',
   'text!template/text.html',
-  'i18n!nls/common'
+  'i18n!nls/fr/common'
 ], function(_, Backbone, Double, Shuffle, template, i18n){
 
   var bonusClasses = {
@@ -29,6 +29,10 @@ define([
     currentMod: null,
 
     opponent: null,
+
+    playView: null,
+
+    bonusDice: null,
 
     events: {
       'keyup .input': '_onPlayerInput'
@@ -56,10 +60,7 @@ define([
     _onPlayerInput: function(event) {   
       // 17 is ctrl: trigger bonus
       if (event.which === 17) {
-        if (this.currentMod) {
-          this.currentMod.trigger(this.opponent, this);
-          this.model.set('suite', 0);
-        }
+        this.applyMod();
       } else {
         var key = this.$('.input').val();
         this.$('.input').val('');
@@ -124,12 +125,19 @@ define([
         for (var i = i18n.constants.bonus.length; i > 0; i--) {
           var spec = i18n.constants.bonus[i-1];
           if (value > spec.level) {
-            var spec 
             this.$('.gauge.bonus-'+i).addClass('full');
             this.$('.bonus:not(.anim)').attr('class', 'bonus '+spec.name);
             this.currentMod = new bonusClasses[spec.name](spec.name);
-            //console.log(this.model.get('player'), 'won new bonus', spec.name)
+
+            this.bonusDice = this.random(0, spec.proba)
+
             break;
+          }
+        }
+
+        if(this.model.get('player') == 'god') {        
+          if(this.bonusDice > spec.proba - 1) {
+            if(this.random(0, spec.proba) > (spec.proba * 0.7)) this.applyMod();
           }
         }
       }
@@ -137,6 +145,18 @@ define([
 
     _onScoreChanged: function() {
       this.$('.score').html(this.model.get('score'));
+    },
+
+    applyMod: function() {
+      if (this.currentMod && this.opponent !== this) {
+        this.currentMod.trigger(this.opponent);
+        this.model.set('suite', 0);
+        this.currentMod = null;
+      }
+    },
+
+    random: function(min, max) {
+      return Math.random() * (max - min) + min;
     }
 
   });
