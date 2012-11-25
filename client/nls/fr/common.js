@@ -23,7 +23,7 @@ define({
       typing: {
         min: 100,
         max: 250,
-        speedmulti: 3
+        speedmulti: 0.7
       }
     }
   },  
