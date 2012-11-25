@@ -56,6 +56,26 @@ body {
   left: auto;
   top: 50px;
 }
+.home-view .menu a {
+  position: absolute;
+  display: block;
+  background-size: 100% 100%;
+  background-color: transparent;
+}
+.home-view .menu a.single {
+  background-image: url("/img/single.png");
+  left: 73px;
+  top: 68px;
+  height: 96px;
+  width: 257px;
+}
+.home-view .menu a.duel {
+  background-image: url("/img/duel.png");
+  left: 60px;
+  top: 193px;
+  height: 97px;
+  width: 296px;
+}
 .home-view .frame {
   background: url("/img/menu.png");
   background-size: 100% 100%;
@@ -179,7 +199,6 @@ body {
 }
 .play-view .draft {
   color: grey;
-  overflow: auto;
   word-break: break-word;
 }
 .play-view .anim {

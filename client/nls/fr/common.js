@@ -40,8 +40,6 @@ define({
   },
   
   buttons: {
-    duel: 'Duel',
-    single: 'Solo',
     mute: 'mute'
   },
 
