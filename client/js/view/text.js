@@ -3,14 +3,14 @@ define([
   'backbone',
   'model/doublemod',
   'model/shufflemod',
+  'model/latiniummod',
   'text!template/text.html',
   'i18n!nls/fr/common'
-], function(_, Backbone, Double, Shuffle, template, i18n){
+], function(_, Backbone, Double, Shuffle, Latinium, template, i18n){
 
   var bonusClasses = {
     'double': Double,
-    // TODO
-    'latinium': Double,
+    'latinium': Latinium,
     'shuffle': Shuffle
   };
 
