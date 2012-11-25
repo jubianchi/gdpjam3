@@ -102,6 +102,7 @@ define([
 
     _onSuiteChanged: function() {
       var value = this.model.get('suite');
+
       if (value === 0) {
         // reset bonuses
         this.currentMod = null;
@@ -123,7 +124,7 @@ define([
             this.$('.gauge.bonus-'+i).addClass('full');
             this.$('.bonus').attr('class', 'bonus '+spec.name);
             this.currentMod = new bonusClasses[spec.name]();
-            console.log(this.model.get('player'), 'won new bonus', spec.name)
+            //console.log(this.model.get('player'), 'won new bonus', spec.name)
             break;
           }
         }

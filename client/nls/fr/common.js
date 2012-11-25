@@ -1,6 +1,10 @@
 define({
 
   constants: {
+    options: {
+      // Optional spaces ?
+      spaceopt: false
+    },
     bonus: [{
       level: 60,
       name: 'double'

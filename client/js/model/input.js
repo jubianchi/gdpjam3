@@ -21,15 +21,27 @@ define([
     },
 
     checkInput: function(value) {
-      var cleanValue = value          
-        .replace('&ensp;', ' ')
-        .replace(/\s{2}/g, ' ')
-      ;
+      if(!value) return '';
+
+      var typed = value.length - (this.get('content') || '').length,
+          cleanValue = value.replace('&ensp;', ' ');
+
+      if(typed == 0) return value;
 
       if(this.get('draft')) {
         var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
-        if(cleanValue !== model.replace(/(\r|\n|\r\n)/g, ' ')) {
+        if(i18n.constants.options.spaceopt) {
+          if(model[model.length - typed] == ' ' && value[value.length - typed] != ' ') {
+            value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed, value.length);
+            cleanValue = cleanValue.substring(0, cleanValue.length - typed) + ' ' + cleanValue.substring(cleanValue.length - typed, cleanValue.length);
+            model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
+
+            this.position++;
+          }
+        }
+
+        if(cleanValue !== model) {
           var word = this.get('content').substring(this.get('content').lastIndexOf(' ') + 1);
 
           value = this.get('content').replace(new RegExp(word + '$', 'g'), '');
