@@ -162,8 +162,8 @@ define([
 
     getInterval: function() {
       var multiplier = this.computeSpeed(),
-          min = i18n.constants.god.typing.min * multiplier,
-          max = i18n.constants.god.typing.max * multiplier;
+          min = i18n.constants.god.typing.min * Math.abs(multiplier),
+          max = i18n.constants.god.typing.max * Math.abs(multiplier);
 
       return this.random(min, max);
     },    
