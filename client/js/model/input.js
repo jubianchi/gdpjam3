@@ -61,33 +61,33 @@ define([
 
       if(typed == 0) return value;
 
-      //if(this.get('draft')) {
-        var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
+      var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
-        if(i18n.constants.options.spaceopt) {
-          if(model[model.length - typed] == ' ' && value[value.length - typed] != ' ') {
-            value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed, value.length);
-            cleanValue = cleanValue.substring(0, cleanValue.length - typed) + ' ' + cleanValue.substring(cleanValue.length - typed, cleanValue.length);
-            model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
+      if(i18n.constants.options.spaceopt) {
+        if(model[model.length - typed] == ' ' && value[value.length - typed] != ' ') {
+          value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed, value.length);
+          cleanValue = cleanValue.substring(0, cleanValue.length - typed) + ' ' + cleanValue.substring(cleanValue.length - typed, cleanValue.length);
+          model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
-            this.position++;
-          }
+          this.position++;
         }
+      }
 
-        if(cleanValue !== model) {
-          var word = this.get('content').substring(this.get('content').lastIndexOf(' ') + 1);
+      if(cleanValue !== model) {
+        var word = this.get('content').substring(this.get('content').lastIndexOf(' ') + 1);
 
-          value = this.get('content').replace(new RegExp(word + '$', 'g'), '');
+        word = word.replace('.', '\.').replace('?', '\?');
+        value = this.get('content').replace(new RegExp(word + '$', 'g'), '');
 
-          this.set('suite', 0);
-          this.set('score', this.get('score') ? this.get('score') - word.length : 0);
-          this.position = cleanValue.length - (word.length + 1);
-        } else {
-          this.set('suite', (this.get('suite') || 0) + 1);
-          this.set('score', (this.get('score') || 0) + 1);
-          this.position = cleanValue.length;
-        }
-      //}
+        this.set('suite', 0);
+        this.set('score', this.get('score') ? this.get('score') - word.length : 0);
+        this.position = cleanValue.length - (word.length + 1);
+      } else {
+        this.set('suite', (this.get('suite') || 0) + 1);
+        this.set('score', (this.get('score') || 0) + 1);
+        this.position = cleanValue.length;
+      }
+
 
       return value;
     },

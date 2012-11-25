@@ -6,17 +6,17 @@ define({
       spaceopt: true
     },
     bonus: [{
-      'proba': 10,
+      'proba': 30,
       level: 30,
       name: 'double'
     },{
       'proba': 4,
       level: 60,
-      name: 'shuffle'
+      name: 'latinium'
     },{
       'proba': 1,
       level: 90,
-      name: 'latinium'
+      name: 'shuffle'
     }],
     god: {
       error: {
@@ -26,7 +26,7 @@ define({
       typing: {
         min: 100,
         max: 250,
-        speedmulti: 2.7
+        speedmulti: -0.6
       }
     }
   },  
@@ -53,11 +53,11 @@ define({
       "C'est parti pour le méchoui !"
     ],
     ends2: [
-      "Vous allez tous mourrir"
+      "Vous allez tous mourir !"
     ],
     pitch: "<p>Lors d'une expédition dans des vestiges mayas, le jeune archéologue Adam découvrit une étrange tablette de pierre vierge. Sans intérêt apparent, il en fit une table basse.</p>"+
       "<p>Mais le 21 Décembre 2012, elle se mit à briller et une voix céleste se fit entendre :<b><i>\"Humain, si vous souhaitez sauver l'humanité, il vous faudra écrire l'histoire... plus vite que moi !\"</i></b></p>",
-      controls: "<p>Comment jouer ?</p><p><b>TABULAS</b> est une course de saisie.</p><p>Vous gravez à l'aide de votre clavier et déclencher vos malus avec <b>Ctrl</b></p>"
+      controls: "<p>Comment jouer ?</p><p><b>TABULAS</b> est une course de saisie.</p><p>Vous gravez à l'aide de votre clavier et déclenchez vos malus avec <b>Ctrl</b></p>"
   },
 
   tips: {

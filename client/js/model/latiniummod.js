@@ -11,9 +11,16 @@ define([
   _.extend(Latinium.prototype, Mod.prototype, {
 
     process:function(text, position) {
+      var delay = 0;
       position++;
 
-      while(text.substring(position, position + 1) != ' ') position++;
+      while(text.substring(position, position + 1) != ' ' || delay < 2) {
+        if(text.substring(position, position + 1) == ' ') {
+          delay++;
+        }
+
+        position++;
+      }
       position++;
 
       var models = [

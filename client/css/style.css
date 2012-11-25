@@ -339,11 +339,11 @@ body {
 .play-view .player1 .avatar {
   background-image: url('/img/avatar-1.png');
 }
-.play-view.win .player1 .avatar {
+.play-view.win .player1 .avatar:not(.background) {
   background-image: url('/img/win-avatar-1.png');
 }
 
-.play-view.lost .player1 .avatar {
+.play-view.lost .player1 .avatar:not(.background) {
   background-image: url('/img/lost-avatar-1.png');
 }
 .play-view .player1 .text-view .tabula {
@@ -373,10 +373,10 @@ body {
 .play-view .player1 .bonus.latinium {
   background: url('/img/bonus/latinium-1.png');
 }
-.play-view .player1 .bonus.double:not(.background) {
+.play-view .player1 .bonus.double {
   background: url('/img/bonus/double-1.png');
 }
-.play-view .player1 .bonus.shuffle:not(.background) {
+.play-view .player1 .bonus.shuffle {
   background: url('/img/bonus/shuffle-1.png');
 }
 
