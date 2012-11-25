@@ -8,15 +8,7 @@ define([
 
   // Call to invoke bonus on an input draft
   Mod.prototype.trigger = function(input, view) {
-    var draft = input.get('draft');
-
-    if(draft) {
-      console.log('draft');
-      input.set('draft', this.process(draft, input.position));
-    } else {
-      draft = input.get('text');
-      input.set('text', this.process(draft, input.position));
-    }
+    input.set('draft', this.process(input.get('draft'), input.position));
 
     // apply sound if available
     if (gdpjam3.sounds[this.sound]) {
