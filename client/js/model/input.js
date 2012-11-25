@@ -75,7 +75,7 @@ define([
 
           this.set('suite', 0);
           this.set('score', (this.get('score') || 1) - word.length);
-          this.position = cleanValue.length - word.length;
+          this.position = cleanValue.length - word.length - 1;
         } else {
           this.set('suite', (this.get('suite') || 0) + 1);
           this.set('score', (this.get('score') || 0) + 1);
@@ -131,9 +131,9 @@ define([
     },
 
     isError: function(char) {
-      // TODO if (this.won) {
+      if (this.won) {
         return false;
-      //}
+      }
       var min = 0,
           max = i18n.constants.god.error.max,
           error = this.random(min, max);
