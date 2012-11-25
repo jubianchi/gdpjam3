@@ -52,6 +52,7 @@ define([
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
       this.$('.input').toggle(this.editable);
+      this.model.set('score', 0);
       this._onContentChanged();
       this._onDraftChanged();
     },
@@ -118,7 +119,7 @@ define([
         if (!this.inhibit && this.editable && gdpjam3.sounds.error) {
           gdpjam3.sounds.error.play();
         }
-        this.inhibit = false
+        this.inhibit = false;
         this.$('.input').addClass('error');
       } else {
         // goes from higher level and decrease

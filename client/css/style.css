@@ -222,9 +222,10 @@ body {
 }
 .play-view .score {
   position: absolute;
-  top: 157px;
+  top: 170px;
   height: 45px;
   width: 175px;
+  font-size: 22px;
 }
 
 .play-view .player1 .fg {
@@ -257,7 +258,7 @@ body {
   left: 10px;
 }
 .play-view .player1 .score {
-  left: 267px;
+  left: 300px;
 }
 .play-view .player1 .bonus.latinium {
   background: url('/img/bonus/latinium-1.png');
