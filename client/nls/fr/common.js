@@ -7,15 +7,15 @@ define({
     },
     bonus: [{
       'proba': 10,
-      level: 3,
+      level: 30,
       name: 'double'
     },{
       'proba': 4,
-      level: 120,
+      level: 60,
       name: 'shuffle'
     },{
       'proba': 1,
-      level: 180,
+      level: 90,
       name: 'latinium'
     }],
     god: {
@@ -26,7 +26,7 @@ define({
       typing: {
         min: 100,
         max: 250,
-        speedmulti: 0.7
+        speedmulti: -0.7
       }
     }
   },  

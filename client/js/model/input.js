@@ -61,7 +61,7 @@ define([
 
       if(typed == 0) return value;
 
-      if(this.get('draft')) {
+      //if(this.get('draft')) {
         var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
         if(i18n.constants.options.spaceopt) {
@@ -80,14 +80,14 @@ define([
           value = this.get('content').replace(new RegExp(word + '$', 'g'), '');
 
           this.set('suite', 0);
-          this.set('score', (this.get('score') || 1) - word.length);
-          this.position = cleanValue.length - word.length - 1;
+          this.set('score', this.get('score') ? this.get('score') - word.length : 0);
+          this.position = cleanValue.length - (word.length + 1);
         } else {
           this.set('suite', (this.get('suite') || 0) + 1);
           this.set('score', (this.get('score') || 0) + 1);
           this.position = cleanValue.length;
         }
-      }
+      //}
 
       return value;
     },
@@ -116,9 +116,9 @@ define([
       var txt = this.won ? this.get('end') : this.get('draft');
       var char = txt.substring(this.position, (this.position + 1));
 
-      error = this.isError(char);
+      error = this.isError(char);      
 
-      if(error) {
+      if(error && this.get('draft').substring(this.position, this.position + 1) != ' ') {
         do {
           char = String.fromCharCode(char.charCodeAt(0) + this.random(-5, 5));
         } while(!char.match(/\w/g))              
