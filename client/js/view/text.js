@@ -43,7 +43,7 @@ define([
       this.opponent = opponent;
       this.editable = editable;
       this.bindTo(this.model, 'change:content', this._onContentChanged);
-      this.bindTo(this.model, 'change:draft', this._onDraftChanged);
+      this.bindTo(this.model, 'change:draft change:end', this._onDraftChanged);
       this.bindTo(this.model, 'change:suite', this._onSuiteChanged);
       this.bindTo(this.model, 'change:score', this._onScoreChanged);
       this.render();
@@ -97,7 +97,7 @@ define([
       if (content == null) {
         return;
       }
-      this.$('.draft').html(content.replace(/ /g, '&ensp;'));
+      this.$('.draft').html(content.replace(/ /g, '&ensp;')+'<br/>'+this.model.get('end'));
     },
 
     _onSuiteChanged: function() {

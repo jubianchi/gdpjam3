@@ -103,7 +103,9 @@ define([
       }
 
       this.models[0].set('draft', text);
+      this.models[0].set('end', i18n.msgs.ends1[0]);
       this.models[1].set('draft', text);
+      this.models[1].set('end', i18n.msgs.ends2[0]);
 
       // start countdown
       this.countdown(3);

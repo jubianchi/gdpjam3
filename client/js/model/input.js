@@ -13,14 +13,22 @@ define([
     textLength: 0,
 
     timer: null,
+
     tmpContent: null,
 
     started: false,
+
+    won: false,
 
     // player is sent to server
     // local means no messages sent to server
     constructor: function(options) {
       _.bindAll(this);
+      this.won = false;
+      this.position = 0;
+      this.textLength = 0;
+      this.tmpContent = null;
+      this.started = false;
       Backbone.Model.prototype.constructor.call(this, options);
     },
 
@@ -84,7 +92,8 @@ define([
     },
  
     typeChar: function() {
-      var char = this.get('draft').substring(this.position, (this.position + 1));
+      var txt = this.won ? this.get('end') : this.get('draft');
+      var char = txt.substring(this.position, (this.position + 1));
 
       error = this.isError(char);
 
@@ -96,7 +105,18 @@ define([
 
       this.set('content', this.checkInput(this.get('content') + char));
 
-      if(this.position < (this.textLength - 1)) {
+      if(this.position < this.textLength) {
+        this.timer = setTimeout(this.typeChar, this.getInterval());
+      } else {
+        if (this.won) {
+          // already won
+          console.info('Player', this.get('player'), 'has finished !');
+          return;
+        }
+        console.info('Player', this.get('player'), 'win !');
+        this.won = true;
+        this.textLength = txt.length;
+        this.position = 0;
         this.timer = setTimeout(this.typeChar, this.getInterval());
       }
     },
