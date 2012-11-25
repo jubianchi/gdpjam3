@@ -179,6 +179,8 @@ body {
 }
 .play-view .draft {
   color: grey;
+  overflow: auto;
+  word-break: break-word;
 }
 .play-view .anim {
   z-index: 11;
