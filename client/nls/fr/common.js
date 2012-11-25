@@ -47,7 +47,7 @@ define({
     waitingOpponent: '<div class="waiting">Waiting for an opponnent...<br/>Please be patient !</div>',
     loading: '<div class="waiting">Loading...</div>',
     texts: [
-      "Demain les pôles se rassembleront, chaque continent  sera victime du fléau de l'Agneau. Je ferai lever une armée de 200 millions de bébés moutons carnivores qui mangeront hommes, femmes et enfants et qui domineront le monde. Une lutte acharnée pour le contrôle de la Terre aura alors lieu entre humains et moutons, guidés par leur prophète, le Seigneur des Agneaux." 
+      "Demain les poles se rassembleront, chaque continent  sera victime du fléau de l'Agneau. Je ferai lever une armée de 200 millions de bébés moutons carnivores qui mangeront hommes, femmes et enfants et qui domineront le monde. Une lutte acharnée pour le contrôle de la Terre aura alors lieu entre humains et moutons, guidés par leur prophète, le Seigneur des Agneaux." 
     ],
     ends1: [
       "C'est parti pour le méchoui !"
