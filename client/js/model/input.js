@@ -13,6 +13,7 @@ define([
     textLength: 0,
 
     timer: null,
+    tmpContent: null,
 
     started: false,
 
@@ -33,8 +34,11 @@ define([
     checkInput: function(value) {
       if(!value || !this.started) return '';
 
-      var typed = value.length - (this.get('content') || '').length,
-          cleanValue = value.replace('&ensp;', ' ');
+      this.tmpContent = (this.tmpContent  || this.get('content'));
+      var typed = value.length - (this.tmpContent  || '').length;
+      this.tmpContent = value;
+
+      var cleanValue = value.replace('&ensp;', ' ');
 
       if(typed == 0) return value;
 

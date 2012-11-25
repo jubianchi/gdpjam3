@@ -85,7 +85,7 @@ define([
         }, this));
         gdpjam3.socket.on('trigger', _.bind(function(player) {
           console.log('bonus triggered from '+player)
-          this.views[0]._onPlayerInput({which: 17});
+          this.views[1].applyMod();
         }, this));
         // and send current player input
         this.models[0].on('change:content', _.bind(function() {
@@ -116,7 +116,10 @@ define([
         $('.countdown,.modal').hide();
         // start race
         if (gdpjam3.sounds.start) {
-          gdpjam3.sounds.start.setVolume(50).play();
+          gdpjam3.sounds.start.setVolume(20).play();
+        }
+        if (gdpjam3.sounds.write) {
+          gdpjam3.sounds.write.play();
         }
         this.models[0].start();
         this.models[1].start();
@@ -127,6 +130,9 @@ define([
       } else {
         // Display count
         this.$('.countdown').html(count);
+        if (gdpjam3.sounds['countdown'+count]) {
+          gdpjam3.sounds['countdown'+count].play();
+        }
         _.delay(_.bind(function() {
           this.countdown(count-1);
         }, this), 1000);

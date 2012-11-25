@@ -10,6 +10,8 @@ define([
     // Mustache template
     template: template,
 
+    className: 'home-view',
+    
     // i18n labels, buttons, tips...
     i18n: i18n,
 

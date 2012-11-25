@@ -101,46 +101,35 @@ define([
       // init sound only when dom is loaded
       gdpjam3.sounds = {}
       var sounds = [{
-        name:'keystroke1',
-        file:'keystroke2.wav',
-        loop: false
+        name:'keystroke1',file:'keystroke2.wav',loop: false
       }, {
-        name:'keystroke2',
-        file:'keystroke2.wav',
-        loop: false
+        name:'keystroke2',file:'keystroke2.wav',loop: false
       }, {
-        name:'keystroke3',
-        file:'keystroke2.wav',
-        loop: false
+        name:'keystroke3',file:'keystroke2.wav',loop: false
       }, { 
-        name:'keystroke',
-        file:'double.wav',
-        loop: false
+        name:'keystroke',file:'double.wav',loop: false
       }, { 
-        name:'latinum',
-        file:'latinum.wav',
-        loop: false
+        name:'latinum',file:'latinum.wav',loop: false
       }, {
-        name:'shuffle',
-        file:'shuffle.wav',
-        loop: false
+        name:'shuffle',file:'shuffle.wav',loop: false
       }, {
-        name:'double',
-        file:'double.wav',
-        loop: false
+        name:'double',file:'double.wav',loop: false
       }, {
-        name:'soundtrack',
-        file:'soundtrack.wav',
-        loop: true
+        name:'soundtrack',file:'soundtrack.wav',loop: true
       }, {
-        name:'start',
-        file:'start.wav',
-        loop: false
+        name:'start',file:'start.wav',loop: false
       }, {
-        name:'error',
-        file:'error.wav',
-        loop: false
+        name:'error',file:'error.wav',loop: false
+      }, {
+        name:'countdown3',file:'countdown-3.wav',loop: false
+      }, {
+        name:'countdown2',file:'countdown-2.wav',loop: false
+      }, {
+        name:'countdown1',file:'countdown-1.wav',loop: false
+      }, {
+        name:'write',file:'write.wav',loop: false
       }];
+      
       this.remains = sounds.length;
       for (var i = 0; i < sounds.length; i++) {
         (function(spec, context) {
