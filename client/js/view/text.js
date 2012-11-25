@@ -2,15 +2,16 @@ define([
   'underscore',
   'backbone',
   'model/doublemod',
+  'model/shufflemod',
   'text!template/text.html',
   'i18n!nls/common'
-], function(_, Backbone, Double, template, i18n){
+], function(_, Backbone, soundManager, Double, Shuffle, template, i18n){
 
   var bonusClasses = {
     'double': Double,
     // TODO
     'latinium': Double,
-    'shuffle': Double
+    'shuffle': Shuffle
   };
 
   var TextView = Backbone.View.extend({
