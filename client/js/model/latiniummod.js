@@ -6,6 +6,8 @@ define([
   // Model for input
   var Latinium = function() {
     Mod.apply(this, arguments);
+
+    this.name = 'latinium';
   };
 
   _.extend(Latinium.prototype, Mod.prototype, {

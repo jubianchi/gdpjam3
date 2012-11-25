@@ -6,6 +6,8 @@ define([
   // Model for input
   var Shuffle = function() {
     Mod.apply(this, arguments);
+
+    this.name = 'shuffle';
   };
 
   _.extend(Shuffle.prototype, Mod.prototype, {

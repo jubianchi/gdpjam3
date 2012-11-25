@@ -6,6 +6,8 @@ define([
   // Model for input
   var Double = function() {
     Mod.apply(this, arguments);
+
+    this.name = 'double';
   };
 
   _.extend(Double.prototype, Mod.prototype, {

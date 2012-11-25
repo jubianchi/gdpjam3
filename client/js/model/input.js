@@ -1,7 +1,7 @@
 define([
   'backbone',
-  'i18n!nls/fr/common'
-], function(Backbone, i18n){
+  'levels/easy'
+], function(Backbone, level){
 
   // Model for input
   // 'content' is the attribute that contains the input text. Change it to update views
@@ -9,16 +9,12 @@ define([
   var Input = Backbone.Model.extend({
 
     position: 0,
-
     textLength: 0,
-
     timer: null,
-
     tmpContent: null,
-
     started: false,
-
     won: false,
+    level: level,
 
     // player is sent to server
     // local means no messages sent to server
@@ -63,7 +59,7 @@ define([
 
       var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
-      if(i18n.constants.options.spaceopt) {
+      if(this.level.options.spaceopt) {
         if(model[model.length - typed] == ' ' && value[value.length - typed] != ' ') {
           value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed, value.length);
           cleanValue = cleanValue.substring(0, cleanValue.length - typed) + ' ' + cleanValue.substring(cleanValue.length - typed, cleanValue.length);
@@ -74,6 +70,7 @@ define([
       }
 
       if(cleanValue !== model) {
+        this.set('avatar', 'mad');
         var word = this.get('content').substring(this.get('content').lastIndexOf(' ') + 1);
 
         word = word.replace('.', '\.').replace('?', '\?');
@@ -151,32 +148,27 @@ define([
         return false;
       }
       var min = 0,
-          max = i18n.constants.god.error.max,
+          max = this.level.god.error.max,
           error = this.random(min, max);
 
       return (
-        error > i18n.constants.god.error.threshold &&
+        error > this.level.god.error.threshold &&
         char.match(/\w/) == null
       );
     },
 
     getInterval: function() {
-      var multiplier = this.computeSpeed(),
-          min = i18n.constants.god.typing.min * Math.abs(multiplier),
-          max = i18n.constants.god.typing.max * Math.abs(multiplier);
+      var min = this.level.god.typing.min,
+          max = this.level.god.typing.max;
 
       return this.random(min, max);
     },    
 
-    computeSpeed: function() {
-      var percent = this.position / this.textLength,
-          multiplier = i18n.constants.god.typing.speedmulti - percent;
+    random: function(min, max, round) {
+      var rand = Math.round(Math.random() * (max - min) + min);;
+      if(round == null || round) rand = Math.round(rand);
 
-      return multiplier;
-    },
-
-    random: function(min, max) {
-      return Math.random() * (max - min) + min;
+      return rand;
     }
 
   });

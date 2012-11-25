@@ -5,8 +5,8 @@ define([
   'model/shufflemod',
   'model/latiniummod',
   'text!template/text.html',
-  'i18n!nls/fr/common'
-], function(_, Backbone, Double, Shuffle, Latinium, template, i18n){
+  'levels/easy'
+], function(_, Backbone, Double, Shuffle, Latinium, template, level){
 
   var bonusClasses = {
     'double': Double,
@@ -18,7 +18,7 @@ define([
 
     template: template,
 
-    i18n: i18n,
+    level: level,
 
     className: 'text-view',
 
@@ -49,6 +49,7 @@ define([
       this.bindTo(this.model, 'change:draft change:end', this._onDraftChanged);
       this.bindTo(this.model, 'change:suite', this._onSuiteChanged);
       this.bindTo(this.model, 'change:score', this._onScoreChanged);
+      this.bindTo(this.model, 'change:avatar', this._onAvatarChanged);
       this.render();
     },
 
@@ -61,12 +62,12 @@ define([
     },
 
     _onPlayerInput: function(event) {   
-      if (this.stopped) {
+      if (this.stopped || event.which == 219) {
         return;
-      };
+      };      
       // 17 is ctrl: trigger bonus
       if (event.which === 17) {
-        this.applyMod();
+        this.applyMod();        
       } else {
         var key = this.$('.input').val();
         this.$('.input').val('');
@@ -137,20 +138,26 @@ define([
         this.$('.input').addClass('error');
       } else {
         // goes from higher level and decrease
-        for (var i = i18n.constants.bonus.length; i > 0; i--) {
-          var spec = i18n.constants.bonus[i-1];
-          if (value > spec.level) {
-            this.$('.gauge.bonus-'+i).addClass('full');
-            this.$('.bonus:not(.anim)').attr('class', 'bonus '+spec.name);
-            this.currentMod = new bonusClasses[spec.name](spec.name);
-            this.bonusDice = this.random(0, spec.proba)
-            break;
+        var i = _.size(this.level.bonus);
+        for (var name in this.level.bonus) {
+          if(this.level.bonus.hasOwnProperty(name)) {   
+            //console.log(name, this.level.bonus);         
+            var spec = this.level.bonus[name];
+            if (value == spec.level) {
+              console.log('.gauge.bonus-' + i);
+              this.$('.gauge.bonus-' + i).addClass('full');
+              this.$('.bonus:not(.anim)').attr('class', 'bonus ' + name);
+              this.currentMod = new bonusClasses[name](name, spec.proba, spec.score);
+              break;
+            }
+
+            i--;
           }
         }
 
-        if(this.model.get('player') == 'god') {        
-          if(this.bonusDice > spec.proba - 1) {
-            if(this.random(0, spec.proba) > (spec.proba * 0.7)) this.applyMod();
+        if(this.model.get('player') == 'god' && this.currentMod) {        
+          if(this.random(1, this.currentMod.proba) == this.currentMod.proba) {
+            this.applyMod();
           }
         }
       }
@@ -160,18 +167,39 @@ define([
       this.$('.score').html(this.model.get('score'));
     },
 
+    _onAvatarChanged: function() {
+      if(this.model.get('avatar')) {
+        this.$('.avatar')
+          .removeClass('happy')
+          .removeClass('mad')
+          .addClass(this.model.get('avatar'))
+        ;
+
+        _.delay(
+          _.bind(function() { 
+            this.$('.avatar').removeClass(this.model.get('avatar')); 
+            this.model.set('avatar', '');
+          }, this), 
+          2000
+        );  
+      }
+    },
+
     applyMod: function() {
       if (this.currentMod) {
+        this.model.set('avatar', 'happy');
+        this.opponent.set('avatar', 'mad');        
+
         this.currentMod.trigger(this.opponent, this);
         this.inhibit = true;
-        this.model.set('suite', 0);
-        this.currentMod = null;
+        this.model.set('suite', 0);        
+        this.currentMod = null;              
         this.model.trigger('triggerMod');
       }
     },
 
     random: function(min, max) {
-      return Math.random() * (max - min) + min;
+      return Math.round(Math.random() * (max - min) + min);
     }
 
   });

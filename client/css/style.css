@@ -339,11 +339,11 @@ body {
 .play-view .player1 .avatar {
   background-image: url('/img/avatar-1.png');
 }
-.play-view.win .player1 .avatar:not(.background) {
+.play-view.win .player1 .avatar:not(.background), .play-view .player1 .avatar.happy {
   background-image: url('/img/win-avatar-1.png');
 }
 
-.play-view.lost .player1 .avatar:not(.background) {
+.play-view.lost .player1 .avatar:not(.background), .play-view .player1 .avatar.mad {
   background-image: url('/img/lost-avatar-1.png');
 }
 .play-view .player1 .text-view .tabula {
@@ -389,10 +389,10 @@ body {
 .play-view .player2 .avatar {
   background-image: url('/img/avatar-2.png');
 }
-.play-view.win .player2 .avatar:not(.background) {
+.play-view.win .player2 .avatar:not(.background), .play-view .player2 .avatar.mad {
   background-image: url('/img/lost-avatar-2.png');
 }
-.play-view.lost .player2 .avatar:not(.background) {
+.play-view.lost .player2 .avatar:not(.background), .play-view .player2 .avatar.happy {
   background-image: url('/img/win-avatar-2.png');
 }
 .play-view .player2 .background {
@@ -402,7 +402,7 @@ body {
   background-image: url('/img/tabula-2.png');
 }
 .play-view .player2 .text-view .tabula {
-  right: 120px;
+  right: 145px;
 }
 .play-view .player2 .bonus {
   right: 14px;
@@ -423,7 +423,7 @@ body {
   right: 10px;
 }
 .play-view .player2 .score {
-  right: 267px;
+  right: 290px;
 }
 .play-view .player2 .bonus.latinium {
   background: url('/img/bonus/latinium-2.png');
