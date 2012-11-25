@@ -73,7 +73,7 @@ define([
 
       console.info('current player', gdpjam3.player, 'other is', other);
 
-      var text = i18n.constants.texts[0];
+      var text = i18n.msgs.texts[0];
 
       if (this.options.mode === 'duel') {
         // display other player input

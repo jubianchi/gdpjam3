@@ -30,8 +30,6 @@ define([
 
     opponent: null,
 
-    playView: null,
-
     bonusDice: null,
 
     events: {
@@ -41,6 +39,7 @@ define([
     initialize: function(model, opponent, editable) {
       _.bindAll(this);
       this.model = model;
+      this.inhibit = false;
       this.opponent = opponent;
       this.editable = editable;
       this.bindTo(this.model, 'change:content', this._onContentChanged);
@@ -116,9 +115,10 @@ define([
           caret.removeClass('error');
         }, 300);
         // error sound
-        if (this.editable && gdpjam3.sounds.error) {
+        if (!this.inhibit && this.editable && gdpjam3.sounds.error) {
           gdpjam3.sounds.error.play();
         }
+        this.inhibit = false
         this.$('.input').addClass('error');
       } else {
         // goes from higher level and decrease
@@ -128,9 +128,7 @@ define([
             this.$('.gauge.bonus-'+i).addClass('full');
             this.$('.bonus:not(.anim)').attr('class', 'bonus '+spec.name);
             this.currentMod = new bonusClasses[spec.name](spec.name);
-
             this.bonusDice = this.random(0, spec.proba)
-
             break;
           }
         }
@@ -150,6 +148,7 @@ define([
     applyMod: function() {
       if (this.currentMod) {
         this.currentMod.trigger(this.opponent, this);
+        this.inhibit = true;
         this.model.set('suite', 0);
         this.currentMod = null;
         this.model.trigger('triggerMod');
