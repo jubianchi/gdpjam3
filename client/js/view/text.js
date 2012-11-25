@@ -29,6 +29,8 @@ define([
 
     opponent: null,
 
+    playView: null,
+
     events: {
       'keyup .input': '_onPlayerInput'
     },
@@ -56,9 +58,8 @@ define([
       // 17 is ctrl: trigger bonus
       if (event.which === 17) {
         if (this.currentMod) {
-          this.currentMod.trigger(this.opponent);
+          this.currentMod.trigger(this.opponent, this);
           this.model.set('suite', 0);
-          this.currentMod = null;
         }
       } else {
         var key = this.$('.input').val();
@@ -106,7 +107,7 @@ define([
         // reset bonuses
         this.currentMod = null;
         this.$('.gauge').removeClass('full');
-        this.$('.bonus').attr('class', 'bonus');
+        this.$('.bonus:not(.anim)').attr('class', 'bonus');
         // display error feedback
         var caret = this.$('.input');
         caret.addClass('error');
@@ -121,9 +122,9 @@ define([
           if (value > spec.level) {
             var spec 
             this.$('.gauge.bonus-'+i).addClass('full');
-            this.$('.bonus').attr('class', 'bonus '+spec.name);
-            this.currentMod = new bonusClasses[spec.name]();
-            console.log(this.model.get('player'), 'won new bonus', spec.name)
+            this.$('.bonus:not(.anim)').attr('class', 'bonus '+spec.name);
+            this.currentMod = new bonusClasses[spec.name](spec.name);
+            //console.log(this.model.get('player'), 'won new bonus', spec.name)
             break;
           }
         }

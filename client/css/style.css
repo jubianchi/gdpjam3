@@ -27,13 +27,12 @@
 }
 
 body {
-  background: black;
+  background: #17282A;
 }
 
 #main {
-  /* TODO test
-  background-image: url('/img/background.jpg'); */
-  margin: 0 auto;
+  background-image: url('/img/background.png');
+  margin: 10px auto;
   width: 1280px;
   height: 720px;
   overflow: hidden; 
@@ -142,23 +141,37 @@ body {
 .play-view .draft {
   color: grey;
 }
-
+.play-view .anim {
+  z-index: 11;
+}
 .play-view .bonus {
   position: absolute;
   background: url('/img/bonus.png');
   height: 93px;
   top: 56px;
   width: 93px;
+  -webkit-transition: background-image 300ms;
+  -moz-transition: background-image 300ms;
+  transition: background-image 300ms;
 }
 .play-view .gauge {
   position: absolute;
   background: url('/img/gauge.png');
   background-size: 100% 100%;
   height: 50px;
-  width: 50px;
+  width: 50px;NowNOw
+  -webkit-transition: background-image 750ms;
+  -moz-transition: background-image 750ms;
+  transition: background-image 750ms;
 }
 .play-view .gauge.full {
   background: url('/img/gauge-full.png');
+}
+.play-view .fg {
+  position: absolute;
+  top:0;
+  width: 100%;
+  height: 100%;
 }
 .play-view .avatar {
   position: absolute;
@@ -168,10 +181,15 @@ body {
 }
 .play-view .bonus-applied {
   position: absolute;
-  left: 645px;
+  left: 650px;
   top: 286px;
   height: 135px;
   width: 135px;
+  background-color: transparent; 
+  background-size: 100% 100%;
+  -webkit-transition: all 200ms;
+  -moz-transition: all 200ms;
+  transition: all 200ms;
 }
 .play-view .score {
   position: absolute;
@@ -180,8 +198,10 @@ body {
   width: 175px;
 }
 
-.play-view .player1 {
-  background: #949494;
+.play-view .player1 .fg {
+  background: url('/img/foreground-1.png');
+  background-repeat: no-repeat;
+  background-position: top left;
 }
 .play-view .player1 .text-view .tabula {
   left: 140px;
@@ -218,9 +238,10 @@ body {
 }
 
 
-
-.play-view .player2 {
-  background: #595959;
+.play-view .player2 .fg {
+  background: url('/img/foreground-2.png');
+  background-repeat: no-repeat;
+  background-position: top right;
 }
 .play-view .player2 .tabula {
   background-image: url('/img/tabula-2.png');
@@ -257,4 +278,23 @@ body {
 }
 .play-view .player2 .bonus.shuffle {
   background: url('/img/bonus/shuffle-2.png');
+}
+
+.play-view .bonus-applied.latinium-1 {
+  background-image: url('/img/bonus-applied/latinium-1.png');
+}
+.play-view .bonus-applied.latinium-2 {
+  background-image: url('/img/bonus-applied/latinium-2.png');
+}
+.play-view .bonus-applied.shuffle-1 {
+  background-image: url('/img/bonus-applied/shuffle-1.png');
+}
+.play-view .bonus-applied.shuffle-2 {
+  background-image: url('/img/bonus-applied/shuffle-2.png');
+}
+.play-view .bonus-applied.double-1 {
+  background-image: url('/img/bonus-applied/double-1.png');
+}
+.play-view .bonus-applied.double-2 {
+  background-image: url('/img/bonus-applied/double-2.png');
 }

@@ -10,8 +10,8 @@ requirejs.config({
     'nls': '../nls',
     'template': '../template',
     'socket.io': 'lib/socket.io-0.9.11-min',
-    'soundmanager': 'lib/soundmanager2-min',
     'text': 'lib/text-2.0.0-min',
+    'transit': 'lib/transit-0.1.3',
     'underscore': 'lib/underscore-1.4.2-min',
     'underscore.string': 'lib/underscore.string-2.2.0rc-min'
   },
@@ -26,7 +26,7 @@ requirejs.config({
     'jquery': {exports: '$'},
     'render': {exports: 'render'},
     'socket.io': {exports:'io'},
-    'soundmanager': {exports:'soundManager'},
+    'transit': {deps: ['jquery']},
     'underscore': {exports: '_'}
   }
 });
@@ -44,7 +44,8 @@ define([
   'view/play',
   'i18n!nls/common',
   'utils',
-  'bootstrap'
+  'bootstrap',
+  'transit'
 ], function(_, $, Backbone, io, buzz, HomeView, PlayView, i18n) {
 
   // manage disclaimer for unsupported versions
@@ -122,6 +123,10 @@ define([
       }, {
         name:'shuffle',
         file:'shuffle.wav',
+        loop: false
+      }, {
+        name:'double',
+        file:'double.wav',
         loop: false
       }, {
         name:'soundtrack',

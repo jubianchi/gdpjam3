@@ -28,10 +28,57 @@ define([
       this.render();
       this.focus();
       this.bindTo($(window), 'focus load', this.focus);
+      gdpjam3.playView = this;
+      this.emptyBonus = _.debounce(this.emptyBonus, 1500);
     },
 
     focus: function() {
+      console.log('focus')
       this.$('.player1 .inner-text .input').focus();
+    },
+
+    emptyBonus: function() {
+      this.$('.bonus-applied').attr('class', 'bonus-applied');
+    },
+
+    setBonus: function(player1, bonus) {
+      var placeholder = this.$('.bonus-applied')
+        .attr('class', 'bonus-applied '+bonus+(player1 ? '-1' : '-2'))
+        .css('opacity', 0);
+      var anim = this.$('.bonus-applied').clone().appendTo(this.$el);
+      anim.transition({
+        opacity: 1, 
+        scale: 1.7
+      }, 150, 'snap', _.bind(function() {
+        placeholder.css('opacity', 1);
+        anim.remove();
+        this.emptyBonus();
+      }, this));
+
+    /*origin.clone().appendTo(view.$el).addClass('anim').transition({
+      x: tPos.left-oPos.left,//+origin.width()/2,
+      y: tPos.top-oPos.top,//+origin.height()/2,
+      duration: 200
+    }, _.bind(function() {
+      $('.anim').remove();
+      // animate bonus apply
+      target.attr('class', 'bonus-applied '+this.sound+(view.editable ? '-1' : '-2'));
+      target.clone().addClass('anim').appendTo(target.parent()).transition({
+        opacity: 0, 
+        scale: 1.5
+      }, function() {
+        $('.anim').remove();
+        // empty bonus applied
+        _.delay(function() {
+          target.transition({
+            opacity: 0
+          }, function() {
+            target.css('opacity', 1);
+            target.attr('class', 'bonus-applied');
+          });
+        }, 2000);
+      });
+    }, this));*/
     },
 
     render: function() {
@@ -69,11 +116,11 @@ define([
 
       player1.set('draft', text);
       player2.set('draft', text);
-      focus();
       // Start music
       if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
         gdpjam3.sounds.soundtrack.setVolume(10).play();
       }
+      _.defer(this.focus);
     },
 
     _onToggleMusic: function(event) {
