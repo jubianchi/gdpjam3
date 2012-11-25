@@ -76,6 +76,7 @@ define([
       if(cleanValue !== model) {
         var word = this.get('content').substring(this.get('content').lastIndexOf(' ') + 1);
 
+        word = word.replace('.', '\.').replace('?', '\?');
         value = this.get('content').replace(new RegExp(word + '$', 'g'), '');
 
         this.set('suite', 0);

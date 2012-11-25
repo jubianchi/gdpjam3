@@ -48,14 +48,16 @@ define([
         .attr('class', 'bonus-applied '+bonus+(player1 ? '-1' : '-2'))
         .css('opacity', 0);
       var anim = this.$('.bonus-applied').clone().appendTo(this.$el);
-      anim.transition({
-        opacity: 1, 
-        scale: 1.7
-      }, 150, 'snap', _.bind(function() {
-        placeholder.css('opacity', 1);
-        anim.remove();
-        this.emptyBonus();
-      }, this));
+      if(anim.size()) {
+        anim.transition({
+          opacity: 1, 
+          scale: 1.7
+        }, 150, 'snap', _.bind(function() {
+          placeholder.css('opacity', 1);
+          anim.remove();
+          this.emptyBonus();
+        }, this));
+      }
     },
 
     render: function() {
@@ -78,28 +80,33 @@ define([
       if (this.options.mode === 'duel') {
         // display other player input
         gdpjam3.socket.on('message', _.bind(function(player, content) {
-          console.log('receive from '+player)
+          //console.log('receive from '+player)
           if (player === this.models[1].get('player')) {
             this.models[1].set('content', content);
           }
         }, this));
+
         gdpjam3.socket.on('trigger', _.bind(function(player) {
-          console.log('bonus triggered from '+player)
+          console.log('bonus triggered from ' + player)
           this.views[1].applyMod();
         }, this));
+
+        this.models[0].on('triggerMod', _.bind(function() {
+          console.log('send triggered bonus to ' + this.models[1].get('player'))
+          gdpjam3.socket.emit('trigger');
+        }, this));
+        
         // and send current player input
         this.models[0].on('change:content', _.bind(function() {
           var content = this.models[0].get('content');
           if (!content) {
             return;
           }
-          console.log('send to ' + this.models[0].get('player'));
+          //console.log('send to ' + this.models[0].get('player'));
           gdpjam3.socket.emit('message', content);
         }, this));
-        this.models[0].on('triggerMod', _.bind(function() {
-          console.log('send triggered bonus to ' + this.models[0].get('player'))
-          gdpjam3.socket.emit('trigger');
-        }, this));
+
+        
       }
 
       this.models[0].set('draft', text);

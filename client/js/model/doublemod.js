@@ -11,10 +11,17 @@ define([
   _.extend(Double.prototype, Mod.prototype, {
 
     process:function(text, position) {
-      var words = 0;
+      var words = 0,
+          delay = 0;
       position++;
 
-      while(text.substring(position, position + 1) != ' ') position++;
+      while(text.substring(position, position + 1) != ' ' || delay < 2) {
+        if(text.substring(position, position + 1) == ' ') {
+          delay++;
+        }
+
+        position++;
+      }
       position++;
 
       var words = text.substring(position).match(/(\w*) (\w*)/),
