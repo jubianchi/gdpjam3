@@ -5,7 +5,7 @@ define([
   'model/shufflemod',
   'text!template/text.html',
   'i18n!nls/common'
-], function(_, Backbone, soundManager, Double, Shuffle, template, i18n){
+], function(_, Backbone, Double, Shuffle, template, i18n){
 
   var bonusClasses = {
     'double': Double,
