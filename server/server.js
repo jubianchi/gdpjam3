@@ -93,6 +93,9 @@ io.on('connection', function(socket) {
   socket.on('trigger', function () {
     io.sockets.in(socket.room).emit('trigger', socket.player);
   });
+  socket.on('finished', function () {
+    io.sockets.in(socket.room).emit('finished', socket.player);
+  });
 
   // when the user disconnects, leaves the room
   socket.on('disconnect', function(){

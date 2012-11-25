@@ -112,6 +112,10 @@ define([
         this.views[1].stopped = true;
         // player free time !
         this.models[0].on('finished', _.bind(function() {
+          if (this.options.mode === 'duel') {
+            gdpjam3.socket.emit('finished');
+            console.log('You win the duel !');
+          }
           // TODO
           console.log('You win !');
         }, this));
@@ -120,6 +124,12 @@ define([
         // stops playerNowdfsdf
         this.models[0].stop();
         this.views[0].stopped = true;
+        if (this.options.mode === 'duel') {
+          gdpjam3.socket.on('finished', _.bind(function(player, content) {
+            // TODO
+            console.log('You loose the duel !');
+          }, this));
+        }
         this.models[1].on('finished', _.bind(function() {
           // TODO
           console.log('You loose !');
