@@ -49,7 +49,7 @@ define({
     waitingOpponent: '<div class="waiting">Waiting for an opponnent...<br/>Please be patient !</div>',
     loading: '<div class="waiting">Loading...</div>',
     texts: [
-      "Now that there is",
+      "Now that there is the Tec-9, a crappy spray gun from South Miami.",
       "Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime." 
     ],
     ends1: [

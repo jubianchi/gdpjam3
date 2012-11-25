@@ -110,30 +110,31 @@ define([
         // stop opponent
         this.models[1].stop();
         this.views[1].stopped = true;
+        // stop music
+        if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
+          gdpjam3.sounds.soundtrack.fadeOut(5000);
+        }
         // player free time !
         this.models[0].on('finished', _.bind(function() {
           if (this.options.mode === 'duel') {
             gdpjam3.socket.emit('finished');
-            console.log('You win the duel !');
           }
-          // TODO
-          console.log('You win !');
+          this.win();
         }, this));
       }, this));
       this.bindTo(this.models[1], 'won', _.bind(function() {
-        // stops playerNowdfsdf
+        // stops player
         this.models[0].stop();
         this.views[0].stopped = true;
-        if (this.options.mode === 'duel') {
-          gdpjam3.socket.on('finished', _.bind(function(player, content) {
-            // TODO
-            console.log('You loose the duel !');
-          }, this));
+        // stop music
+        if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
+          gdpjam3.sounds.soundtrack.fadeOut(5000);
         }
-        this.models[1].on('finished', _.bind(function() {
-          // TODO
-          console.log('You loose !');
-        }, this));
+        if (this.options.mode === 'duel') {
+          gdpjam3.socket.on('finished', this.loose);
+        } else {
+          this.models[1].on('finished', this.loose);
+        }
       }, this));
 
       // start countdown
@@ -170,6 +171,14 @@ define([
       }
     },
 
+    win: function() {
+
+    },
+
+    loose: function() {
+
+    },
+    
     _onToggleMusic: function(event) {
       event.preventDefault();
       event.stopImmediatePropagation();

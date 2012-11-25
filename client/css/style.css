@@ -51,6 +51,17 @@ body {
   z-index: 1000;
 }
 
+.home-view .menu {
+  right: 100px;
+  left: auto;
+  top: 50px;
+}
+.home-view .frame {
+  background: url("/img/menu.png");
+  background-size: 100% 100%;
+  height: 500px;
+  width: 400px;
+}
 .waiting {
   font-size: 30px;
   line-height: 1.3em;
@@ -107,9 +118,10 @@ body {
   background-size: 100% 100%;
   height: 605px;
   position: absolute;
-  top: 92px;
+  top: 70px;
   width: 445px;
   overflow: hidden;
+  z-index: 5;
 }
 
 .play-view .inner-text .text,
@@ -130,10 +142,10 @@ body {
   display: block;
   position: absolute;
   overflow: hidden;
-  top: 130px;
+  top: 135px;
   left: 50px;
   right: 50px;
-  bottom: 50px;
+  bottom: 55px;
 }
 .play-view .inner-text .text {
   overflow-y: auto;
@@ -144,7 +156,7 @@ body {
   display: inline-block;
   border: none;
   width: 1em;
-  background: url('/img/cursor-1.png');
+  background: url('/img/cursor-2.png');
   background-size: 100% 100%;
   position: relative;
   height: 1em;
@@ -186,7 +198,8 @@ body {
   background: url('/img/gauge.png');
   background-size: 100% 100%;
   height: 50px;
-  width: 50px;NowNOw
+  width: 50px;
+  z-index: 6;
   -webkit-transition: background-image 750ms;
   -moz-transition: background-image 750ms;
   transition: background-image 750ms;
@@ -207,6 +220,10 @@ body {
   bottom: 10px;
   width: 183px;
   height: 214px;
+  z-index: 6;
+}
+.play-view .avatar.background {
+  z-index: 4;
 }
 .play-view .bonus-applied {
   position: absolute;
@@ -222,10 +239,11 @@ body {
 }
 .play-view .score {
   position: absolute;
-  top: 170px;
-  height: 45px;
-  width: 175px;
   font-size: 22px;
+  top: 170px;
+  height: 22px;
+  width: 160px;
+  z-index: 6;
 }
 
 .play-view .player1 .fg {
@@ -275,6 +293,12 @@ body {
   background: url('/img/foreground-2.png');
   background-repeat: no-repeat;
   background-position: top right;
+}
+.play-view .player2 .avatar {
+  background-image: url('/img/avatar-2.png');
+}
+.play-view .player2 .background {
+  background-image: url('/img/avatar-2-bg.png');
 }
 .play-view .player2 .tabula {
   background-image: url('/img/tabula-2.png');
