@@ -34,8 +34,14 @@ define([
 
     start: function(value) {
       this.started = true;
-      if(this.get('player') == 'god' && this.timer === null) {
+      if(this.get('player') === 'god' && this.timer === null) {
         this.typeChar();
+      }
+    },
+
+    stop: function() {
+      if(this.get('player') === 'god' && this.timer !== null) {
+        clearTimeout(this.timer);
       }
     },
 
@@ -91,8 +97,16 @@ define([
         this.textLength = value.length;
       }
 
+      // Just for players !
       if(name == 'content' && this.get('player') !== 'god') {
-        value = this.checkInput(value);
+        if (this.get('content') === this.get('draft')) {
+          console.info('Player', this.get('player'), 'win !');
+          value = this.get('content')+'<br/>';
+          this.won = true;
+          this.trigger('won');
+        } else {
+          value = this.checkInput(value);
+        }
       }
       
       Backbone.Model.prototype.set.apply(this, [name, value]);
@@ -118,8 +132,10 @@ define([
         if (this.won) {
           // already won
           console.info('Player', this.get('player'), 'has finished !');
+          this.trigger('finished');
           return;
         }
+        this.trigger('won');
         console.info('Player', this.get('player'), 'win !');
         this.won = true;
         this.set('content', this.get('content')+'<br/>');

@@ -32,6 +32,8 @@ define([
 
     bonusDice: null,
 
+    stopped: false,
+
     events: {
       'keyup .input': '_onPlayerInput'
     },
@@ -42,6 +44,7 @@ define([
       this.inhibit = false;
       this.opponent = opponent;
       this.editable = editable;
+      this.stopped = false;
       this.bindTo(this.model, 'change:content', this._onContentChanged);
       this.bindTo(this.model, 'change:draft change:end', this._onDraftChanged);
       this.bindTo(this.model, 'change:suite', this._onSuiteChanged);
@@ -58,6 +61,9 @@ define([
     },
 
     _onPlayerInput: function(event) {   
+      if (this.stopped) {
+        return;
+      };
       // 17 is ctrl: trigger bonus
       if (event.which === 17) {
         this.applyMod();
@@ -65,6 +71,13 @@ define([
         var key = this.$('.input').val();
         this.$('.input').val('');
         this.model.set('content', this.model.get('content')+key);
+
+        if (this.model.won && this.model.get('player') !== 'god' && (
+            key === '.' || event.which === 13)) {
+          // player free time !
+          this.$('.input').remove();
+          this.model.trigger('finished');
+        }
       }
     },
 

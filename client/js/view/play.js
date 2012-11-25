@@ -106,6 +106,25 @@ define([
       this.models[0].set('end', i18n.msgs.ends1[0]);
       this.models[1].set('draft', text);
       this.models[1].set('end', i18n.msgs.ends2[0]);
+      this.bindTo(this.models[0], 'won', _.bind(function() {
+        // stop opponent
+        this.models[1].stop();
+        this.views[1].stopped = true;
+        // player free time !
+        this.models[0].on('finished', _.bind(function() {
+          // TODO
+          console.log('You win !');
+        }, this));
+      }, this));
+      this.bindTo(this.models[1], 'won', _.bind(function() {
+        // stops playerNowdfsdf
+        this.models[0].stop();
+        this.views[0].stopped = true;
+        this.models[1].on('finished', _.bind(function() {
+          // TODO
+          console.log('You loose !');
+        }, this));
+      }, this));
 
       // start countdown
       this.countdown(3);
