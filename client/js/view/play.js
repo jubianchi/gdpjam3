@@ -24,6 +24,7 @@ define([
 
     // View initialization: immediately displays the poll list
     initialize: function() {
+      this.models = [];
       _.bindAll(this);
       this.render();
       this.focus();
@@ -54,42 +55,18 @@ define([
         anim.remove();
         this.emptyBonus();
       }, this));
-
-    /*origin.clone().appendTo(view.$el).addClass('anim').transition({
-      x: tPos.left-oPos.left,//+origin.width()/2,
-      y: tPos.top-oPos.top,//+origin.height()/2,
-      duration: 200
-    }, _.bind(function() {
-      $('.anim').remove();
-      // animate bonus apply
-      target.attr('class', 'bonus-applied '+this.sound+(view.editable ? '-1' : '-2'));
-      target.clone().addClass('anim').appendTo(target.parent()).transition({
-        opacity: 0, 
-        scale: 1.5
-      }, function() {
-        $('.anim').remove();
-        // empty bonus applied
-        _.delay(function() {
-          target.transition({
-            opacity: 0
-          }, function() {
-            target.css('opacity', 1);
-            target.attr('class', 'bonus-applied');
-          });
-        }, 2000);
-      });
-    }, this));*/
     },
 
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
+      console.info('render')
       // creates 2 input model and displays them in text views
-      var player1 = new InputModel({player: gdpjam3.player, content:''});      
+      this.models[0] = new InputModel({player: gdpjam3.player, content:''});      
       var other = _.without(this.options.players, gdpjam3.player)[0];
-      var player2 = new InputModel({player: other, content:''});
+      this.models[1] = new InputModel({player: other, content:''});
 
-      this.$('.player1').empty().append(new TextView(player1, player2, true).$el);
-      this.$('.player2').empty().append(new TextView(player2, player1, false).$el);
+      this.$('.player1').empty().append(new TextView(this.models[0], this.models[1], true).$el);
+      this.$('.player2').empty().append(new TextView(this.models[1], this.models[0], false).$el);
 
       console.info('current player', gdpjam3.player, 'other is', other);
 
@@ -97,30 +74,52 @@ define([
 
       if (this.options.mode === 'duel') {
         // display other player input
-        gdpjam3.socket.on('message', function(player, content) {
+        gdpjam3.socket.on('message', _.bind(function(player, content) {
           console.log('receive from '+player)
-          if (player === player2.get('player')) {
-            player2.set('content', content);
+          if (player === this.models[1].get('player')) {
+            this.models[1].set('content', content);
           }
-        });
+        }, this));
         // and send current player input
-        player1.on('change:content', function() {
-          var content = player1.get('content');
+        this.models[0].on('change:content', _.bind(function() {
+          var content = this.models[0].get('content');
           if (!content) {
             return;
           }
-          console.log('send to ' + player1.get('player'));
+          console.log('send to ' + this.models[0].get('player'));
           gdpjam3.socket.emit('message', content);
-        });
+        }, this));
       }
 
-      player1.set('draft', text);
-      player2.set('draft', text);
-      // Start music
-      if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
-        gdpjam3.sounds.soundtrack.setVolume(10).play();
-      }
+      this.models[0].set('draft', text);
+      this.models[1].set('draft', text);
+
+      // start countdown
+      this.countdown(3);
       _.defer(this.focus);
+    },
+
+    countdown: function(count) {
+      if (count === 0) {
+        // remove countdown
+        $('.countdown,.modal').hide();
+        // start race
+        if (gdpjam3.sounds.start) {
+          gdpjam3.sounds.start.setVolume(50).play();
+        }
+        this.models[0].start();
+        this.models[1].start();
+        // Start music
+        if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
+          gdpjam3.sounds.soundtrack.setVolume(10).play();
+        }
+      } else {
+        // Display count
+        this.$('.countdown').html(count);
+        _.delay(_.bind(function() {
+          this.countdown(count-1);
+        }, this), 1000);
+      }
     },
 
     _onToggleMusic: function(event) {

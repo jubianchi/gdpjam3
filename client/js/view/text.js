@@ -30,8 +30,6 @@ define([
 
     opponent: null,
 
-    playView: null,
-
     events: {
       'keyup .input': '_onPlayerInput'
     },
@@ -77,7 +75,7 @@ define([
       // replace space by non breakable spaces.
       this.$('.text').html(content.replace(/ /g, '&ensp;'));
       // play sound only for us
-      if (this.editable && gdpjam3.sounds) {
+      if (content && this.editable && gdpjam3.sounds) {
         // try to load one sound from the pool
         for (var i = 1; i <= 3; i++) {
           if (!gdpjam3.sounds['keystroke'+i].playing) {
@@ -116,6 +114,10 @@ define([
         _.delay(function() {
           caret.removeClass('error');
         }, 300);
+        // error sound
+        if (this.editable && gdpjam3.sounds.error) {
+          gdpjam3.sounds.error.play();
+        }
         this.$('.input').addClass('error');
       } else {
         // goes from higher level and decrease

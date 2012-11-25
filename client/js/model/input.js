@@ -11,7 +11,10 @@ define([
     position: 0,
 
     textLength: 0,
+
     timer: null,
+
+    started: false,
 
     // player is sent to server
     // local means no messages sent to server
@@ -20,8 +23,15 @@ define([
       Backbone.Model.prototype.constructor.call(this, options);
     },
 
+    start: function(value) {
+      this.started = true;
+      if(this.get('player') == 'god' && this.timer === null) {
+        this.typeChar();
+      }
+    },
+
     checkInput: function(value) {
-      if(!value) return '';
+      if(!value || !this.started) return '';
 
       var typed = value.length - (this.get('content') || '').length,
           cleanValue = value.replace('&ensp;', ' ');
@@ -67,10 +77,6 @@ define([
       }
       
       Backbone.Model.prototype.set.apply(this, [name, value]);
-
-      if(name === 'draft' && this.get('player') == 'god' && this.timer === null) {
-        this.typeChar();
-      }
     },
  
     typeChar: function() {

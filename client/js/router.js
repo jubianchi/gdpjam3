@@ -132,6 +132,14 @@ define([
         name:'soundtrack',
         file:'soundtrack.wav',
         loop: true
+      }, {
+        name:'start',
+        file:'start.wav',
+        loop: false
+      }, {
+        name:'error',
+        file:'error.wav',
+        loop: false
       }];
       this.remains = sounds.length;
       for (var i = 0; i < sounds.length; i++) {
