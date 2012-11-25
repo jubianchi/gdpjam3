@@ -34,11 +34,13 @@ define({
   
   buttons: {
     duel: 'Duel',
-    single: 'Solo'
+    single: 'Solo',
+    mute: 'mute'
   },
 
   msgs: {
-    waitingOpponent: '<div class="waiting">Waiting for an opponnent...<br/>Please be patient !</div>'
+    waitingOpponent: '<div class="waiting">Waiting for an opponnent...<br/>Please be patient !</div>',
+    loading: '<div class="waiting">Loading...</div>',
   },
 
   tips: {

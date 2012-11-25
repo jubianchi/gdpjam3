@@ -49,6 +49,13 @@ body {
 .play-view {
   height: 100%;
 }
+.play-view .toggleMusic {
+  position: absolute;
+  color: white;
+  top: 10px;
+  right: 10px;
+  z-index: 11;
+}
 .play-view .header {
   text-align: center;
   padding-top: 30px;

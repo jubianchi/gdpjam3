@@ -75,8 +75,14 @@ define([
       // replace space by non breakable spaces.
       this.$('.text').html(content.replace(/ /g, '&ensp;'));
       // play sound only for us
-      if (this.editable && gdpjam3.sounds && gdpjam3.sounds.keystroke) {
-        gdpjam3.sounds.keystroke.setVolume(100).play();
+      if (this.editable && gdpjam3.sounds) {
+        // try to load one sound from the pool
+        for (var i = 1; i <= 3; i++) {
+          if (!gdpjam3.sounds['keystroke'+i].playing) {
+            gdpjam3.sounds['keystroke'+i].play();
+            break;
+          }
+        }
       }
       // set scrolls
       var height = this.$('.inner-text').height();
@@ -96,9 +102,6 @@ define([
 
     _onSuiteChanged: function() {
       var value = this.model.get('suite');
-
-      console.log(value);
-
       if (value === 0) {
         // reset bonuses
         this.currentMod = null;

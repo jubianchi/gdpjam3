@@ -99,27 +99,68 @@ define([
 
       // init sound only when dom is loaded
       gdpjam3.sounds = {}
-      var sounds = [
-        'keystroke.wav', 
-        'keystroke2.wav', 
-        'double.wav', 
-        'latinum.wav',
-        'shuffle.wav',
-        'soundtrack.wav'
-      ];
+      var sounds = [{
+        name:'keystroke1',
+        file:'keystroke2.wav',
+        loop: false
+      }, {
+        name:'keystroke2',
+        file:'keystroke2.wav',
+        loop: false
+      }, {
+        name:'keystroke3',
+        file:'keystroke2.wav',
+        loop: false
+      }, { 
+        name:'keystroke',
+        file:'double.wav',
+        loop: false
+      }, { 
+        name:'latinum',
+        file:'latinum.wav',
+        loop: false
+      }, {
+        name:'shuffle',
+        file:'shuffle.wav',
+        loop: false
+      }, {
+        name:'soundtrack',
+        file:'soundtrack.wav',
+        loop: true
+      }];
+      this.remains = sounds.length;
       for (var i = 0; i < sounds.length; i++) {
-        (function(name) {
-          console.log('load sound', name, '...')
-          var sound = new buzz.sound("/sound/"+name, {
+        (function(spec, context) {
+          console.log('load sound', spec.name, '...')
+          var sound = new buzz.sound("/sound/"+spec.file, {
             autoplay: false,
-            loop: false
+            loop: spec.loop
           });
           sound.load();
-          sound.bind("loadeddata", function(e) {
-            console.info('sound loaded:', name)
-            gdpjam3.sounds[name.replace(/\.\w+$/, '')] = sound;
+          sound.bind("loadeddata", _.bind(function(e) {
+            console.info('sound loaded:', spec.name)
+            gdpjam3.sounds[spec.name] = sound;
+            context._onSoundLoaded();
+          }, context));
+          sound.bind("error", context._onSoundLoaded);
+          // bind on play only works once on FF
+          var originalPlay = sound.play;
+          sound.play = function() {
+            this.playing = true;
+            originalPlay.call(sound);
+          };
+          sound.bind("ended", function(e) {
+            sound.playing = false;
           });
-        })(sounds[i]);
+        })(sounds[i], this);
+      }
+    },
+
+    _onSoundLoaded: function() {
+      this.remains--;
+      if (this.remains === 0) {
+        this.soundReady = true;
+        this.trigger('sound-ready');
       }
     },
 
@@ -129,9 +170,17 @@ define([
     },
 
     _onPlay: function(mode) {
+      if (!this.soundReady) {
+        $('#main').empty().append(i18n.msgs.loading);
+        // wait for assets to be loaded
+        return this.on('sound-ready', _.bind(function() {
+          // re-run !
+          this._onPlay(mode);
+        }, this));
+      }
+
       if (mode === 'duel') {
         // display waiting message*
-        console.dir(i18n.msgs)
         $('#main').empty().append(i18n.msgs.waitingOpponent);
         // display rooms
         $.ajax({

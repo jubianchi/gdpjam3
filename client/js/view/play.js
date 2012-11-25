@@ -18,7 +18,8 @@ define([
     i18n: i18n,
 
     events: {
-      'click': 'focus'
+      'click': 'focus',
+      'click .toggleMusic': '_onToggleMusic'
     },
 
     // View initialization: immediately displays the poll list
@@ -30,7 +31,6 @@ define([
     },
 
     focus: function() {
-      console.log('focus');
       this.$('.player1 .inner-text .input').focus();
     },
 
@@ -70,6 +70,18 @@ define([
       player1.set('draft', text);
       player2.set('draft', text);
       focus();
+      // Start music
+      if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
+        gdpjam3.sounds.soundtrack.setVolume(10).play();
+      }
+    },
+
+    _onToggleMusic: function(event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
+        gdpjam3.sounds.soundtrack.togglePlay();
+      }
     }
 
   });
