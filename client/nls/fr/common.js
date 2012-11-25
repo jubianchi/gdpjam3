@@ -6,12 +6,15 @@ define({
       spaceopt: true
     },
     bonus: [{
+      'proba': 10,
       level: 3,
       name: 'double'
     },{
+      'proba': 4,
       level: 120,
       name: 'shuffle'
     },{
+      'proba': 1,
       level: 180,
       name: 'latinium'
     }],
