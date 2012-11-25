@@ -69,9 +69,11 @@ define([
           value = this.get('content').replace(new RegExp(word + '$', 'g'), '');
 
           this.set('suite', 0);
+          this.set('score', (this.get('score') || 1) - word.length);
           this.position = cleanValue.length - word.length;
         } else {
           this.set('suite', (this.get('suite') || 0) + 1);
+          this.set('score', (this.get('score') || 0) + 1);
           this.position = cleanValue.length;
         }
       }

@@ -3,6 +3,7 @@ define({
   constants: {
     options: {
       // Optional spaces ?
+      spaceopt: true
     },
     bonus: [{
       level: 3,
