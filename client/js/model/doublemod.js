@@ -17,17 +17,11 @@ define([
       while(text.substring(position, position + 1) != ' ') position++;
       position++;
 
-      while(words < 2) {
-        text = text.substring(0, position) + text.substring(position).replace(/(\w)/i, '$1$1');
-        position += 2;
+      var words = text.substring(position).match(/(\w*) (\w*)/),
+          r1 = words[1].replace(/(\w)/g, '$1$1');
+          r2 = words[2].replace(/(\w)/g, '$1$1');
 
-        if(text.substring(position, position + 1) == ' ') {
-          position++;
-          words++;
-        }
-      }
-
-      return text;
+      return text.substring(0, position) + text.substring(position).replace(words[1] + ' ' + words[2], r1 + ' ' + r2);
     }
   });
 
