@@ -371,10 +371,19 @@ body {
   background-position: right bottom;
 }
 
+.play-view.win .player2 .avatar {
+  background-position: center bottom!important; 
+}
+
 .play-view.lost .avatar:not(.background), 
 .play-view .avatar.mad {
   background-position: center bottom;
 }
+
+.play-view.lost .player2 .avatar {
+  background-position: right bottom!important; 
+}
+
 .play-view .player1 .text-view .tabula {
   left: 140px;
 }
