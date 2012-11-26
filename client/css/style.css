@@ -31,28 +31,29 @@ body {
 }
 
 #main {
-  background-image: url('/img/background.png');
   margin: 10px auto;
   width: 1280px;
   height: 720px;
   overflow: hidden; 
 }
 
+.play-view { 
+  background-image: url('/img/background.jpg'); 
+}
+
 .home-view {
-  text-align: center;
   position: relative;
   z-index: 13;
   width: 100%;
   height: 100%;
-  background-image: url('/img/background-menu.png');
+  background-image: url('/img/background-menu.jpg');
 }
 
 .home-view .title {
   background: url('/img/title.png');
-  background-size: 100% 100%;
-  width: 600px;
+  width: 660px;
   height: 200px;
-  display: inline-block;
+  margin: 0 auto;
 }
 
 .home-view .menu,
@@ -342,20 +343,37 @@ body {
   z-index: 6;
 }
 
-.play-view .player1 .fg {
-  background: url('/img/foreground-1.png');
+.play-view .avatar, 
+.play-view .fg {
+  background-color: transparent;
   background-repeat: no-repeat;
-  background-position: top left;
-}
-.play-view .player1 .avatar {
-  background-image: url('/img/avatar-1.png');
-}
-.play-view.win .player1 .avatar:not(.background), .play-view .player1 .avatar.happy {
-  background-image: url('/img/win-avatar-1.png');
 }
 
-.play-view.lost .player1 .avatar:not(.background), .play-view .player1 .avatar.mad {
-  background-image: url('/img/lost-avatar-1.png');
+.play-view .player1 .fg {
+  background: url('/img/foreground-1.png');
+}
+
+.play-view .player2 .fg {
+  background: url('/img/foreground-2.png');
+}
+
+.play-view .player1 .avatar {
+  background: url('/img/avatar-1.png') no-repeat left bottom;
+}
+
+.play-view .player2 .avatar {
+  height: 260px;
+  background: url('/img/avatar-2.png') no-repeat left bottom;
+}
+
+.play-view.win .avatar:not(.background), 
+.play-view .avatar.happy {
+  background-position: right bottom;
+}
+
+.play-view.lost .avatar:not(.background), 
+.play-view .avatar.mad {
+  background-position: center bottom;
 }
 .play-view .player1 .text-view .tabula {
   left: 140px;
@@ -391,24 +409,6 @@ body {
   background: url('/img/bonus/shuffle-1.png');
 }
 
-
-.play-view .player2 .fg {
-  background: url('/img/foreground-2.png');
-  background-repeat: no-repeat;
-  background-position: top right;
-}
-.play-view .player2 .avatar {
-  background-image: url('/img/avatar-2.png');
-}
-.play-view.win .player2 .avatar:not(.background), .play-view .player2 .avatar.mad {
-  background-image: url('/img/lost-avatar-2.png');
-}
-.play-view.lost .player2 .avatar:not(.background), .play-view .player2 .avatar.happy {
-  background-image: url('/img/win-avatar-2.png');
-}
-.play-view .player2 .background {
-  background-image: url('/img/avatar-2-bg.png');
-}
 .play-view .player2 .tabula {
   background-image: url('/img/tabula-2.png');
 }
