@@ -41,12 +41,13 @@ define([
   'socket.io',
   'buzz',
   'view/home',
+  'view/credits',
   'view/play',
   'i18n!nls/common',
   'utils',
   'bootstrap',
   'transit'
-], function(_, $, Backbone, io, buzz, HomeView, PlayView, i18n) {
+], function(_, $, Backbone, io, buzz, HomeView, CreditsView, PlayView, i18n) {
 
   // manage disclaimer for unsupported versions
   var version = parseInt($.browser.version, 10);
@@ -60,6 +61,7 @@ define([
     // Define some URL routes (order is significant: evaluated from last to first)
     routes: {
       'home': '_onHome',
+      'credits': '_onCredits',
       'play?mode=:mode': '_onPlay',
       '*route': '_onNotFound'
     },
@@ -169,6 +171,11 @@ define([
     _onHome: function() {
       // display mode selection
       $('#main').empty().append(new HomeView().$el);
+    },
+
+    _onCredits: function() {
+      // display mode selection
+      $('#main').empty().append(new CreditsView().$el);
     },
 
     _onPlay: function(mode) {

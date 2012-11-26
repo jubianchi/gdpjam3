@@ -16,7 +16,7 @@ define({
     },
     double: {
       proba: 10,
-      level: 20,
+      level: 20, 
       score: 2
     }
   },

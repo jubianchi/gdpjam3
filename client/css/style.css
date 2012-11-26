@@ -97,6 +97,17 @@ body {
 .home-view .menu a.duel:hover {
   background-image: url("/img/duel.png");
 }
+
+.home-view .menu a.credits {
+  height: 82px;
+  left: 86px;
+  top: 249px;
+  width: 190px;
+}
+.home-view .menu a.credits:hover, .home-view .menu a.credits.active {
+  background-image: url("/img/credits.png");
+}
+
 .home-view .frame {
   background: url("/img/menu.png");
   background-size: 100% 100%;
@@ -452,4 +463,26 @@ body {
 }
 .play-view .bonus-applied.double-2 {
   background-image: url('/img/bonus-applied/double-2.png');
+}
+
+.home-view .credits {
+  color: white;
+  display: inline-block;
+  left: 40px;
+  position: absolute;
+  top: 220px;
+  width: 700px;
+  text-align: left;
+}
+
+.home-view .credits h3 {
+  margin: 0; 
+}
+
+.home-view .credits h3 a {
+  color: white;
+}
+
+.home-view .credits p {
+  font-size: 1.2em;   
 }
