@@ -312,7 +312,6 @@ body {
 }
 .play-view .avatar {
   position: absolute;
-  background-size: 100% 100%;
   background-color: transparent;
   bottom: 10px;
   width: 183px;

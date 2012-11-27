@@ -48,16 +48,7 @@ define([
   'bootstrap',
   'transit'
 ], function(_, $, Backbone, io, buzz, HomeView, CreditsView, PlayView, i18n) {
-
-  // manage disclaimer for unsupported versions
-  var version = parseInt($.browser.version, 10);
-  if (!(($.browser.msie && version >= 9) || ($.browser.chrome) || ($.browser.mozilla && version >= 13))) {
-    return $('.disclaimer').show();
-  }
-  $('.disclaimer').remove();
-
   var Router = Backbone.Router.extend({
-
     // Define some URL routes (order is significant: evaluated from last to first)
     routes: {
       'home': '_onHome',
