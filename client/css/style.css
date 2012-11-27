@@ -181,7 +181,20 @@ body {
   color: white;
 }
 .home-view .credits-content p {
-  font-size: 1.2em;   
+  font-size: 1.5em;   
+}
+.home-view .credits-content .disclaimer {
+  margin-bottom: 2em;
+}
+.home-view .credits-content .disclaimer,
+.home-view .credits-content p,
+.home-view .credits-content p a {
+  font-family: 'Diogenes';
+}
+.home-view .credits-content img {
+  bottom: 0;
+  position: absolute;
+  right: -100px;
 }
 
 .waiting {
