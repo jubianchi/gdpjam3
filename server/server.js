@@ -23,7 +23,7 @@ app.use(express.methodOverride());
 app.use(express.cookieParser());
 
 // Serving static files
-var statics = ['css', 'js', 'img', 'nls', 'template', 'sound'];
+var statics = ['css', 'js', 'img', 'nls', 'template', 'sound', 'tests'];
 for (var i = 0, len = statics.length; i < len; i++) {
   app.use("/" + statics[i], express['static'](path.join(rootFolder, statics[i])));
 }

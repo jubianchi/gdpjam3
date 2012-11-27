@@ -19,7 +19,9 @@ define([
     }
 
     // translate to bonus applied
-    gdpjam3.playView.setBonus(view ? view.editable : false, this.sound);
+    if (gdpjam3.playView) {
+      gdpjam3.playView.setBonus(view ? view.editable : false, this.sound);
+    }
   };
 
   // must return modified draft text.
