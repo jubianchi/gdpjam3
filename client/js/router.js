@@ -3,7 +3,7 @@ requirejs.config({
   paths: {
     'backbone': 'lib/backbone-0.9.2-min',
     'bootstrap': 'lib/bootstrap-2.2.1-min',
-    'buzz': 'lib/buzz-1.0.5',
+    'buzz': 'lib/buzz-1.0.5-min',
     'hogan': 'lib/hogan-2.0.0-min',
     'i18n': 'lib/i18n-2.0.1-min',
     'jquery': 'lib/jquery-1.8.2-min',
@@ -11,7 +11,6 @@ requirejs.config({
     'template': '../template',
     'socket.io': 'lib/socket.io-0.9.11-min',
     'text': 'lib/text-2.0.0-min',
-    'transit': 'lib/transit-0.1.3',
     'underscore': 'lib/underscore-1.4.2-min',
     'underscore.string': 'lib/underscore.string-2.2.0rc-min'
   },
@@ -26,7 +25,6 @@ requirejs.config({
     'jquery': {exports: '$'},
     'render': {exports: 'render'},
     'socket.io': {exports:'io'},
-    'transit': {deps: ['jquery']},
     'underscore': {exports: '_'}
   }
 });
@@ -41,18 +39,17 @@ define([
   'socket.io',
   'buzz',
   'view/home',
-  'view/credits',
   'view/play',
   'i18n!nls/common',
   'utils',
-  'bootstrap',
-  'transit'
-], function(_, $, Backbone, io, buzz, HomeView, CreditsView, PlayView, i18n) {
+], function(_, $, Backbone, io, buzz, HomeView, PlayView, i18n) {
+
+  $('#main').empty().append(i18n.msgs.loading);
+
   var Router = Backbone.Router.extend({
     // Define some URL routes (order is significant: evaluated from last to first)
     routes: {
       'home': '_onHome',
-      'credits': '_onCredits',
       'play?mode=:mode': '_onPlay',
       '*route': '_onNotFound'
     },
@@ -103,7 +100,7 @@ define([
       }, { 
         name:'keystroke',file:'double.wav',loop: false
       }, { 
-        name:'latinum',file:'latinum.wav',loop: false
+        name:'latinium',file:'latinium.wav',loop: false
       }, {
         name:'shuffle',file:'shuffle.wav',loop: false
       }, {
@@ -111,9 +108,13 @@ define([
       }, {
         name:'soundtrack',file:'soundtrack.wav',loop: true
       }, {
+        name:'soundtrackMenu',file:'soundtrack-menu.wav',loop: true
+      }, {
         name:'start',file:'start.wav',loop: false
       }, {
         name:'error',file:'error.wav',loop: false
+      }, {
+        name:'button',file:'button.wav',loop: false
       }, {
         name:'countdown3',file:'countdown-3.wav',loop: false
       }, {
@@ -161,13 +162,7 @@ define([
     },
 
     _onHome: function() {
-      // display mode selection
       $('#main').empty().append(new HomeView().$el);
-    },
-
-    _onCredits: function() {
-      // display mode selection
-      $('#main').empty().append(new CreditsView().$el);
     },
 
     _onPlay: function(mode) {

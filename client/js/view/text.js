@@ -144,7 +144,6 @@ define([
             //console.log(name, this.level.bonus);         
             var spec = this.level.bonus[name];
             if (value == spec.level) {
-              console.log('.gauge.bonus-' + i);
               this.$('.gauge.bonus-' + i).addClass('full');
               this.$('.bonus:not(.anim)').attr('class', 'bonus ' + name);
               this.currentMod = new bonusClasses[name](name, spec.proba, spec.score);

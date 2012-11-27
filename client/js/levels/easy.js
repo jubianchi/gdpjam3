@@ -6,17 +6,17 @@ define({
   bonus: {
     shuffle: {
       proba: 15,
-      level: 60,
+      level: 9,
       score: 10
     },
     latinium: {
       proba: 10,
-      level: 40,
+      level: 6,
       score: 5
     },
-    double: {
+    "double": {
       proba: 10,
-      level: 20, 
+      level: 3, 
       score: 2
     }
   },

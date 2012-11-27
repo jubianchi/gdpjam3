@@ -3,23 +3,23 @@ define({
     // Optional spaces ?
     spaceopt: true
   },
-  bonus: [
-    {
-      'proba': 30,
-      level: 30,
-      name: 'double'
+  bonus: {
+    shuffle: {
+      proba: 15,
+      level: 3,
+      score: 10
     },
-    {
-      'proba': 4,
-      level: 60,
-      name: 'latinium'
+    latinium: {
+      proba: 10,
+      level: 6,
+      score: 5
     },
-    {
-      'proba': 1,
-      level: 90,
-      name: 'shuffle'
+    "double": {
+      proba: 10,
+      level: 9, 
+      score: 2
     }
-  ],
+  },
   god: {
     error: {
       max: 1000,

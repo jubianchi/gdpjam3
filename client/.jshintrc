@@ -1,5 +1,5 @@
 {
-  "predef": ["Backbone", "_", "$", "define", "pollexpress", "requirejs"],
+  "predef": ["gdpjam3", "conf", "define", "requirejs", "console"],
   "passfail": false,
   "maxerr": 100,
 

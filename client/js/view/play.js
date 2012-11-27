@@ -12,7 +12,7 @@ define([
     // Mustache template
     template: template,
 
-    className: 'play-view', 
+    className: 'play-view',
 
     // i18n labels, buttons, tips...
     i18n: i18n,
@@ -35,7 +35,6 @@ define([
     },
 
     focus: function() {
-      console.log('focus')
       this.$('.player1 .inner-text .input').focus();
     },
 
@@ -45,26 +44,21 @@ define([
 
     setBonus: function(player1, bonus) {
       var placeholder = this.$('.bonus-applied')
-        .attr('class', 'bonus-applied '+bonus+(player1 ? '-1' : '-2'))
-        .css('opacity', 0);
+        .attr('class', 'bonus-applied '+bonus+(player1 ? '-1' : '-2'));
       var anim = this.$('.bonus-applied').clone().appendTo(this.$el);
-      if(anim.size()) {
-        anim.transition({
-          opacity: 1, 
-          scale: 1.7
-        }, 150, 'snap', _.bind(function() {
-          placeholder.css('opacity', 1);
-          anim.remove();
-          this.emptyBonus();
-        }, this));
-      }
+      anim.on('transitionend webkitTransitionEnd', _.bind(function() {
+        this.$('.anim').remove();
+        this.emptyBonus();
+      }, this)).addClass('anim');
+      _.defer(function() {
+        anim.addClass('animated');
+      });
     },
 
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
-      console.info('render')
       // creates 2 input model and displays them in text views
-      this.models[0] = new InputModel({player: gdpjam3.player, content:''});      
+      this.models[0] = new InputModel({player: gdpjam3.player, content:''});
       var other = _.without(this.options.players, gdpjam3.player)[0];
       this.models[1] = new InputModel({player: other, content:''});
 
@@ -87,12 +81,12 @@ define([
         }, this));
 
         gdpjam3.socket.on('trigger', _.bind(function(player) {
-          console.log('bonus triggered from ' + player)
+          console.log('bonus triggered from ' + player);
           this.views[1].applyMod();
         }, this));
 
         this.models[0].on('triggerMod', _.bind(function() {
-          console.log('send triggered bonus to ' + this.models[1].get('player'))
+          console.log('send triggered bonus to ' + this.models[1].get('player'));
           gdpjam3.socket.emit('trigger');
         }, this));
         
@@ -146,6 +140,9 @@ define([
 
       // start countdown
       this.countdown(3);
+      if (gdpjam3.sounds && gdpjam3.sounds.soundtrackMenu) {
+        gdpjam3.sounds.soundtrackMenu.stop();
+      }
       _.defer(this.focus);
     },
 
@@ -164,7 +161,7 @@ define([
         this.models[1].start();
         // Start music
         if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
-          gdpjam3.sounds.soundtrack.setVolume(10).play();
+          gdpjam3.sounds.soundtrack.setVolume(20).play();
         }
       } else {
         // Display count

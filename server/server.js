@@ -123,7 +123,7 @@ io.on('connection', function(socket) {
     // player leave the room: update memory
     var room = socket.room;
     var player = socket.player;
-    rooms[room].slice(1, rooms.indexOf(player));
+    rooms[room].slice(1, rooms[room].indexOf(player));
 
     // room is empty: removes it
     if (rooms[room].length === 0) {

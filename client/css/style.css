@@ -31,7 +31,7 @@ body {
 }
 
 #main {
-  margin: 10px auto;
+  margin: 0px auto;
   width: 1280px;
   height: 720px;
   overflow: hidden; 
@@ -54,6 +54,17 @@ body {
   width: 660px;
   height: 200px;
   margin: 0 auto;
+}
+
+.home-view .credits-content,
+.home-view .pitch,
+.home-view .controls {
+  -webkit-transition: 250ms;
+  transition: 250ms;
+}
+
+.home-view .hidden {
+  opacity: 0;
 }
 
 .home-view .menu,
@@ -105,7 +116,8 @@ body {
   top: 249px;
   width: 190px;
 }
-.home-view .menu a.credits:hover, .home-view .menu a.credits.active {
+.home-view .menu a.credits:hover, 
+.home-view .menu a.credits.active {
   background-image: url("/img/credits.png");
 }
 
@@ -152,6 +164,24 @@ body {
   color: #A8CDE0;
   font-family: 'Diogenes';
   text-align: justify;
+}
+.home-view .credits-content {
+  color: white;
+  display: inline-block;
+  left: 40px;
+  position: absolute;
+  top: 220px;
+  width: 700px;
+  text-align: left;
+}
+.home-view .credits-content h3 {
+  margin: 0; 
+}
+.home-view .credits-content h3 a {
+  color: white;
+}
+.home-view .credits-content p {
+  font-size: 1.2em;   
 }
 
 .waiting {
@@ -277,9 +307,6 @@ body {
   color: grey;
   word-break: break-word;
 }
-.play-view .anim {
-  z-index: 11;
-}
 .play-view .bonus {
   position: absolute;
   background: url('/img/bonus.png');
@@ -323,15 +350,23 @@ body {
 }
 .play-view .bonus-applied {
   position: absolute;
-  left: 582px;
+  left: 574px;
   top: 286px;
   height: 135px;
   width: 135px;
   background-color: transparent; 
   background-size: 100% 100%;
-  -webkit-transition: all 200ms;
-  -moz-transition: all 200ms;
-  transition: all 200ms;
+  -webkit-transition: all 250ms;
+  transition: all 250ms;
+}
+.play-view .bonus-applied.anim {
+  opacity: 0;
+  z-index: 11;
+}
+.play-view .bonus-applied.anim.animated {
+  -webkit-transform: scale(1.4, 1.4);
+  transform: scale(1.4, 1.4);
+  opacity: 1;
 }
 .play-view .score {
   position: absolute;
@@ -471,26 +506,4 @@ body {
 }
 .play-view .bonus-applied.double-2 {
   background-image: url('/img/bonus-applied/double-2.png');
-}
-
-.home-view .credits {
-  color: white;
-  display: inline-block;
-  left: 40px;
-  position: absolute;
-  top: 220px;
-  width: 700px;
-  text-align: left;
-}
-
-.home-view .credits h3 {
-  margin: 0; 
-}
-
-.home-view .credits h3 a {
-  color: white;
-}
-
-.home-view .credits p {
-  font-size: 1.2em;   
 }
