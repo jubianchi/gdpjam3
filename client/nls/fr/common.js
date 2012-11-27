@@ -30,7 +30,7 @@ define({
              '<p class="disclaimer">Tabulas est un jeu conçu et développé en 32h lors de la <a target="blank" href="http://gamedevparty.fr/gdpjam3-le-debrief/">GamedDevParty Jam #3</a> par cinq amateurs passionés:</p>' +
              '<h3>maxime payot</h3>' +
              '<p>Game/sound designer&ensp;&ensp;//&ensp;&ensp;Musiques, Bruitages, Pitch, Textes</p>' + 
-             '<h3><a href="https://twitter.com/CharlesPayot" target="_blank">charles payot</a></h3>' +
+             '<h3><a href="https://www.facebook.com/cpgraphism" target="_blank">charles payot</a></h3>' +
              '<p>Graphiste&ensp;&ensp;//&ensp;&ensp;UI, Items</p>' +
              '<h3><a href="https://twitter.com/eGwan" target="_blank">gwendoline ancelin</a></h3>' +
              '<p>Graphiste&ensp;&ensp;//&ensp;&ensp;Décors, Personnages</p>' +
