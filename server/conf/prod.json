@@ -1,0 +1,6 @@
+{
+  "host": "0.0.0.0",
+  "hostName": "tabulas.jubianchi.fr",
+  "port": 8282,
+  "socketPort": 8283
+}

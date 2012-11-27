@@ -71,7 +71,7 @@ define([
       gdpjam3.router = this;
 
       // Wire socket.io
-      gdpjam3.socket = io.connect();
+      gdpjam3.socket = io.connect(conf.socketUrl);
       gdpjam3.socket.on('error', function(err){
         console.error('error', err);
         gdpjam3.wired = false;
@@ -88,7 +88,8 @@ define([
             
       // run current route
       Backbone.history.start({
-        pushState: true
+        pushState: true,
+        root: conf.basePath
       });
 
       // init sound only when dom is loaded

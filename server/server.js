@@ -3,9 +3,7 @@ var express = require("express"),
   url = require('url'),
   path = require('path'),
   http = require('http'),
-  _ = require('underscore'),
-  app, 
-  server,
+  app,
   fs = require('fs-extra'),
   env = process.env.NODE_ENV || 'dev',
   rootFolder = 'client',
@@ -30,6 +28,16 @@ for (var i = 0, len = statics.length; i < len; i++) {
   app.use("/" + statics[i], express['static'](path.join(rootFolder, statics[i])));
 }
 
+// client specific configuration file.
+app.get('/conf.js', function(req, res, next) {
+  // compute the client configuration
+  res.header('Content-Type', 'application/javascript; charset=UTF-8');
+  res.send('window.conf = '+JSON.stringify({
+    basePath: '/',
+    socketUrl: 'http://'+conf.hostName+':'+conf.socketPort
+  }));
+});
+
 app.get('/api/rooms', function(req, res) {
   var frees = [];
   // only return rooms with only one player
@@ -39,7 +47,7 @@ app.get('/api/rooms', function(req, res) {
     }
   }
   res.json(frees);
-})
+});
 
 app.get('*', function(req, res, next) {
   // Static resources
@@ -64,10 +72,18 @@ app.get('*', function(req, res, next) {
   }).pipe(res);
 });
 
-var server = http.createServer(app);
-var io = socketio.listen(server);
-io.set('log level', 0);
+var staticServer = http.createServer(app);
+var socketServer = null;
+var io = null;
 
+if (conf.socketPort !== conf.port) {
+  socketServer = http.createServer(app);
+} else {
+  socketServer = staticServer;
+}
+
+io = socketio.listen(socketServer);
+io.set('log level', 0);
 io.on('connection', function(socket) {
 
   // when the client emits 'register', register its room
@@ -84,18 +100,18 @@ io.on('connection', function(socket) {
     var msg = socket.player+' enter the room '+socket.room;
     console.log(msg);
     // send connected players
-    io.sockets.in(socket.room).emit('players', rooms[room]);
+    io.sockets['in'](socket.room).emit('players', rooms[room]);
   });
 
   // when the client emits 'message or triggered', then broadcast to room
   socket.on('message', function (data) {
-    io.sockets.in(socket.room).emit('message', socket.player, data);
+    io.sockets['in'](socket.room).emit('message', socket.player, data);
   });
   socket.on('trigger', function () {
-    io.sockets.in(socket.room).emit('trigger', socket.player);
+    io.sockets['in'](socket.room).emit('trigger', socket.player);
   });
   socket.on('finished', function () {
-    io.sockets.in(socket.room).emit('finished', socket.player);
+    io.sockets['in'](socket.room).emit('finished', socket.player);
   });
 
   // when the user disconnects, leaves the room
@@ -103,14 +119,32 @@ io.on('connection', function(socket) {
     if (!socket.room) {
       return;
     }
-    var msg = socket.username+' leave the room '+socket.room;
+
+    // player leave the room: update memory
+    var room = socket.room;
+    var player = socket.player;
+    rooms[room].slice(1, rooms.indexOf(player));
+
+    // room is empty: removes it
+    if (rooms[room].length === 0) {
+      delete rooms[room];
+    }
+
+    var msg = player+' leave the room '+room;
     console.log(msg);
-    io.sockets.in(socket.room).emit('players', msg);
-    socket.leave(socket.room);
+    io.sockets['in'](room).emit('players', msg);
+    socket.leave(room);
   });
 
 });
 
-server.listen(conf.port, conf.host, function () {
-  console.log('Starting server in ' + env + ' mode on ' + server.address().address + ':' + server.address().port);
+// starts servers
+staticServer.listen(conf.port, conf.host, function () {
+  console.log('Starting server in ' + env + ' mode on ' + staticServer.address().address + ':' + staticServer.address().port);
+  // May start socket server on a different port
+  if (conf.socketPort !== conf.port) {
+    socketServer.listen(conf.socketPort, conf.host, function () {
+      console.log('Starting socket in ' + env + ' mode on ' + socketServer.address().address + ':' + socketServer.address().port);
+    });
+  }
 });

@@ -1,7 +1,7 @@
 {
-  "name": "gdpjam3",
-  "description": "",
-  "version": "1.0.0",
+  "name": "tabulas",
+  "description": "Tabulas est un je HTML5 de course textuelle. Venez défier dieu (ou vos amis) pour empécher la fin du monde !",
+  "version": "2.0.0",
   "bin": {
   },
   "engines": {
