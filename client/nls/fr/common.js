@@ -12,8 +12,6 @@ define({
   },
 
   msgs: {
-    loose: "C'est l'apocalypse !",
-    win: "Le monde est sauf !",
     waitingOpponent: '<div class="waiting">En attente d\'un adversaire...<br/>Merci de patienter !</div>',
     loading: '<div class="waiting">Chargement...</div>',
     texts: [

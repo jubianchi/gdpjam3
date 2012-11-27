@@ -80,6 +80,22 @@ body {
   z-index: 1000;
 }
 
+.play-view .countdown.win {
+  background: url('/img/win.png') no-repeat center center;
+  width: 366px;
+  height: 159px;
+  margin: 0 auto;
+  top: 35%;
+}
+
+.play-view .countdown.lost {
+  background: url('/img/loose.png') no-repeat center center;
+  width: 487px;
+  height: 214px;
+  margin: 0 auto;
+  top: 35%;
+}
+
 .home-view .menu {
   right: 50px;
   left: auto;

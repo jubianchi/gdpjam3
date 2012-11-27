@@ -178,13 +178,13 @@ define([
     win: function() {
       $('.modal, .countdown').show();
       this.$el.addClass('win');
-      this.$('.countdown').addClass('win').html("Le monde est sauf !");
+      this.$('.countdown').addClass('win').html('');
     },
 
     loose: function() {
       $('.modal, .countdown').show();
       this.$el.addClass('lost');
-      this.$('.countdown').addClass('lost').html("C'est l'apocalypse !");
+      this.$('.countdown').addClass('lost').html('');
     },
     
     _onToggleMusic: function(event) {
