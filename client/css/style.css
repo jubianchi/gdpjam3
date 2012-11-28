@@ -398,11 +398,11 @@ body {
 }
 
 .play-view .player1 .fg {
-  background: url('/img/foreground-1.png');
+  background-image: url('/img/foreground-1.png');
 }
 
 .play-view .player2 .fg {
-  background: url('/img/foreground-2.png');
+  background-image: url('/img/foreground-2.png');
 }
 
 .play-view .player1 .avatar {
