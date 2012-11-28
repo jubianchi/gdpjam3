@@ -150,6 +150,9 @@ define([
               this.$('.gauge.bonus-' + i).addClass('full');
               this.$('.bonus:not(.anim)').attr('class', 'bonus ' + name);
               this.currentMod = new bonusClasses[name](name, spec.proba, spec.score);
+              if (gdpjam3.sounds['powerup'+i]) {
+                gdpjam3.sounds['powerup'+i].play();
+              }
               break;
             }
 

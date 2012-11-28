@@ -126,6 +126,12 @@ define([
       }, {
         name:'countdown1',file:'countdown-1.wav',loop: false
       }, {
+        name:'powerup3',file:'powerup-3.wav',loop: false
+      }, {
+        name:'powerup2',file:'powerup-2.wav',loop: false
+      }, {
+        name:'powerup1',file:'powerup-1.wav',loop: false
+      }, {
         name:'write',file:'write.wav',loop: false
       }];
       
