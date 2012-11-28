@@ -4,8 +4,8 @@ define([
   'text!template/play.html',
   'i18n!nls/fr/common',
   'view/text',
-  'model/input'
-], function(_, Backbone, template, i18n, TextView, InputModel){
+  'model/player'
+], function(_, Backbone, template, i18n, TextView, PlayerModel){
 
   var PlayView = Backbone.View.extend({
 
@@ -22,15 +22,12 @@ define([
       'click .toggleMusic': '_onToggleMusic'
     },
 
-    // View initialization: immediately displays the poll list
+    // View initialization:
     initialize: function() {
       this.models = [];
       this.views = [];
       _.bindAll(this);
-      this.render();
-      this.focus();
       this.bindTo($(window), 'focus load', this.focus);
-      gdpjam3.playView = this;
       this.emptyBonus = _.debounce(this.emptyBonus, 1500);
     },
 
@@ -55,12 +52,32 @@ define([
       });
     },
 
+    // stops the game: may only stop player (player=true); it's oponent (player=false) or both (no value)
+    stop: function(player) {
+      if (this.models.length === 2 && this.views.length === 2) {
+        // stop player
+        if (player === true || player === undefined) {
+          this.models[0].stop();
+          this.views[0].stopped = true;
+        }
+        // stop opponent
+        if (player === false || player === undefined) {
+          this.models[1].stop();
+          this.views[1].stopped = true;
+        }
+      }
+      // stop music
+      if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
+        gdpjam3.sounds.soundtrack.fadeOut(5000);
+      }
+    },
+
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
       // creates 2 input model and displays them in text views
-      this.models[0] = new InputModel({player: gdpjam3.player, content:''});
+      this.models[0] = new PlayerModel({player: gdpjam3.player, content:''});
       var other = _.without(this.options.players, gdpjam3.player)[0];
-      this.models[1] = new InputModel({player: other, content:''});
+      this.models[1] = new PlayerModel({player: other, content:''});
 
       this.views[0] = new TextView(this.models[0], this.models[1], true);
       this.views[1] = new TextView(this.models[1], this.models[0], false);
@@ -108,13 +125,8 @@ define([
       this.models[1].set('draft', text);
       this.models[1].set('end', i18n.msgs.ends2[0]);
       this.bindTo(this.models[0], 'won', _.bind(function() {
-        // stop opponent
-        this.models[1].stop();
-        this.views[1].stopped = true;
-        // stop music
-        if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
-          gdpjam3.sounds.soundtrack.fadeOut(5000);
-        }
+        // stops the opponent
+        this.stop(false);
         // player free time !
         this.models[0].on('finished', _.bind(function() {
           if (this.options.mode === 'duel') {
@@ -125,12 +137,7 @@ define([
       }, this));
       this.bindTo(this.models[1], 'won', _.bind(function() {
         // stops player
-        this.models[0].stop();
-        this.views[0].stopped = true;
-        // stop music
-        if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
-          gdpjam3.sounds.soundtrack.fadeOut(5000);
-        }
+        this.stop(true);
         if (this.options.mode === 'duel') {
           gdpjam3.socket.on('finished', this.loose);
         } else {
@@ -144,6 +151,9 @@ define([
         gdpjam3.sounds.soundtrackMenu.stop();
       }
       _.defer(this.focus);
+
+      // for chaining purposes
+      return this;
     },
 
     countdown: function(count) {

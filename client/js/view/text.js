@@ -59,6 +59,9 @@ define([
       this.model.set('score', 0);
       this._onContentChanged();
       this._onDraftChanged();
+      
+      // for chaining purposes
+      return this;
     },
 
     _onPlayerInput: function(event) {   

@@ -3,10 +3,10 @@ define([
   'levels/easy'
 ], function(Backbone, level){
 
-  // Model for input
+  // Model for player input
   // 'content' is the attribute that contains the input text. Change it to update views
   // 'player' identifies the connected player
-  var Input = Backbone.Model.extend({
+  var Player = Backbone.Model.extend({
 
     position: 0,
     textLength: 0,
@@ -173,5 +173,5 @@ define([
 
   });
 
-  return Input;
+  return Player;
 });

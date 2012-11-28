@@ -80,20 +80,19 @@ body {
   z-index: 1000;
 }
 
-.play-view .countdown.win {
-  background: url('/img/win.png') no-repeat center center;
-  width: 366px;
-  height: 159px;
-  margin: 0 auto;
-  top: 35%;
-}
-
+.play-view .countdown.win,
 .play-view .countdown.lost {
-  background: url('/img/loose.png') no-repeat center center;
-  width: 487px;
-  height: 214px;
+  background: none no-repeat center transparent;
+  background-size: auto 100%;
+  height: 300px;
   margin: 0 auto;
-  top: 35%;
+  top: 15%;
+}
+.play-view .countdown.win {
+  background-image: url('/img/win.png');
+}
+.play-view .countdown.lost {
+  background-image: url('/img/loose.png');
 }
 
 .home-view .menu {

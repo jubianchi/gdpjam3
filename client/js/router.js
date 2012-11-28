@@ -47,6 +47,10 @@ define([
   $('#main').empty().append(i18n.msgs.loading);
 
   var Router = Backbone.Router.extend({
+
+    // Store play view to stop game when needed
+    playView: null,
+
     // Define some URL routes (order is significant: evaluated from last to first)
     routes: {
       'home': '_onHome',
@@ -162,6 +166,9 @@ define([
     },
 
     _onHome: function() {
+      if (this.playView) {
+        this.playView.stop();
+      }
       $('#main').empty().append(new HomeView().$el);
     },
 
@@ -173,6 +180,13 @@ define([
           // re-run !
           this._onPlay(mode);
         }, this));
+      }
+
+
+      if (this.playView) {
+        this.playView.stop();
+      } else {
+        this.playView = new PlayView({players: []});
       }
 
       if (mode === 'duel') {
@@ -193,13 +207,15 @@ define([
               gdpjam3.room = rooms[0];
             }
             gdpjam3.socket.emit('register', gdpjam3.player, gdpjam3.room);
-            gdpjam3.socket.on('players', function(players) {
+            gdpjam3.socket.on('players', _.bind(function(players) {
               // wait for 2 payers
               if (players.length == 2) {
                 // Render play view
-                $('#main').empty().append(new PlayView({mode: 'duel', players: players}).$el);
+                this.playView.options.mode = 'duel';
+                this.playView.options.players = players;
+                $('#main').empty().append(this.playView.render().$el);
               }
-            });
+            }, this));
           }, this),
 
           error: function(xhr, status, err) {
@@ -209,7 +225,9 @@ define([
       } else {
         gdpjam3.room = null;
         // Render play view
-        $('#main').empty().append(new PlayView({mode: 'single', players: [gdpjam3.player, 'god']}).$el);
+        this.playView.options.mode = 'single';
+        this.playView.options.players = [gdpjam3.player, 'god'];
+        $('#main').empty().append(this.playView.render().$el);
       }
     },
 

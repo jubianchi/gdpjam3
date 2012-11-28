@@ -9,8 +9,8 @@ define([
   };
 
   // Call to invoke bonus on an input draft
-  Mod.prototype.trigger = function(input, view) {
-    input.set('draft', this.process(input.get('draft'), input.position));
+  Mod.prototype.trigger = function(player, view) {
+    player.set('draft', this.process(player.get('draft'), player.position));
     view.model.set('score', view.model.get('score') + this.score); 
 
     // apply sound if available
@@ -19,8 +19,8 @@ define([
     }
 
     // translate to bonus applied
-    if (gdpjam3.playView) {
-      gdpjam3.playView.setBonus(view ? view.editable : false, this.sound);
+    if (gdpjam3.router.playView) {
+      gdpjam3.router.playView.setBonus(view ? view.editable : false, this.sound);
     }
   };
 

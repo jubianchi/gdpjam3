@@ -22,7 +22,6 @@ define([
       // search next 2 words, using ' ', '.', ',', '!' and '?' as word delimiters.
       //                         word chars and delimiters - 1st word     - delimiters - 2nd word    - rest
       var words = analysed.match(/^([^ \.,;\?!]*[ \.,;\?!]+)([^ \.,;\?!]*)([ \.,;\?!]*)([^ \.,;\?!]*)?(.*)/)
-      console.dir(words)
       if (!words || !words[2]) {
         // no word found, returns original text
         return text
