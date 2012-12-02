@@ -44,6 +44,10 @@ define([
   'utils',
 ], function(_, $, Backbone, io, buzz, HomeView, PlayView, i18n) {
 
+  if ($.browser.mozilla) {
+    $('body').addClass('ff');
+  } 
+  
   $('#main').empty().append(i18n.msgs.loading);
 
   var Router = Backbone.Router.extend({

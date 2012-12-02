@@ -60,9 +60,9 @@ define([
       var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
       if(this.level.options.spaceopt) {
-        if(model[model.length - typed] == ' ' && value[value.length - typed] != ' ') {
-          value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed, value.length);
-          cleanValue = cleanValue.substring(0, cleanValue.length - typed) + ' ' + cleanValue.substring(cleanValue.length - typed, cleanValue.length);
+        if(model[model.length - typed] === ' ' && value[value.length - typed] !== ' ') {
+          value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed);
+          cleanValue = cleanValue.substring(0, cleanValue.length - typed) + ' ' + cleanValue.substring(cleanValue.length - typed);
           model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
 
           this.position++;
@@ -98,7 +98,8 @@ define([
       if(name == 'content' && this.get('player') !== 'god') {
         if (this.get('content') === this.get('draft')) {
           console.info('Player', this.get('player'), 'win !');
-          value = this.get('content')+'<br/>';
+          // add a new line, and do not forget the space to allow word recognition
+          value = this.get('content')+'\n ';
           this.won = true;
           this.trigger('won');
         } else {

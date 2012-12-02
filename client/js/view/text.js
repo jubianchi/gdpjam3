@@ -35,7 +35,7 @@ define([
     stopped: false,
 
     events: {
-      'keyup .input': '_onPlayerInput'
+      'keyup .input > input': '_onPlayerInput'
     },
 
     initialize: function(model, opponent, editable) {
@@ -55,33 +55,108 @@ define([
 
     render: function() {
       Backbone.View.prototype.render.apply(this, arguments);
-      this.$('.input').toggle(this.editable);
+      if (!this.editable) {
+        this.$('.input').remove();
+      }
       this.model.set('score', 0);
-      this._onContentChanged();
-      this._onDraftChanged();
-      
       // for chaining purposes
       return this;
     },
 
+    applyMod: function() {
+      if (this.currentMod) {
+        this.model.set('avatar', 'happy');
+        this.opponent.set('avatar', 'mad');        
+
+        this.currentMod.trigger(this.opponent, this);
+        this.inhibit = true;
+        this.model.set('suite', 0);        
+        this.currentMod = null;              
+        this.model.trigger('triggerMod');
+      }
+    },
+
+    random: function(min, max) {
+      return Math.round(Math.random() * (max - min) + min);
+    },
+
+    // starts view and underlying model
+    start: function() {
+      // must be attached to the DOM for width computations
+      this._onContentChanged();
+      this._onPlayerInput();
+      this.model.start()
+    },
+
+    /**
+     * Display text inside container, manually breaking lines for a better
+     * control on text flow. Spaces will be replaced by non-breaking spaces
+     *
+     * @param container [Object] dom node inside which text is displayed
+     * @param text [String] displayed text.
+     */
+    displayText: function(container, text, draft) {
+      container.empty();
+      words = text.split(' ');
+      var width = container.width();
+      var length = words.length;
+      var line = $('<div></div>').appendTo(container);
+      var draftIdx = 0
+      if (draft) {
+        // if using draft, use draft width as referential 
+        width = draft.children().eq(draftIdx).width();
+      }
+      for (var i=0; i < length; i++) {
+        var word = words[i];
+        var last = word[word.length-1];
+        var lineContent = line.html();
+        // do NOT use append, because of Chrome
+        line.html(lineContent+word);
+        // is there any overflow ?
+        if (line.width() > width) {
+          // reset line to previous state, without trailing space
+          line.html(line.html().substr(0, lineContent.length-6));
+          // add a new one with the text if necessary
+          line = $('<div>'+word+(i < length-1 ? '&nbsp;' : '')+'</div>').appendTo(container);
+          if (draft) {
+            width = draft.children().eq(++draftIdx).width();
+          }
+        } else if (i < length-1) {
+          line.append('&nbsp;');
+        }
+        if (last === '\n') {
+          // remove new line character and trailing space
+          line.html(line.html().substring(0, line.html().length-7));
+          // add a new line
+          container.append('<br/>');
+          line = $('<div></div>').appendTo(container);
+          if (draft) {
+            width = draft.children().eq(++draftIdx).width();
+          }
+        }
+      }
+    },
+
     _onPlayerInput: function(event) {   
-      if (this.stopped || event.which == 219) {
+      // 219 is OS home key
+      if (!event || this.stopped || event.which == 219) {
         return;
       };      
+
       // 17 is ctrl: trigger bonus
       if (event.which === 17) {
         this.applyMod();        
       } else {
-        var key = this.$('.input').val();
-        this.$('.input').val('');
-        this.model.set('content', this.model.get('content')+key);
-
+        var inputZone = this.$('.input > input');
+        var key = inputZone.val();
         if (this.model.won && this.model.get('player') !== 'god' && (
             key === '.' || event.which === 13)) {
-          // player free time !
-          this.$('.input').remove();
-          this.model.trigger('finished');
+          // end player free time !
+          inputZone.remove();
+          return this.model.trigger('finished');
         }
+        inputZone.val('');
+        this.model.set('content', this.model.get('content')+key);
       }
     },
 
@@ -90,8 +165,7 @@ define([
       if (content == null) {
         return;
       }
-      // replace space by non breakable spaces.
-      this.$('.text').html(content.replace(/ /g, '&ensp;'));
+      this.displayText(this.$('.text'), content, this.$('.draft'));
       // play sound only for us
       if (content && this.editable && gdpjam3.sounds) {
         // try to load one sound from the pool
@@ -102,21 +176,30 @@ define([
           }
         }
       }
+      var container = this.$('.inner-text');
+      // positionate caret above the input
+      var last = this.$('.text').children().last();
+      // if last child is empty, position will returns with an half-height offset
+      var offset = (last.text() === '' ? 14.5 : 0)-container.scrollTop();
+      // add a space if we are at the end of a word
+      this.$('.input').css({top: last.position().top-offset, left: last.width()});
+
       // set scrolls
-      var height = this.$('.inner-text').height();
-      var scrollHeight = this.$('.inner-text')[0].scrollHeight;
+      var height = container.height();
+      var scrollHeight = container[0].scrollHeight;
       if (scrollHeight > height) {
-        this.$('.scrollable').scrollTop(scrollHeight);
+        this.$('.scrollable').scrollTop(scrollHeight-height);
       }
     },
 
     _onDraftChanged: function() {
       var content = this.model.get('draft');
+      var end = this.model.get('end') || '';
       if (content == null) {
         return;
       }
-      var end = this.model.get('end');
-      this.$('.draft').html(content.replace(/ /g, '&ensp;')+'<br/>'+(end ? end.replace(/ /g, '&ensp;') : ''));
+      // always follow \n by space to allow word recognition
+      this.displayText(this.$('.draft'), content + '\n ' + end);
     },
 
     _onSuiteChanged: function() {
@@ -128,7 +211,7 @@ define([
         this.$('.gauge').removeClass('full');
         this.$('.bonus:not(.anim)').attr('class', 'bonus');
         // display error feedback
-        var caret = this.$('.input');
+        var caret = this.$('.caret');
         caret.addClass('error');
         _.delay(function() {
           caret.removeClass('error');
@@ -138,7 +221,7 @@ define([
           gdpjam3.sounds.error.play();
         }
         this.inhibit = false;
-        this.$('.input').addClass('error');
+        caret.addClass('error');
       } else {
         // goes from higher level and decrease
         var i = _.size(this.level.bonus);
@@ -188,23 +271,6 @@ define([
           2000
         );  
       }
-    },
-
-    applyMod: function() {
-      if (this.currentMod) {
-        this.model.set('avatar', 'happy');
-        this.opponent.set('avatar', 'mad');        
-
-        this.currentMod.trigger(this.opponent, this);
-        this.inhibit = true;
-        this.model.set('suite', 0);        
-        this.currentMod = null;              
-        this.model.trigger('triggerMod');
-      }
-    },
-
-    random: function(min, max) {
-      return Math.round(Math.random() * (max - min) + min);
     }
 
   });

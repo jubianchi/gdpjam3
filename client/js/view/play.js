@@ -32,7 +32,7 @@ define([
     },
 
     focus: function() {
-      this.$('.player1 .inner-text .input').focus();
+      this.$('.player1 .inner-text .input > input').focus();
     },
 
     emptyBonus: function() {
@@ -86,8 +86,7 @@ define([
 
       console.info('current player', gdpjam3.player, 'other is', other);
 
-      var text = i18n.msgs.texts[0];
-
+      
       if (this.options.mode === 'duel') {
         // display other player input
         gdpjam3.socket.on('message', _.bind(function(player, content) {
@@ -120,10 +119,6 @@ define([
         
       }
 
-      this.models[0].set('draft', text);
-      this.models[0].set('end', i18n.msgs.ends1[0]);
-      this.models[1].set('draft', text);
-      this.models[1].set('end', i18n.msgs.ends2[0]);
       this.bindTo(this.models[0], 'won', _.bind(function() {
         // stops the opponent
         this.stop(false);
@@ -150,7 +145,15 @@ define([
       if (gdpjam3.sounds && gdpjam3.sounds.soundtrackMenu) {
         gdpjam3.sounds.soundtrackMenu.stop();
       }
-      _.defer(this.focus);
+      _.delay(_.bind(function() {
+        // wait for DOM to be attached to display text and give focus
+        var text = i18n.msgs.texts[0];
+        this.models[0].set('draft', text);
+        this.models[0].set('end', i18n.msgs.ends1[0]);
+        this.models[1].set('draft', text);
+        this.models[1].set('end', i18n.msgs.ends2[0]);
+        this.focus();
+      }, this), 300);
 
       // for chaining purposes
       return this;
@@ -167,8 +170,8 @@ define([
         if (gdpjam3.sounds.write) {
           gdpjam3.sounds.write.play();
         }
-        this.models[0].start();
-        this.models[1].start();
+        this.views[0].start();
+        this.views[1].start();
         // Start music
         if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
           gdpjam3.sounds.soundtrack.setVolume(20).play();

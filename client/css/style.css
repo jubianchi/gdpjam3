@@ -263,21 +263,6 @@ body {
   overflow: hidden;
   z-index: 5;
 }
-
-.play-view .inner-text .text,
-.play-view .inner-text .input,
-.play-view .draft {
-  font-size: 22px;
-  line-height: 1.3em;
-  color: white;
-  font-family: 'Diogenes';
-}
-.play-view .inner-text .text,
-.play-view .draft {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
 .play-view .scrollable {
   display: block;
   position: absolute;
@@ -287,40 +272,72 @@ body {
   right: 50px;
   bottom: 55px;
 }
-.play-view .inner-text .text {
+.play-view .inner-text {
   overflow-y: auto;
-  display: inline;
-  word-wrap: break-word;
-}
-.play-view .inner-text .input {
-  display: inline-block;
-  border: none;
-  width: 1em;
-  background: url('/img/cursor-2.png');
-  background-size: 100% 100%;
-  position: relative;
-  height: 1em;
-  top: -3px;
-  left: -10px;
-  line-height: 1em;
-  padding-bottom: 6px;
-} 
-.play-view .inner-text .input.error {
-  background-image: url('/img/cursor-2.png');
-}
-.play-view .inner-text .input:focus {
-  outline: none;
-  color: transparent;
+  right: 28px;
 }
 
-.play-view .inner-text {
-  height: auto;
-  overflow: auto;
+.play-view .text > *,
+.play-view .draft > *,
+.play-view .input input {
+  font-size: 22px;
+  line-height: 1.3em;
+  color: white;
+  font-family: 'Diogenes';
+  display: inline-block;
+  white-space: nowrap;
+  word-spacing: 0.3em;
 }
-.play-view .draft {
+
+.play-view .text > *,
+.play-view .draft > * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.play-view .draft > * {
   color: grey;
-  word-break: break-word;
 }
+.play-view .text > *:not(:last-child) {
+  display: block;
+}
+.play-view .input {
+  font-size: 22px;
+  position: absolute;
+  height: 1.3em;
+}
+.play-view .input > input {
+  display: inline-block;
+  height: 1.3em;
+  width: 1em;
+  padding: 0;
+  border: none;
+  background: transparent;
+  margin-top: -4px;
+} 
+/* specific firefox case that do center text inside input. */
+body.ff .play-view .input > input {
+  margin-top: 0px;
+  margin-left: -1px;
+}
+.play-view .input > input:focus {
+  outline: none;
+}
+.play-view .caret {
+  position: absolute;
+  height: 1.3em;
+  width: 1em;
+  left: -8px;
+  top: -2px;
+  border: none;
+  background: url('/img/cursor-2.png');
+  background-size: 100% 100%;
+  opacity: 0.5;
+}
+.play-view .caret.error {
+  background-image: url('/img/cursor-2.png');
+}
+
 .play-view .bonus {
   position: absolute;
   background: url('/img/bonus.png');

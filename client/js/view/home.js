@@ -46,7 +46,7 @@ define([
       // Play sountrack when available.
       function playSoundTrack() {
         if (gdpjam3.sounds && gdpjam3.sounds.soundtrackMenu) {
-          gdpjam3.sounds.soundtrackMenu.setVolume(10).fadeIn(3000).play();
+          gdpjam3.sounds.soundtrackMenu.setVolume(5).fadeIn(3000).play();
         }
       }
       if (gdpjam3.router.soundReady) {
