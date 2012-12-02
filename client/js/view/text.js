@@ -130,9 +130,6 @@ define([
           // add a new line
           container.append('<br/>');
           line = $('<div></div>').appendTo(container);
-          if (draft) {
-            width = draft.children().eq(++draftIdx).width();
-          }
         }
       }
     },
@@ -155,6 +152,7 @@ define([
           inputZone.remove();
           return this.model.trigger('finished');
         }
+        key = event.which === 13 ? '\n' : key;
         inputZone.val('');
         this.model.set('content', this.model.get('content')+key);
       }

@@ -19,7 +19,7 @@ define([
 
     events: {
       'click': 'focus',
-      'click .toggleMusic': '_onToggleMusic'
+      'click .toggleMute': '_onToggleMute'
     },
 
     // View initialization:
@@ -200,11 +200,11 @@ define([
       this.$('.countdown').addClass('lost').html('');
     },
     
-    _onToggleMusic: function(event) {
+    _onToggleMute: function(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      if(gdpjam3.sounds && gdpjam3.sounds.soundtrack) {
-        gdpjam3.sounds.soundtrack.togglePlay();
+      if(gdpjam3.sounds) {
+        gdpjam3.sounds.all.toggleMute();
       }
     }
 

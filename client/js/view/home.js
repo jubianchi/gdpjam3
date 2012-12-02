@@ -32,7 +32,8 @@ define([
         }
         gdpjam3.router.navigate('/play?mode=duel', {trigger:true});
       },
-      'click .credits': '_onCredits'
+      'click .credits': '_onCredits',
+      'click .toggleMute': '_onToggleMute'
     },
 
     // View initialization: immediately displays the poll list
@@ -65,6 +66,14 @@ define([
       this.$('.credits').toggleClass('active');
       this.$('.pitch, .controls').toggleClass('hidden');
       this.$('.credits-content').toggleClass('hidden');
+    },    
+
+    _onToggleMute: function(event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if(gdpjam3.sounds) {
+        gdpjam3.sounds.all.toggleMute();
+      }
     }
 
   });

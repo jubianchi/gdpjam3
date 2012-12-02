@@ -147,6 +147,7 @@ define([
             autoplay: false,
             loop: spec.loop
           });
+
           sound.load();
           sound.bind("loadeddata", _.bind(function(e) {
             console.info('sound loaded:', spec.name)
@@ -154,6 +155,7 @@ define([
             context._onSoundLoaded();
           }, context));
           sound.bind("error", context._onSoundLoaded);
+
           // bind on play only works once on FF
           var originalPlay = sound.play;
           sound.play = function() {
@@ -163,6 +165,7 @@ define([
           sound.bind("ended", function(e) {
             sound.playing = false;
           });
+
         })(sounds[i], this);
       }
     },
@@ -170,6 +173,12 @@ define([
     _onSoundLoaded: function() {
       this.remains--;
       if (this.remains === 0) {
+        var all = [];
+        // gather all sounds in one to mute them all !
+        for (var name in gdpjam3.sounds) {
+          all.push(gdpjam3.sounds[name]);
+        }
+        gdpjam3.sounds.all = new buzz.group(all);
         this.soundReady = true;
         this.trigger('sound-ready');
       }

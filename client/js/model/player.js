@@ -49,27 +49,29 @@ define([
       }
       if(!value || !this.started) return '';
 
+      // multi player case: the other player have done an error
+      if (this.position > value.length) {
+        // simulate an error
+        value += '-error-';
+      }
+
       this.tmpContent = (this.tmpContent  || this.get('content'));
       var typed = value.length - (this.tmpContent  || '').length;
       this.tmpContent = value;
 
-      var cleanValue = value.replace('&ensp;', ' ');
-
       if(typed == 0) return value;
 
-      var model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
+      var model = this.get('draft').substring(0, value ? value.length : 0);
 
       if(this.level.options.spaceopt) {
         if(model[model.length - typed] === ' ' && value[value.length - typed] !== ' ') {
           value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed);
-          cleanValue = cleanValue.substring(0, cleanValue.length - typed) + ' ' + cleanValue.substring(cleanValue.length - typed);
-          model = this.get('draft').substring(0, cleanValue ? cleanValue.length : 0);
-
+          model = this.get('draft').substring(0, value ? value.length : 0);
           this.position++;
         }
       }
 
-      if(cleanValue !== model) {
+      if(value !== model) {
         this.set('avatar', 'mad');
         var word = this.get('content').substring(this.get('content').lastIndexOf(' ') + 1);
 
@@ -78,11 +80,11 @@ define([
 
         this.set('suite', 0);
         this.set('score', this.get('score') ? this.get('score') - word.length : 0);
-        this.position = cleanValue.length - (word.length + 1);
+        this.position = value.length - (word.length + 1);
       } else {
         this.set('suite', (this.get('suite') || 0) + 1);
         this.set('score', (this.get('score') || 0) + 1);
-        this.position = cleanValue.length;
+        this.position = value.length;
       }
 
 
