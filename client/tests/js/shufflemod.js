@@ -121,6 +121,44 @@ define([
       // then current word is not shuffled
       assert.equal(result, 'current ComplicatedWord');
     });
+
+    describe('given a parametrized Shuffle mode', function() {
+
+      it('should only one word be processed', function() {
+        var tested = new Shuffle('', 0, 0, 1)
+        // when processing one word text
+        var model = 'word1longenough';
+        var result = tested.process('current '+model+' word2 remains.', 0);
+        // then next word is shuffled
+        var shuffled = result.substr(8, model.length);
+        assert.equal(result.replace(shuffled, ''), 'current  word2 remains.');
+
+        // then the result contains only the shuffled letters
+        assert.equal(shuffled.length, model.length);
+        assert.notEqual(shuffled, model);
+        for (var i = 0; i < model.length; i++) {
+          assert.include(shuffled, model[i]);
+        }
+      });
+
+      it('should third words be processed', function() {
+        var tested = new Shuffle('', 0, 0, 3)
+        // when processing three word text
+        var model = 'word1longenough word2tobeshuffled word3asbonus';
+        var result = tested.process('current '+model+' remains.', 0);
+        // then next three words are shuffled
+        var shuffled = result.substr(8, model.length);
+        assert.equal(result.replace(shuffled, ''), 'current  remains.');
+
+        // then the result contains only the shuffled letters
+        assert.equal(shuffled.length, model.length);
+        assert.notEqual(shuffled, model);
+        for (var i = 0; i < model.length; i++) {
+          assert.include(shuffled, model[i]);
+        }
+      });
+    });
+
   });
 
 });

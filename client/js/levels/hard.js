@@ -5,30 +5,34 @@ define({
   },
   bonus: {
     shuffle: {
-      proba: 15,
-      level: 3,
-      score: 10
+      proba: 1,
+      level: 60,
+      score: 10,
     },
     latinium: {
       proba: 10,
-      level: 6,
-      score: 5
+      level: 40,
+      score: 5,
+      number: 3
     },
     "double": {
-      proba: 10,
-      level: 9, 
-      score: 2
+      proba: 15,
+      level: 20, 
+      score: 2,
+      number: 3
     }
   },
   god: {
     error: {
+      // Dice : [0 - max]
       max: 1000,
-      threshold: 400
+      // If Dice > threshold : Error ! 
+      threshold: 900
     },
     typing: {
-      min: 100,
-      max: 250,
-      speedmulti: 2
+      min: 250,
+      max: 500,
+      speedmulti: 3
     }
   }
 });

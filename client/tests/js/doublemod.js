@@ -76,6 +76,25 @@ define([
       // then current word is not doubled
       assert.equal(result, 'current Word');
     });
+
+    describe('given a parametrized Double mode', function() {
+
+      it('should only one word be processed', function() {
+        var tested = new Double('', 0, 0, 1)
+        // when processing text
+        var result = tested.process('current word1 word2 remains.', 0);
+        // then result is doubled
+        assert.equal(result, 'current wwoorrdd11 word2 remains.');
+      });
+
+      it('should third words be processed', function() {
+        var tested = new Double('', 0, 0, 3)
+        // when processing text
+        var result = tested.process('current word1 word2 word3 remains.', 0);
+        // then result is doubled
+        assert.equal(result, 'current wwoorrdd11 wwoorrdd22 wwoorrdd33 remains.');
+      });
+    });
   });
 
 });

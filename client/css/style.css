@@ -272,10 +272,16 @@ body {
   left: 50px;
   right: 50px;
   bottom: 55px;
+  padding-right: 1em;
 }
 .play-view .inner-text {
   overflow-y: auto;
   right: 28px;
+}
+
+.play-view .text,
+.play-view .draft {
+  position: relative;
 }
 
 .play-view .text > *,

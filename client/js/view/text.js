@@ -179,19 +179,31 @@ define([
         }
       }
       var container = this.$('.inner-text');
-      // positionate caret above the input
       var last = this.$('.text').children().last();
-      // if last child is empty, position will returns with an half-height offset
-      var offset = (last.text() === '' ? 14.5 : 0)-container.scrollTop();
-      // add a space if we are at the end of a word
-      this.$('.input').css({top: last.position().top-offset, left: last.width()});
-
-      // set scrolls
+      
+      // set vertical scroll
       var height = container.height();
       var scrollHeight = container[0].scrollHeight;
       if (scrollHeight > height) {
         this.$('.scrollable').scrollTop(scrollHeight-height);
       }
+
+      // set horizontal scroll
+      var model = this.$('.draft > *').eq(last.index());
+      var width = last.width();
+      var modelWidth = model.width();
+      var totalWidth = container.width();
+      this.$('.draft, .text').css('left', 0)
+      if (modelWidth > totalWidth && width > totalWidth-30) {
+        this.$('.draft, .text').css('left', (totalWidth-30)-width);
+      }
+
+      // positionate caret above the input
+      // if last child is empty, position will returns with an half-height offset
+      var vOffset = (last.text() === '' ? 14.5 : 0)-container.scrollTop();
+      var hOffset = parseInt(this.$('.text').css('left'));
+      // add a space if we are at the end of a word
+      this.$('.input').css({top: last.position().top-vOffset, left: last.width()+hOffset});
     },
 
     _onDraftChanged: function() {
@@ -234,7 +246,7 @@ define([
             if (value == spec.level) {
               this.$('.gauge.bonus-' + i).addClass('full');
               this.$('.bonus:not(.anim)').attr('class', 'bonus ' + name);
-              this.currentMod = new bonusClasses[name](name, spec.proba, spec.score);
+              this.currentMod = new bonusClasses[name](name, spec.proba, spec.score, spec.number);
               if (gdpjam3.sounds['powerup'+i]) {
                 gdpjam3.sounds['powerup'+i].play();
               }
