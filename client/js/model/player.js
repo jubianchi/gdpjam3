@@ -53,21 +53,18 @@ define([
         value += '-error-';
       }
 
-      var typed = value.length-this.position;
-      console.log('typed: "'+typed+'"')
-        
-      if(typed == 0) return value;
+      var typed = value.length-this.position; 
+      if(typed == 0) {
+        return value;
+      }
 
       var model = this.get('draft').substring(0, value ? value.length : 0);
 
       if(this.level.options.spaceopt) {
-        console.log('check: "'+value[value.length - typed]+'" against "'+model[model.length - typed]+'"')
         if(model[model.length - typed] === ' ' && value[value.length - typed] !== ' ') {
           // add a space to input value
           value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed);
-          console.log('value: "'+value+'"')
           model = this.get('draft').substring(0, value ? value.length : 0);
-          console.log('model: "'+model+'"')
           this.position++;
         }
       }

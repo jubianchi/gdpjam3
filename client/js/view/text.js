@@ -127,8 +127,12 @@ define([
         if (last === '\n') {
           // remove new line character and trailing space
           line.html(line.html().substring(0, line.html().length-7));
-          // add a new line
-          container.append('<br/>');
+          // add a new line if not draft because draft lines are not displayed as block
+          if (!draft) {
+            container.append('<br/>');
+          } else {
+            width = draft.children().eq(++draftIdx).width();
+          }
           line = $('<div></div>').appendTo(container);
         }
       }
