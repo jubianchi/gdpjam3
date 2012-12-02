@@ -43,37 +43,37 @@ define([
     });
 
     it('should double not fail on end', function() {
-      // when processing one word text
+      // when processing text without word after position
       var result = tested.process('current', 0);
-      // then result is doubled
+      // then result is not doubled
       assert.equal(result, 'current');
     });
 
     it('should take punctuation as delimiter', function() {
-      // when processing one word text
+      // when processing words delimited with punctuation
       var result = tested.process('current WORD1,WORD2!remains', 0);
       // then result is doubled
       assert.equal(result, 'current WWOORRDD11,WWOORRDD22!remains');
     });
 
     it('should double accentuated letters', function() {
-      // when processing one word text
+      // when processing word with accentuated letters
       var result = tested.process('current éàôÇ. îùêç? remains', 0);
       // then result is doubled
       assert.equal(result, 'current ééààôôÇÇ. îîùùêêçç? remains');
     });
 
     it('should use position', function() {
-      // when processing one word text
+      // when processing text with position
       var result = tested.process('current Word', 7);
-      // then result is doubled
+      // then next word after position is doubled
       assert.equal(result, 'current WWoorrdd');
     });
 
     it('should ignore current word', function() {
-      // when processing one word text
+      // when processing text with position
       var result = tested.process('current Word', 8);
-      // then result is doubled
+      // then current word is not doubled
       assert.equal(result, 'current Word');
     });
   });

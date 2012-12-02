@@ -48,7 +48,10 @@ define(['require', 'chai', 'mocha'], function(require, chai, mocha) {
   mocha.setup('bdd');
 
   // Require tests
-  require(['test/doublemod'], function(){
+  require([
+    'test/doublemod',
+    'test/shufflemod'
+  ], function(){
     // Start runner
     mocha.run();
   });
