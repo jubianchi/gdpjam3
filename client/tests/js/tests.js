@@ -50,7 +50,8 @@ define(['require', 'chai', 'mocha'], function(require, chai, mocha) {
   // Require tests
   require([
     'test/doublemod',
-    'test/shufflemod'
+    'test/shufflemod',
+    'test/player'
   ], function(){
     // Start runner
     mocha.run();

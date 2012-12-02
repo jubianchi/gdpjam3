@@ -30,7 +30,7 @@ define([
 
     it('should shuffle next two word', function() {
       // when processing one word text
-      var model = 'word1 word2';
+      var model = 'word1longenough word2tobeshuffled';
       var result = tested.process('current '+model+' remains.', 0);
       // then 2 next words are shuffled
       var shuffled = result.substr(8, model.length);
@@ -46,7 +46,7 @@ define([
 
     it('should shuffle next one word', function() {
       // when processing one word text
-      var model = 'word1';
+      var model = 'word1andfriends';
       var result = tested.process('current '+model, 0);
       // then next words is shuffled
       var shuffled = result.substr(8, model.length);
@@ -69,7 +69,7 @@ define([
 
     it('should take punctuation as delimiter', function() {
       // when processing words delimited with punctuation
-      var model = 'WORD1,WORD2!';
+      var model = 'WORD1WITHLETTERS,WORD2ALITTLELONG!';
       var result = tested.process('current '+model+'remains', 0);
       // then 2 next words are shuffled
       var shuffled = result.substr(8, model.length);
@@ -85,7 +85,7 @@ define([
 
     it('should shuffle accentuated letters', function() {
       // when processing words with accentuated characters
-      var model = 'éàôÇ. îùêç?!';
+      var model = 'éàôwithmoreletterÇ. îùwithmoreletterêç?!';
       var result = tested.process('current '+model+'remains', 0);
       // then 2 next words are shuffled
       var shuffled = result.substr(8, model.length);
@@ -101,7 +101,7 @@ define([
 
     it('should use position', function() {
       // when processing with position
-      var model = 'Word';
+      var model = 'ComplicatedWord';
       var result = tested.process('current '+model, 7);
       // then next words is shuffled
       var shuffled = result.substr(8, model.length);
@@ -115,11 +115,11 @@ define([
       }
     });
 
-    it('should use position', function() {
+    it('should ignore current word', function() {
       // when processing with position
-      var result = tested.process('current Word', 8);
+      var result = tested.process('current ComplicatedWord', 8);
       // then current word is not shuffled
-      assert.equal(result, 'current Word');
+      assert.equal(result, 'current ComplicatedWord');
     });
   });
 

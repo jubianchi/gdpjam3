@@ -11,7 +11,6 @@ define([
     position: 0,
     textLength: 0,
     timer: null,
-    tmpContent: null,
     started: false,
     won: false,
     level: level,
@@ -23,7 +22,6 @@ define([
       this.won = false;
       this.position = 0;
       this.textLength = 0;
-      this.tmpContent = null;
       this.started = false;
       Backbone.Model.prototype.constructor.call(this, options);
     },
@@ -55,18 +53,21 @@ define([
         value += '-error-';
       }
 
-      this.tmpContent = (this.tmpContent  || this.get('content'));
-      var typed = value.length - (this.tmpContent  || '').length;
-      this.tmpContent = value;
-
+      var typed = value.length-this.position;
+      console.log('typed: "'+typed+'"')
+        
       if(typed == 0) return value;
 
       var model = this.get('draft').substring(0, value ? value.length : 0);
 
       if(this.level.options.spaceopt) {
+        console.log('check: "'+value[value.length - typed]+'" against "'+model[model.length - typed]+'"')
         if(model[model.length - typed] === ' ' && value[value.length - typed] !== ' ') {
+          // add a space to input value
           value = value.substring(0, value.length - typed) + ' ' + value.substring(value.length - typed);
+          console.log('value: "'+value+'"')
           model = this.get('draft').substring(0, value ? value.length : 0);
+          console.log('model: "'+model+'"')
           this.position++;
         }
       }
@@ -80,13 +81,11 @@ define([
 
         this.set('suite', 0);
         this.set('score', this.get('score') ? this.get('score') - word.length : 0);
-        this.position = value.length - (word.length + 1);
       } else {
         this.set('suite', (this.get('suite') || 0) + 1);
         this.set('score', (this.get('score') || 0) + 1);
-        this.position = value.length;
       }
-
+      this.position = value.length;
 
       return value;
     },
