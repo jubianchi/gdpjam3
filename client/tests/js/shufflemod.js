@@ -5,7 +5,7 @@ define([
 
   describe('Shuffle Mod tests', function(){
     // given a brand new mod
-    var tested = new Shuffle('', 0, 0);
+    var tested = new Shuffle('', {});
 
     it('should not failed on empty string', function() {
       // when processing empty text
@@ -125,7 +125,7 @@ define([
     describe('given a parametrized Shuffle mode', function() {
 
       it('should only one word be processed', function() {
-        var tested = new Shuffle('', 0, 0, 1)
+        var tested = new Shuffle('', {number: 1})
         // when processing one word text
         var model = 'word1longenough';
         var result = tested.process('current '+model+' word2 remains.', 0);
@@ -142,7 +142,7 @@ define([
       });
 
       it('should third words be processed', function() {
-        var tested = new Shuffle('', 0, 0, 3)
+        var tested = new Shuffle('', {number: 3})
         // when processing three word text
         var model = 'word1longenough word2tobeshuffled word3asbonus';
         var result = tested.process('current '+model+' remains.', 0);

@@ -4,21 +4,45 @@ define({
     spaceopt: true
   },
   bonus: {
-    shuffle: {
-      proba: 5,
-      level: 60,
-      score: 10,
-    },
-    latinium: {
-      proba: 10,
-      level: 40,
-      score: 5,
+    "double": {
+      // probability for IA to trigger
+      proba: 15,
+      // Number of correct characters required
+      level: 25, 
+      // score added when applying
+      score: 2,
+      // number of word doubled
       number: 2
     },
-    "double": {
-      proba: 15,
-      level: 20, 
-      score: 2,
+    latinium: {
+      // probability for IA to trigger
+      proba: 10,
+      // Number of correct characters required
+      level: 50,
+      // score added when applying
+      score: 5,
+      // number of word added
+      number: 2,
+      // possible words
+      words: [
+        'lorem',
+        'consectetur',
+        'ipsum',
+        'vestibulum',
+        'dolor',
+        'malesuada',
+        'mollis',
+        'faucibus'
+      ]
+    },
+    shuffle: {
+      // probability for IA to trigger
+      proba: 5,
+      // Number of correct characters required
+      level: 75,
+      // score added when applying
+      score: 10,
+      // number of word shuffled
       number: 2
     }
   },

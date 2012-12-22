@@ -5,7 +5,7 @@ define([
 
   describe('Double Mod tests', function(){
     // given a brand new mod
-    var tested = new Double('', 0, 0);
+    var tested = new Double('', {});
 
     it('should not failed on empty string', function() {
       // when processing empty text
@@ -80,7 +80,7 @@ define([
     describe('given a parametrized Double mode', function() {
 
       it('should only one word be processed', function() {
-        var tested = new Double('', 0, 0, 1)
+        var tested = new Double('', {number: 1})
         // when processing text
         var result = tested.process('current word1 word2 remains.', 0);
         // then result is doubled
@@ -88,7 +88,7 @@ define([
       });
 
       it('should third words be processed', function() {
-        var tested = new Double('', 0, 0, 3)
+        var tested = new Double('', {number: 3})
         // when processing text
         var result = tested.process('current word1 word2 word3 remains.', 0);
         // then result is doubled

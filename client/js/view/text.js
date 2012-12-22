@@ -18,7 +18,7 @@ define([
 
     template: template,
 
-    level: level,
+    steps: [],
 
     className: 'text-view',
 
@@ -51,6 +51,17 @@ define([
       this.bindTo(this.model, 'change:score', this._onScoreChanged);
       this.bindTo(this.model, 'change:avatar', this._onAvatarChanged);
       this.render();
+      // initialize levels by sorting them
+      this.steps = [];
+      for (var name in level.bonus) {
+        this.steps.push({
+          name: name,
+          level: level.bonus[name].level,
+          options: level.bonus[name]
+        })
+      }
+      this.steps = _.sortBy(this.steps, 'level');
+      console.log(this.steps, level.bonus)
     },
 
     render: function() {
@@ -200,7 +211,7 @@ define([
 
       // positionate caret above the input
       // if last child is empty, position will returns with an half-height offset
-      var vOffset = (last.text() === '' ? 14.5 : 0)-container.scrollTop();
+      var vOffset = (last.text() === '' ? 14.5 : 0);
       var hOffset = parseInt(this.$('.text').css('left'));
       // add a space if we are at the end of a word
       this.$('.input').css({top: last.position().top-vOffset, left: last.width()+hOffset});
@@ -238,27 +249,21 @@ define([
         caret.addClass('error');
       } else {
         // goes from higher level and decrease
-        var i = _.size(this.level.bonus);
-        for (var name in this.level.bonus) {
-          if(this.level.bonus.hasOwnProperty(name)) {   
-            //console.log(name, this.level.bonus);         
-            var spec = this.level.bonus[name];
-            if (value == spec.level) {
-              this.$('.gauge.bonus-' + i).addClass('full');
-              this.$('.bonus:not(.anim)').attr('class', 'bonus ' + name);
-              this.currentMod = new bonusClasses[name](name, spec.proba, spec.score, spec.number);
-              if (gdpjam3.sounds['powerup'+i]) {
-                gdpjam3.sounds['powerup'+i].play();
-              }
-              break;
+        for (var i = this.steps.length; i > 0; i--) {
+          var step = this.steps[i-1];
+          if (value === step.level) {
+            this.$('.gauge.bonus-' + i).addClass('full');
+            this.$('.bonus:not(.anim)').attr('class', 'bonus ' + step.name);
+            this.currentMod = new bonusClasses[step.name](step.name, step.options);
+            if (gdpjam3.sounds['powerup'+i]) {
+              gdpjam3.sounds['powerup'+i].play();
             }
-
-            i--;
+            break;
           }
         }
 
         if(this.model.get('player') == 'god' && this.currentMod) {        
-          if(this.random(1, this.currentMod.proba) == this.currentMod.proba) {
+          if(this.random(1, this.currentMod.options.proba) == this.currentMod.options.proba) {
             this.applyMod();
           }
         }

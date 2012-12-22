@@ -51,6 +51,7 @@ define(['require', 'chai', 'mocha'], function(require, chai, mocha) {
   require([
     'test/doublemod',
     'test/shufflemod',
+    'test/latiniummod',
     'test/player'
   ], function(){
     // Start runner

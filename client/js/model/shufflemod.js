@@ -6,15 +6,16 @@ define([
   // Shuffle modification will shuffle every letters in the previous words 
   // (number of affected word as parameter)
   //
-  // @param sound [String] name of associated sound (optionnal)
-  // @param proba [Number] probability used by IA to trigger this mode
-  // @param score [Number] added to the player's score that triggers the bonus
-  // @param number [Number] number of times replacement are performed (default to 2)
-  var Shuffle = function(sound, proba, score, number) {
+  // @param name [String] name of associated sound (optionnal)
+  // @param options [Object] configuration options
+  // @option options proba [Number] probability used by IA to trigger this mode
+  // @option options score [Number] added to the player's score that triggers the bonus
+  // @option options number [Number] number of times replacement are performed (default to 2)
+  var Shuffle = function(name, options) {
     Mod.apply(this, arguments);
 
     this.name = 'shuffle';
-    this.number = number || 2;
+    this.number = options.number || 2;
   };
 
   _.extend(Shuffle.prototype, Mod.prototype, {

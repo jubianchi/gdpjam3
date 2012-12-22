@@ -1,17 +1,21 @@
 define([
 ], function(){
 
-  // Model for input
-  var Mod = function(sound, proba, score) {
-    this.sound = sound;
-    this.proba = proba;
-    this.score = score;
+  // Modification constructor. Intended to be overriden by subclasses
+  //
+  // @param name [String] name of associated sound (optionnal)
+  // @param options [Object] configuration options
+  // @option options proba [Number] probability used by IA to trigger this mode
+  // @option options score [Number] added to the player's score that triggers the bonus
+  var Mod = function(name, options) {
+    this.sound = name;
+    this.options = options;
   };
 
   // Call to invoke bonus on an input draft
   Mod.prototype.trigger = function(player, view) {
     player.set('draft', this.process(player.get('draft'), player.position));
-    view.model.set('score', view.model.get('score') + this.score); 
+    view.model.set('score', view.model.get('score') + this.options.score || 0); 
 
     // apply sound if available
     if (gdpjam3.sounds[this.sound]) {
